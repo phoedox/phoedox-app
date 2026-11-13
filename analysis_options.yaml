@@ -1,5 +1,13 @@
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - windows/**
+    - macos/**
+    - linux/**
+    - lib/l10n/gen/**
 include: package:flutter_lints/flutter.yaml
 linter:
   rules:
     prefer_single_quotes: true
-    require_trailing_commas: true

@@ -5,14 +5,22 @@ Flutter-App für [Phoedox](https://github.com/phoedox/phoedox) auf iOS, Android,
 Erste Funktionen: QR-/NFC-Etiketten scannen und den Eintrag öffnen, Gerät mit Foto und
 Typenschild erfassen, Doku offline lesen und bearbeiten, Alarme mit Ein-Klick-Aktionen.
 
-## Einrichten
+## Stand
 
-Die Plattform-Ordner werden von Flutter erzeugt und sind noch nicht im Repo:
+- Anmelden mit Adresse der Instanz und API-Token (Einstellungen → API-Tokens & MCP); das Token liegt im
+  sicheren Speicher des Geräts.
+- Projekte, Seiten nach Ordnern, Suche, Entscheidungen, Links und Boards (nur lesen), Einträge mit
+  Attributen, Beziehungen und Erwähnungen.
+- Offline lesen: Jede geladene Antwort wird auf dem Gerät gespeichert und ohne Netz angezeigt.
+- QR-Etiketten scannen (`https://<instanz>/e/<projekt>/<slug>`, `phx://e/<projekt>/<slug>`).
+- Als Nächstes: Offline bearbeiten über `native/phoedox_sync` (yrs), NFC, Gerät mit Foto erfassen.
+
+## Entwickeln
 
 ```bash
-flutter create . --org com.phoedox --platforms=ios,android,windows,macos,linux
 flutter pub get
 flutter run
+flutter analyze && flutter test
 ```
 
 ## Aufbau

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Phoedox colours. The project primary colour can override [brand].
 class PhxColors {

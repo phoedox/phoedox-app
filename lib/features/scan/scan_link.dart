@@ -1,6 +1,7 @@
-/// A scanned Phoedox label: https://<instance>/e/<project>/<slug> or phx://e/<project>/<slug>.
+/// A scanned Phoedox label: `https://<instance>/e/<project>/<slug>` or `phx://e/<project>/<slug>`.
 class ScanLink {
-  const ScanLink({required this.instance, required this.project, required this.slug});
+  const ScanLink(
+      {required this.instance, required this.project, required this.slug});
 
   final String? instance;
   final String project;
@@ -18,12 +19,18 @@ ScanLink? parseScanLink(String raw) {
   String? instance;
   if (uri.scheme == 'phx' && uri.host == 'e') {
     rest = segs;
-  } else if ((uri.scheme == 'https' || uri.scheme == 'http') && segs.isNotEmpty && segs.first == 'e') {
+  } else if ((uri.scheme == 'https' || uri.scheme == 'http') &&
+      segs.isNotEmpty &&
+      segs.first == 'e') {
     instance = uri.host;
     rest = segs.sublist(1);
   } else {
     return null;
   }
-  if (rest.length != 2 || !_slug.hasMatch(rest[0]) || !_slug.hasMatch(rest[1])) return null;
+  if (rest.length != 2 ||
+      !_slug.hasMatch(rest[0]) ||
+      !_slug.hasMatch(rest[1])) {
+    return null;
+  }
   return ScanLink(instance: instance, project: rest[0], slug: rest[1]);
 }

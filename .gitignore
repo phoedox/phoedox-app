@@ -11,3 +11,4 @@ native/phoedox_sync/target/
 .idea/
 .vscode/
 .DS_Store
+*.iml

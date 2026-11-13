@@ -1,8 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../features/projects/projects_page.dart';
 import '../features/scan/scan_page.dart';
+import '../features/signin/signin_page.dart';
+import '../l10n/gen/app_localizations.dart';
+import 'session.dart';
 import 'theme.dart';
 
 class PhoedoxApp extends StatelessWidget {
@@ -11,38 +16,80 @@ class PhoedoxApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Phoedox',
+      onGenerateTitle: (context) => 'Phoedox',
       theme: phxTheme(Brightness.light),
       darkTheme: phxTheme(Brightness.dark),
       themeMode: ThemeMode.system,
-      supportedLocales: const [Locale('de'), Locale('en')],
-      localizationsDelegates: GlobalMaterialLocalizations.delegates,
-      home: const HomeShell(),
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates
+      ],
+      home: const Root(),
     );
   }
 }
 
-class HomeShell extends StatefulWidget {
+/// Sign-in until a token is stored, then the app.
+class Root extends ConsumerWidget {
+  const Root({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final s = ref.watch(sessionProvider);
+    return s.when(
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (_, __) => const SignInPage(),
+      data: (session) =>
+          session == null ? const SignInPage() : const HomeShell(),
+    );
+  }
+}
+
+class HomeShell extends ConsumerStatefulWidget {
   const HomeShell({super.key});
 
   @override
-  State<HomeShell> createState() => _HomeShellState();
+  ConsumerState<HomeShell> createState() => _HomeShellState();
 }
 
-class _HomeShellState extends State<HomeShell> {
+class _HomeShellState extends ConsumerState<HomeShell> {
   int _index = 0;
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final session = ref.watch(sessionProvider).value;
     const pages = [ProjectsPage(), ScanPage()];
     return Scaffold(
+      appBar: AppBar(
+        title: Text(_index == 0 ? t.projects : t.scan),
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(LucideIcons.circleUser),
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                  enabled: false,
+                  child: Text(
+                      '${session?.userName ?? ''}\n${session?.base.host ?? ''}')),
+              PopupMenuItem(value: 'out', child: Text(t.signOut)),
+            ],
+            onSelected: (v) {
+              if (v == 'out') ref.read(sessionProvider.notifier).signOut();
+            },
+          ),
+        ],
+      ),
       body: SafeArea(child: pages[_index]),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
         onDestinationSelected: (i) => setState(() => _index = i),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.folder_outlined), label: 'Projekte'),
-          NavigationDestination(icon: Icon(Icons.qr_code_scanner), label: 'Scannen'),
+        destinations: [
+          NavigationDestination(
+              icon: const Icon(LucideIcons.folderOpen), label: t.projects),
+          NavigationDestination(
+              icon: const Icon(LucideIcons.scanLine), label: t.scan),
         ],
       ),
     );
