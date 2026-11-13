@@ -20,3 +20,7 @@ flutter run
 - `lib/` – Dart/Flutter
 - `native/phoedox_sync` – Rust-Crate mit yrs (Yjs) für Offline-Bearbeitung; Anbindung an Dart per FFI
 - 3D nativ (flutter_scene/Filament), dadurch auch AR
+
+## Lizenz
+
+AGPL-3.0 – siehe [LICENSE](LICENSE).
