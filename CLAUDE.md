@@ -1,6 +1,6 @@
 # Phoedox App (Flutter)
 
-Gesamtentscheidungen: `phoedox/phoedox` → `docs/decisions.md` (Abschnitte Entscheidungen Runde 3).
+Gesamtentscheidungen: in Phoedox (https://app.phoedox.com, Projekt `phoedox`), v. a. ADR-0002 (Flutter-App) und ADR-0015 (Live-Bearbeitung); per MCP lesen, neue mit `create_decision` anlegen.
 
 ## Aufbau
 
