@@ -1,0 +1,11 @@
+[package]
+name = "phoedox_sync"
+version = "0.0.0"
+edition = "2021"
+description = "Yjs (yrs) document sync for the Phoedox Flutter app"
+
+[lib]
+crate-type = ["cdylib", "staticlib", "rlib"]
+
+[dependencies]
+yrs = "0.21"
