@@ -2,10 +2,13 @@
 name = "phoedox_sync"
 version = "0.0.0"
 edition = "2021"
-description = "Yjs (yrs) document sync for the Phoedox Flutter app"
+description = "Yjs (yrs) document merging for the Phoedox Flutter app"
+license = "AGPL-3.0-only"
 
 [lib]
-crate-type = ["cdylib", "staticlib", "rlib"]
+# staticlib + cdylib are what the Dart build hook (native_toolchain_rust) links.
+crate-type = ["staticlib", "cdylib", "rlib"]
 
 [dependencies]
-yrs = "0.21"
+similar = "3.2"
+yrs = "0.28"

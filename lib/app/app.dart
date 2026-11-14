@@ -3,7 +3,10 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import 'dart:async';
+
 import '../features/projects/projects_page.dart';
+import '../sync/providers.dart';
 import '../features/scan/scan_page.dart';
 import '../features/signin/signin_page.dart';
 import '../l10n/gen/app_localizations.dart';
@@ -56,6 +59,36 @@ class HomeShell extends ConsumerStatefulWidget {
 
 class _HomeShellState extends ConsumerState<HomeShell> {
   int _index = 0;
+  Timer? _timer;
+  AppLifecycleListener? _life;
+
+  @override
+  void initState() {
+    super.initState();
+    // Offline edits are sent at start, when the app comes back and every two minutes.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _sync());
+    _life = AppLifecycleListener(onResume: _sync);
+    _timer = Timer.periodic(const Duration(minutes: 2), (_) => _sync());
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _life?.dispose();
+    super.dispose();
+  }
+
+  Future<void> _sync({bool tell = false}) async {
+    final report = await ref.read(pendingProvider.notifier).sync();
+    if (!tell || !mounted || report == null) return;
+    final t = AppLocalizations.of(context);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(report.offline
+            ? t.syncOffline
+            : report.failed > 0
+                ? t.syncFailed(report.failed)
+                : t.syncDone(report.sent))));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +99,15 @@ class _HomeShellState extends ConsumerState<HomeShell> {
       appBar: AppBar(
         title: Text(_index == 0 ? t.projects : t.scan),
         actions: [
+          if ((ref.watch(pendingProvider).value ?? const []).isNotEmpty)
+            IconButton(
+              tooltip: t.syncNow,
+              onPressed: () => _sync(tell: true),
+              icon: Badge(
+                label: Text('${ref.watch(pendingProvider).value!.length}'),
+                child: const Icon(LucideIcons.cloudUpload),
+              ),
+            ),
           PopupMenuButton<String>(
             icon: const Icon(LucideIcons.circleUser),
             itemBuilder: (_) => [

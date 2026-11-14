@@ -31,5 +31,69 @@
   "scanOtherInstance": "This label belongs to {host}.",
   "open": "Open",
   "retry": "Try again",
-  "error": "Something went wrong."
+  "error": "Something went wrong.",
+  "edit": "Edit",
+  "save": "Save",
+  "cancel": "Cancel",
+  "discard": "Discard",
+  "editHint": "Markdown. Works offline: the change stays on this device and is merged with changes on the server when it is sent.",
+  "editDiscard": "Discard your changes?",
+  "editSynced": "Saved.",
+  "editMerged": "Saved and merged with changes on the server.",
+  "editQueued": "Saved on this device – sent as soon as there is a connection.",
+  "pendingNote": "Changed on this device – not sent yet.",
+  "pendingRefused": "The server refused the change ({key}).",
+  "@pendingRefused": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "syncNow": "Send now",
+  "syncOffline": "Still offline – changes stay on the device.",
+  "syncFailed": "{count} changes were refused.",
+  "@syncFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncDone": "{count} changes sent.",
+  "@syncDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nameplateAction": "Photo of type plate",
+  "nameplateReading": "Uploading and reading the type plate …",
+  "nameplateOffline": "Needs a connection – the photo was not saved.",
+  "nameplateNothing": "Photo saved. No values recognised (is text recognition enabled on the server?).",
+  "nameplateFound": "Found on the type plate",
+  "nameplateReplaces": "replaces {value}",
+  "@nameplateReplaces": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "nameplateSaved": "{count} values saved.",
+  "@nameplateSaved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nfcRead": "Read NFC tag",
+  "nfcWrite": "Write NFC tag",
+  "nfcHold": "Hold the tag to the phone.",
+  "nfcUnavailable": "NFC is not available or switched off.",
+  "nfcWritten": "Tag written.",
+  "nfcReadonly": "The tag is write-protected.",
+  "nfcWriteFailed": "Could not write the tag."
 }

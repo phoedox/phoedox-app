@@ -1,10 +1,12 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../app/session.dart';
 import '../../l10n/gen/app_localizations.dart';
 import '../entity/entity_page.dart';
+import 'nfc.dart';
 import 'scan_link.dart';
 
 /// Scans a QR label (`https://<instance>/e/<project>/<slug>` or `phx://e/…`) and
@@ -20,6 +22,28 @@ class _ScanPageState extends ConsumerState<ScanPage> {
   final _manual = TextEditingController();
   String? _message;
   bool _opening = false;
+  bool _nfc = false;
+
+  @override
+  void initState() {
+    super.initState();
+    nfcAvailable().then((v) {
+      if (mounted) setState(() => _nfc = v);
+    });
+  }
+
+  Future<void> _readNfc() async {
+    final t = AppLocalizations.of(context);
+    setState(() => _message = t.nfcHold);
+    final link = await readNfcLink(prompt: t.nfcHold);
+    if (!mounted) return;
+    if (link == null) {
+      setState(() => _message = t.scanUnknown);
+    } else {
+      setState(() => _message = null);
+      _handle(link);
+    }
+  }
 
   void _handle(String raw) {
     if (_opening) return;
@@ -73,6 +97,13 @@ class _ScanPageState extends ConsumerState<ScanPage> {
             ),
           ),
         ),
+        if (_nfc) ...[
+          const SizedBox(height: 12),
+          FilledButton.tonalIcon(
+              onPressed: _readNfc,
+              icon: const Icon(LucideIcons.nfc, size: 18),
+              label: Text(t.nfcRead)),
+        ],
         if (_message != null) ...[
           const SizedBox(height: 12),
           Text(_message!,

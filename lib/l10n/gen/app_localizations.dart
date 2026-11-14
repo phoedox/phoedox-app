@@ -289,6 +289,180 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'Etwas ist schiefgegangen.'**
   String get error;
+
+  /// No description provided for @edit.
+  ///
+  /// In de, this message translates to:
+  /// **'Bearbeiten'**
+  String get edit;
+
+  /// No description provided for @save.
+  ///
+  /// In de, this message translates to:
+  /// **'Speichern'**
+  String get save;
+
+  /// No description provided for @cancel.
+  ///
+  /// In de, this message translates to:
+  /// **'Abbrechen'**
+  String get cancel;
+
+  /// No description provided for @discard.
+  ///
+  /// In de, this message translates to:
+  /// **'Verwerfen'**
+  String get discard;
+
+  /// No description provided for @editHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Markdown. Geht auch offline: Die Änderung bleibt auf dem Gerät und wird beim Senden mit Änderungen auf dem Server zusammengeführt.'**
+  String get editHint;
+
+  /// No description provided for @editDiscard.
+  ///
+  /// In de, this message translates to:
+  /// **'Änderungen verwerfen?'**
+  String get editDiscard;
+
+  /// No description provided for @editSynced.
+  ///
+  /// In de, this message translates to:
+  /// **'Gespeichert.'**
+  String get editSynced;
+
+  /// No description provided for @editMerged.
+  ///
+  /// In de, this message translates to:
+  /// **'Gespeichert und mit Änderungen auf dem Server zusammengeführt.'**
+  String get editMerged;
+
+  /// No description provided for @editQueued.
+  ///
+  /// In de, this message translates to:
+  /// **'Auf dem Gerät gespeichert – wird gesendet, sobald eine Verbindung besteht.'**
+  String get editQueued;
+
+  /// No description provided for @pendingNote.
+  ///
+  /// In de, this message translates to:
+  /// **'Auf diesem Gerät geändert – noch nicht gesendet.'**
+  String get pendingNote;
+
+  /// No description provided for @pendingRefused.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Server hat die Änderung abgelehnt ({key}).'**
+  String pendingRefused(String key);
+
+  /// No description provided for @syncNow.
+  ///
+  /// In de, this message translates to:
+  /// **'Jetzt senden'**
+  String get syncNow;
+
+  /// No description provided for @syncOffline.
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter offline – Änderungen bleiben auf dem Gerät.'**
+  String get syncOffline;
+
+  /// No description provided for @syncFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'{count} Änderungen wurden abgelehnt.'**
+  String syncFailed(int count);
+
+  /// No description provided for @syncDone.
+  ///
+  /// In de, this message translates to:
+  /// **'{count} Änderungen gesendet.'**
+  String syncDone(int count);
+
+  /// No description provided for @nameplateAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Typenschild fotografieren'**
+  String get nameplateAction;
+
+  /// No description provided for @nameplateReading.
+  ///
+  /// In de, this message translates to:
+  /// **'Typenschild wird hochgeladen und gelesen …'**
+  String get nameplateReading;
+
+  /// No description provided for @nameplateOffline.
+  ///
+  /// In de, this message translates to:
+  /// **'Braucht eine Verbindung – das Foto wurde nicht gespeichert.'**
+  String get nameplateOffline;
+
+  /// No description provided for @nameplateNothing.
+  ///
+  /// In de, this message translates to:
+  /// **'Foto gespeichert. Keine Werte erkannt (ist die Texterkennung auf dem Server an?).'**
+  String get nameplateNothing;
+
+  /// No description provided for @nameplateFound.
+  ///
+  /// In de, this message translates to:
+  /// **'Auf dem Typenschild gefunden'**
+  String get nameplateFound;
+
+  /// No description provided for @nameplateReplaces.
+  ///
+  /// In de, this message translates to:
+  /// **'ersetzt {value}'**
+  String nameplateReplaces(String value);
+
+  /// No description provided for @nameplateSaved.
+  ///
+  /// In de, this message translates to:
+  /// **'{count} Werte gespeichert.'**
+  String nameplateSaved(int count);
+
+  /// No description provided for @nfcRead.
+  ///
+  /// In de, this message translates to:
+  /// **'NFC-Tag lesen'**
+  String get nfcRead;
+
+  /// No description provided for @nfcWrite.
+  ///
+  /// In de, this message translates to:
+  /// **'NFC-Tag beschreiben'**
+  String get nfcWrite;
+
+  /// No description provided for @nfcHold.
+  ///
+  /// In de, this message translates to:
+  /// **'Tag ans Telefon halten.'**
+  String get nfcHold;
+
+  /// No description provided for @nfcUnavailable.
+  ///
+  /// In de, this message translates to:
+  /// **'NFC ist nicht verfügbar oder ausgeschaltet.'**
+  String get nfcUnavailable;
+
+  /// No description provided for @nfcWritten.
+  ///
+  /// In de, this message translates to:
+  /// **'Tag beschrieben.'**
+  String get nfcWritten;
+
+  /// No description provided for @nfcReadonly.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Tag ist schreibgeschützt.'**
+  String get nfcReadonly;
+
+  /// No description provided for @nfcWriteFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Tag konnte nicht beschrieben werden.'**
+  String get nfcWriteFailed;
 }
 
 class _AppLocalizationsDelegate

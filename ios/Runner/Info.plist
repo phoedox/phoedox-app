@@ -3,7 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Phoedox scannt QR-Etiketten an Dosen und Geräten.</string>
+	<string>Phoedox scannt QR-Etiketten und fotografiert Typenschilder von Geräten.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Phoedox nimmt Fotos von Typenschildern auch aus der Mediathek.</string>
+	<key>NFCReaderUsageDescription</key>
+	<string>Phoedox liest und beschreibt NFC-Etiketten an Dosen und Geräten.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

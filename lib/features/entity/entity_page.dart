@@ -2,9 +2,12 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../app/session.dart';
 import '../../app/widgets.dart';
 import '../../l10n/gen/app_localizations.dart';
 import '../doc/doc_page.dart';
+import '../scan/nfc.dart';
+import 'nameplate_flow.dart';
 
 /// An entry of the knowledge graph: attributes, relations, pages mentioning it.
 class EntityPage extends ConsumerWidget {
@@ -16,10 +19,54 @@ class EntityPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
+    final path = '/projects/$project/entities/$entity';
+    final loaded = ref.watch(apiProvider(path)).value;
+    final data = loaded?.data as Map<String, dynamic>?;
+    final ent = data == null
+        ? null
+        : ((data['entity'] as Map?)?.cast<String, dynamic>() ?? data);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(actions: [
+        if (ent != null && loaded?.offline != true)
+          PopupMenuButton<String>(
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                  value: 'plate',
+                  child: ListTile(
+                      leading: const Icon(LucideIcons.camera),
+                      title: Text(t.nameplateAction))),
+              PopupMenuItem(
+                  value: 'nfc',
+                  child: ListTile(
+                      leading: const Icon(LucideIcons.nfc),
+                      title: Text(t.nfcWrite))),
+            ],
+            onSelected: (v) async {
+              if (v == 'plate') {
+                return captureNameplate(context, ref, project, ent);
+              }
+              final messenger = ScaffoldMessenger.of(context);
+              if (!await nfcAvailable()) {
+                messenger
+                    .showSnackBar(SnackBar(content: Text(t.nfcUnavailable)));
+                return;
+              }
+              final base = ref.read(sessionProvider).value!.base;
+              final url =
+                  base.replace(path: '/e/$project/${ent['slug']}').toString();
+              messenger.showSnackBar(SnackBar(content: Text(t.nfcHold)));
+              final err = await writeNfcLink(url, prompt: t.nfcHold);
+              messenger.showSnackBar(SnackBar(
+                  content: Text(err == null
+                      ? t.nfcWritten
+                      : err == 'readonly'
+                          ? t.nfcReadonly
+                          : t.nfcWriteFailed)));
+            },
+          ),
+      ]),
       body: ApiView(
-        path: '/projects/$project/entities/$entity',
+        path: path,
         builder: (context, data) {
           final d = data as Map<String, dynamic>;
           final e = (d['entity'] as Map?)?.cast<String, dynamic>() ?? d;

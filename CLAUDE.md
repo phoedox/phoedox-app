@@ -7,7 +7,8 @@ Gesamtentscheidungen: in Phoedox (https://app.phoedox.com, Projekt `phoedox`), v
 - `lib/app` – App-Gerüst, Theme (Primärfarbe = Logo-Orange, pro Projekt überschreibbar), Navigation
 - `lib/features/*` – Funktionen; `scan/scan_link.dart` erkennt Phoedox-Etiketten (`https://<instanz>/e/<projekt>/<slug>`, `phx://e/<projekt>/<slug>`)
 - Zustand mit Riverpod; Sync-Streams als StreamProvider
-- `native/phoedox_sync` – yrs (Rust), angebunden mit flutter_rust_bridge (Version gepinnt); dieselbe Datenschicht wie Server und Web, offline bearbeitbar
+- `native/phoedox_sync` – yrs (Rust), angebunden über eine kleine C-Schnittstelle und `dart:ffi` (`lib/sync/native.dart`), gebaut vom Dart-Build-Hook `hook/build.dart` (native_toolchain_rust, Toolchain in `rust-toolchain.toml` gepinnt); dieselbe CRDT wie Server und Web
+- `lib/sync` – Offline-Bearbeitung: Outbox, Zusammenführen mit yrs, Senden
 - Plattform-Ordner per `flutter create` erzeugen (siehe README), dann committen
 
 ## Regeln

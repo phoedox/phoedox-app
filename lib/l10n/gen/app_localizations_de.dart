@@ -107,4 +107,107 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get error => 'Etwas ist schiefgegangen.';
+
+  @override
+  String get edit => 'Bearbeiten';
+
+  @override
+  String get save => 'Speichern';
+
+  @override
+  String get cancel => 'Abbrechen';
+
+  @override
+  String get discard => 'Verwerfen';
+
+  @override
+  String get editHint =>
+      'Markdown. Geht auch offline: Die Änderung bleibt auf dem Gerät und wird beim Senden mit Änderungen auf dem Server zusammengeführt.';
+
+  @override
+  String get editDiscard => 'Änderungen verwerfen?';
+
+  @override
+  String get editSynced => 'Gespeichert.';
+
+  @override
+  String get editMerged =>
+      'Gespeichert und mit Änderungen auf dem Server zusammengeführt.';
+
+  @override
+  String get editQueued =>
+      'Auf dem Gerät gespeichert – wird gesendet, sobald eine Verbindung besteht.';
+
+  @override
+  String get pendingNote => 'Auf diesem Gerät geändert – noch nicht gesendet.';
+
+  @override
+  String pendingRefused(String key) {
+    return 'Der Server hat die Änderung abgelehnt ($key).';
+  }
+
+  @override
+  String get syncNow => 'Jetzt senden';
+
+  @override
+  String get syncOffline =>
+      'Weiter offline – Änderungen bleiben auf dem Gerät.';
+
+  @override
+  String syncFailed(int count) {
+    return '$count Änderungen wurden abgelehnt.';
+  }
+
+  @override
+  String syncDone(int count) {
+    return '$count Änderungen gesendet.';
+  }
+
+  @override
+  String get nameplateAction => 'Typenschild fotografieren';
+
+  @override
+  String get nameplateReading => 'Typenschild wird hochgeladen und gelesen …';
+
+  @override
+  String get nameplateOffline =>
+      'Braucht eine Verbindung – das Foto wurde nicht gespeichert.';
+
+  @override
+  String get nameplateNothing =>
+      'Foto gespeichert. Keine Werte erkannt (ist die Texterkennung auf dem Server an?).';
+
+  @override
+  String get nameplateFound => 'Auf dem Typenschild gefunden';
+
+  @override
+  String nameplateReplaces(String value) {
+    return 'ersetzt $value';
+  }
+
+  @override
+  String nameplateSaved(int count) {
+    return '$count Werte gespeichert.';
+  }
+
+  @override
+  String get nfcRead => 'NFC-Tag lesen';
+
+  @override
+  String get nfcWrite => 'NFC-Tag beschreiben';
+
+  @override
+  String get nfcHold => 'Tag ans Telefon halten.';
+
+  @override
+  String get nfcUnavailable => 'NFC ist nicht verfügbar oder ausgeschaltet.';
+
+  @override
+  String get nfcWritten => 'Tag beschrieben.';
+
+  @override
+  String get nfcReadonly => 'Der Tag ist schreibgeschützt.';
+
+  @override
+  String get nfcWriteFailed => 'Der Tag konnte nicht beschrieben werden.';
 }

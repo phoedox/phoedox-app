@@ -106,4 +106,105 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error => 'Something went wrong.';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get discard => 'Discard';
+
+  @override
+  String get editHint =>
+      'Markdown. Works offline: the change stays on this device and is merged with changes on the server when it is sent.';
+
+  @override
+  String get editDiscard => 'Discard your changes?';
+
+  @override
+  String get editSynced => 'Saved.';
+
+  @override
+  String get editMerged => 'Saved and merged with changes on the server.';
+
+  @override
+  String get editQueued =>
+      'Saved on this device – sent as soon as there is a connection.';
+
+  @override
+  String get pendingNote => 'Changed on this device – not sent yet.';
+
+  @override
+  String pendingRefused(String key) {
+    return 'The server refused the change ($key).';
+  }
+
+  @override
+  String get syncNow => 'Send now';
+
+  @override
+  String get syncOffline => 'Still offline – changes stay on the device.';
+
+  @override
+  String syncFailed(int count) {
+    return '$count changes were refused.';
+  }
+
+  @override
+  String syncDone(int count) {
+    return '$count changes sent.';
+  }
+
+  @override
+  String get nameplateAction => 'Photo of type plate';
+
+  @override
+  String get nameplateReading => 'Uploading and reading the type plate …';
+
+  @override
+  String get nameplateOffline =>
+      'Needs a connection – the photo was not saved.';
+
+  @override
+  String get nameplateNothing =>
+      'Photo saved. No values recognised (is text recognition enabled on the server?).';
+
+  @override
+  String get nameplateFound => 'Found on the type plate';
+
+  @override
+  String nameplateReplaces(String value) {
+    return 'replaces $value';
+  }
+
+  @override
+  String nameplateSaved(int count) {
+    return '$count values saved.';
+  }
+
+  @override
+  String get nfcRead => 'Read NFC tag';
+
+  @override
+  String get nfcWrite => 'Write NFC tag';
+
+  @override
+  String get nfcHold => 'Hold the tag to the phone.';
+
+  @override
+  String get nfcUnavailable => 'NFC is not available or switched off.';
+
+  @override
+  String get nfcWritten => 'Tag written.';
+
+  @override
+  String get nfcReadonly => 'The tag is write-protected.';
+
+  @override
+  String get nfcWriteFailed => 'Could not write the tag.';
 }

@@ -8,6 +8,8 @@ environment:
   flutter: ">=3.24.0"
 
 dependencies:
+  code_assets: ^2.2.0
+  ffi: ^2.2.0
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -15,10 +17,16 @@ dependencies:
   flutter_markdown_plus: ^1.0.12
   flutter_riverpod: ^3.5.0
   flutter_secure_storage: ^11.2.0
+  hooks: ^2.2.0
   http: ^1.6.0
+  image_picker: ^1.2.4
   lucide_icons_flutter: ^4.0.3
   material_ui: ^1.11.0
   mobile_scanner: ^7.5.0
+  native_toolchain_rust: ^1.0.7
+  ndef_record: ^1.5.0
+  nfc_manager: ^4.3.0
+  nfc_manager_ndef: ^1.1.0
   path_provider: ^2.1.6
   url_launcher: ^6.3.3
 

@@ -7,9 +7,12 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../api/markdown.dart';
+import '../../app/session.dart';
 import '../../app/widgets.dart';
 import '../../l10n/gen/app_localizations.dart';
+import '../../sync/providers.dart';
 import '../entity/entity_page.dart';
+import 'edit_page.dart';
 
 /// Reads a page: Markdown, decision, link or board (read-only).
 class DocPage extends ConsumerWidget {
@@ -21,16 +24,72 @@ class DocPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
+    final path = '/projects/$project/documents/$doc';
+    final loaded =
+        ref.watch(apiProvider(path)).value?.data as Map<String, dynamic>?;
+    final role = (ref.watch(apiProvider('/projects/$project')).value?.data
+        as Map?)?['role'] as String?;
+    final pendingList = ref.watch(pendingProvider).value ?? const [];
+    final canEdit = loaded != null &&
+        loaded['type'] == 'markdown' &&
+        (role == 'editor' ||
+            role == 'owner' ||
+            loaded['role'] == 'editor' ||
+            loaded['role'] == 'owner');
     return Scaffold(
       appBar: AppBar(),
+      floatingActionButton: canEdit
+          ? FloatingActionButton.extended(
+              icon: const Icon(LucideIcons.pencil, size: 18),
+              label: Text(t.edit),
+              onPressed: () {
+                final d = loaded;
+                final id = d['id'] as String;
+                final published =
+                    ((d['content'] as Map?)?['markdown'] as String?) ?? '';
+                final pending = pendingList
+                    .where((e) => e.project == project && e.docId == id)
+                    .firstOrNull;
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => EditPage(
+                        project: project,
+                        docId: id,
+                        title: d['title'] as String? ?? '',
+                        version: d['version'] as int? ?? 0,
+                        published: published,
+                        text: pending?.markdown ?? published)));
+              })
+          : null,
       body: ApiView(
-        path: '/projects/$project/documents/$doc',
+        path: path,
         builder: (context, data) {
           final d = data as Map<String, dynamic>;
-          final c = (d['content'] as Map?)?.cast<String, dynamic>() ?? {};
+          final c = Map<String, dynamic>.from((d['content'] as Map?) ?? {});
+          // A change made on this device and not sent yet is shown instead.
+          final pending = pendingList
+              .where((e) => e.project == project && e.docId == d['id'])
+              .firstOrNull;
+          if (pending != null) c['markdown'] = pending.markdown;
           return ListView(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 40),
+            padding: const EdgeInsets.fromLTRB(16, 4, 16, 96),
             children: [
+              if (pending != null)
+                Card(
+                  color: Theme.of(context).colorScheme.secondaryContainer,
+                  child: ListTile(
+                    leading: Icon(pending.error != null
+                        ? LucideIcons.circleAlert
+                        : LucideIcons.cloudUpload),
+                    title: Text(t.pendingNote),
+                    subtitle: pending.error != null
+                        ? Text(t.pendingRefused(pending.error!))
+                        : null,
+                    trailing: TextButton(
+                        onPressed: () =>
+                            ref.read(pendingProvider.notifier).sync(),
+                        child: Text(t.syncNow)),
+                  ),
+                ),
               Text(d['title'] as String? ?? '',
                   style: Theme.of(context).textTheme.headlineSmall),
               const SizedBox(height: 12),

@@ -74,4 +74,56 @@ class PhxClient {
       return ApiResult(jsonDecode(cached), offline: true);
     }
   }
+
+  ApiException _error(http.Response res) {
+    var k = 'error.unknown';
+    try {
+      k = (jsonDecode(res.body) as Map)['key'] as String? ?? k;
+    } catch (_) {}
+    return ApiException(res.statusCode, k);
+  }
+
+  /// Sends JSON (POST, PUT, PATCH, DELETE). Throws [OfflineException] when
+  /// the server cannot be reached and [ApiException] when it refuses.
+  Future<dynamic> send(String method, String path, [Object? body]) async {
+    final req = http.Request(method, url(path))
+      ..headers.addAll({..._headers, 'Content-Type': 'application/json'});
+    if (body != null) req.body = jsonEncode(body);
+    final http.Response res;
+    try {
+      res = await http.Response.fromStream(
+          await _http.send(req).timeout(const Duration(seconds: 30)));
+    } catch (_) {
+      throw OfflineException();
+    }
+    if (res.statusCode >= 400) throw _error(res);
+    return res.body.isEmpty ? null : jsonDecode(utf8.decode(res.bodyBytes));
+  }
+
+  /// Uploads a file into a project (raw body), e.g. attached to an entry.
+  Future<Map<String, dynamic>> upload(
+      String project, String name, List<int> bytes,
+      {String? entity, String? document}) async {
+    final q = {
+      'name': name,
+      if (entity != null) 'entity': entity,
+      if (document != null) 'document': document,
+    };
+    final u = url('/projects/$project/files').replace(queryParameters: q);
+    final http.Response res;
+    try {
+      res = await _http
+          .post(u,
+              headers: {
+                ..._headers,
+                'Content-Type': 'application/octet-stream'
+              },
+              body: bytes)
+          .timeout(const Duration(minutes: 2));
+    } catch (_) {
+      throw OfflineException();
+    }
+    if (res.statusCode >= 400) throw _error(res);
+    return jsonDecode(utf8.decode(res.bodyBytes)) as Map<String, dynamic>;
+  }
 }

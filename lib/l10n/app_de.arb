@@ -29,8 +29,78 @@
   "scanManual": "Link oder Kurzname eingeben",
   "scanUnknown": "Kein Phoedox-Etikett.",
   "scanOtherInstance": "Dieses Etikett gehört zu {host}.",
-  "@scanOtherInstance": { "placeholders": { "host": { "type": "String" } } },
+  "@scanOtherInstance": {
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
   "open": "Öffnen",
   "retry": "Erneut versuchen",
-  "error": "Etwas ist schiefgegangen."
+  "error": "Etwas ist schiefgegangen.",
+  "edit": "Bearbeiten",
+  "save": "Speichern",
+  "cancel": "Abbrechen",
+  "discard": "Verwerfen",
+  "editHint": "Markdown. Geht auch offline: Die Änderung bleibt auf dem Gerät und wird beim Senden mit Änderungen auf dem Server zusammengeführt.",
+  "editDiscard": "Änderungen verwerfen?",
+  "editSynced": "Gespeichert.",
+  "editMerged": "Gespeichert und mit Änderungen auf dem Server zusammengeführt.",
+  "editQueued": "Auf dem Gerät gespeichert – wird gesendet, sobald eine Verbindung besteht.",
+  "pendingNote": "Auf diesem Gerät geändert – noch nicht gesendet.",
+  "pendingRefused": "Der Server hat die Änderung abgelehnt ({key}).",
+  "@pendingRefused": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "syncNow": "Jetzt senden",
+  "syncOffline": "Weiter offline – Änderungen bleiben auf dem Gerät.",
+  "syncFailed": "{count} Änderungen wurden abgelehnt.",
+  "@syncFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncDone": "{count} Änderungen gesendet.",
+  "@syncDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nameplateAction": "Typenschild fotografieren",
+  "nameplateReading": "Typenschild wird hochgeladen und gelesen …",
+  "nameplateOffline": "Braucht eine Verbindung – das Foto wurde nicht gespeichert.",
+  "nameplateNothing": "Foto gespeichert. Keine Werte erkannt (ist die Texterkennung auf dem Server an?).",
+  "nameplateFound": "Auf dem Typenschild gefunden",
+  "nameplateReplaces": "ersetzt {value}",
+  "@nameplateReplaces": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "nameplateSaved": "{count} Werte gespeichert.",
+  "@nameplateSaved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nfcRead": "NFC-Tag lesen",
+  "nfcWrite": "NFC-Tag beschreiben",
+  "nfcHold": "Tag ans Telefon halten.",
+  "nfcUnavailable": "NFC ist nicht verfügbar oder ausgeschaltet.",
+  "nfcWritten": "Tag beschrieben.",
+  "nfcReadonly": "Der Tag ist schreibgeschützt.",
+  "nfcWriteFailed": "Der Tag konnte nicht beschrieben werden."
 }
