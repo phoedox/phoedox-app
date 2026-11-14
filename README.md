@@ -22,6 +22,10 @@ its type plate, read and edit docs offline, alarms with one-click actions.
 - Type plate photo: the photo is attached to the entry; the server's text recognition reads it
   and the app offers labelled values (manufacturer, model, serial number, MAC, part number,
   power, voltage) as attributes. Needs OCR enabled on the instance.
+- Voice notes on entries: record up to 5 minutes (AAC in `.m4a`, WAV where AAC is missing),
+  play them back and attach them to the entry. Recordings wait in the device's upload queue
+  (`lib/sync/uploads.dart`) and are sent with the next sync, so they work offline too. Notes
+  already on the server are downloaded once and then play offline.
 
 ## Development
 

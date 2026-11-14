@@ -6,6 +6,8 @@
 	<string>Phoedox scannt QR-Etiketten und fotografiert Typenschilder von Geräten.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Phoedox nimmt Fotos von Typenschildern auch aus der Mediathek.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Phoedox nimmt Sprachnotizen zu Einträgen auf. Das Mikrofon wird nur während der Aufnahme genutzt.</string>
 	<key>NFCReaderUsageDescription</key>
 	<string>Phoedox liest und beschreibt NFC-Etiketten an Dosen und Geräten.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>

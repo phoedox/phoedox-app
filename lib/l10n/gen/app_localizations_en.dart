@@ -207,4 +207,101 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nfcWriteFailed => 'Could not write the tag.';
+
+  @override
+  String get play => 'Play';
+
+  @override
+  String get pause => 'Pause';
+
+  @override
+  String get voiceNotes => 'Voice notes';
+
+  @override
+  String get voiceNone => 'No voice notes yet.';
+
+  @override
+  String get voiceRecord => 'Record voice note';
+
+  @override
+  String get voiceMicTitle => 'Microphone';
+
+  @override
+  String get voiceMicRationale =>
+      'Phoedox uses the microphone only while you record a voice note. The recording is attached to this entry.';
+
+  @override
+  String get voiceMicDenied =>
+      'No access to the microphone. Allow it in the system settings.';
+
+  @override
+  String get voiceRecordFailed => 'Could not record.';
+
+  @override
+  String get voiceRecording => 'Recording';
+
+  @override
+  String voiceLimit(int minutes) {
+    return 'Up to $minutes minutes; the recording then stops by itself.';
+  }
+
+  @override
+  String get voiceStop => 'Stop';
+
+  @override
+  String get voiceSent => 'Voice note attached.';
+
+  @override
+  String get voiceQueued =>
+      'Voice note saved on this device – sent as soon as there is a connection.';
+
+  @override
+  String get notSentYet => 'Not sent yet';
+
+  @override
+  String uploadRefused(String key) {
+    return 'The server refused the file ($key).';
+  }
+
+  @override
+  String get loadFailed => 'Could not be loaded.';
+
+  @override
+  String get planPhoto => 'Place photo';
+
+  @override
+  String get planPhotoTap =>
+      'Tap the spot on the plan where you took the photo.';
+
+  @override
+  String get planPhotoCaption => 'Caption';
+
+  @override
+  String get planPhotoDraft =>
+      'Photo saved in the plan\'s draft. It appears on the plan once someone publishes the draft in the web app.';
+
+  @override
+  String get planPhotoQueued =>
+      'Photo saved on this device – it goes into the plan\'s draft as soon as there is a connection.';
+
+  @override
+  String get planPhotoDone => 'Photo saved on the plan.';
+
+  @override
+  String planPhotosPending(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count photos not in the draft yet',
+      one: '1 photo not in the draft yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get planDraftNote =>
+      'New photos go into the plan\'s draft and show here only once it is published.';
+
+  @override
+  String get voiceMicContinue => 'Continue';
 }

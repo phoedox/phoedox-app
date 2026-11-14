@@ -4,6 +4,8 @@
 <dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Phoedox scannt QR-Etiketten an Dosen und Geräten.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Phoedox nimmt Sprachnotizen zu Einträgen auf. Das Mikrofon wird nur während der Aufnahme genutzt.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

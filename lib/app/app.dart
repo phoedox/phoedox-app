@@ -6,7 +6,9 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'dart:async';
 
 import '../features/projects/projects_page.dart';
+import '../sync/outbox.dart';
 import '../sync/providers.dart';
+import '../sync/uploads.dart';
 import '../features/scan/scan_page.dart';
 import '../features/signin/signin_page.dart';
 import '../l10n/gen/app_localizations.dart';
@@ -78,16 +80,25 @@ class _HomeShellState extends ConsumerState<HomeShell> {
     super.dispose();
   }
 
+  /// Sends page edits and queued uploads (voice notes, plan photos).
   Future<void> _sync({bool tell = false}) async {
-    final report = await ref.read(pendingProvider.notifier).sync();
-    if (!tell || !mounted || report == null) return;
+    final results = await Future.wait([
+      ref.read(pendingProvider.notifier).sync(),
+      ref.read(uploadsProvider.notifier).sync(),
+    ]);
+    final edits = results[0] as SyncReport?;
+    final uploads = results[1] as UploadReport?;
+    if (!tell || !mounted || (edits == null && uploads == null)) return;
+    final offline = (edits?.offline ?? false) || (uploads?.offline ?? false);
+    final failed = (edits?.failed ?? 0) + (uploads?.failed ?? 0);
+    final sent = (edits?.sent ?? 0) + (uploads?.sent ?? 0);
     final t = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(report.offline
+        content: Text(offline
             ? t.syncOffline
-            : report.failed > 0
-                ? t.syncFailed(report.failed)
-                : t.syncDone(report.sent))));
+            : failed > 0
+                ? t.syncFailed(failed)
+                : t.syncDone(sent))));
   }
 
   @override
@@ -95,16 +106,18 @@ class _HomeShellState extends ConsumerState<HomeShell> {
     final t = AppLocalizations.of(context);
     final session = ref.watch(sessionProvider).value;
     const pages = [ProjectsPage(), ScanPage()];
+    final waiting = (ref.watch(pendingProvider).value?.length ?? 0) +
+        (ref.watch(uploadsProvider).value?.length ?? 0);
     return Scaffold(
       appBar: AppBar(
         title: Text(_index == 0 ? t.projects : t.scan),
         actions: [
-          if ((ref.watch(pendingProvider).value ?? const []).isNotEmpty)
+          if (waiting > 0)
             IconButton(
               tooltip: t.syncNow,
               onPressed: () => _sync(tell: true),
               icon: Badge(
-                label: Text('${ref.watch(pendingProvider).value!.length}'),
+                label: Text('$waiting'),
                 child: const Icon(LucideIcons.cloudUpload),
               ),
             ),

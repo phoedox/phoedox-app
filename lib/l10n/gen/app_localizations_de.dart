@@ -210,4 +210,101 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get nfcWriteFailed => 'Der Tag konnte nicht beschrieben werden.';
+
+  @override
+  String get play => 'Abspielen';
+
+  @override
+  String get pause => 'Pause';
+
+  @override
+  String get voiceNotes => 'Sprachnotizen';
+
+  @override
+  String get voiceNone => 'Noch keine Sprachnotizen.';
+
+  @override
+  String get voiceRecord => 'Sprachnotiz aufnehmen';
+
+  @override
+  String get voiceMicTitle => 'Mikrofon';
+
+  @override
+  String get voiceMicRationale =>
+      'Phoedox braucht das Mikrofon nur, während du eine Sprachnotiz aufnimmst. Die Aufnahme wird an diesen Eintrag angehängt.';
+
+  @override
+  String get voiceMicDenied =>
+      'Kein Zugriff auf das Mikrofon. Erlaube ihn in den Systemeinstellungen.';
+
+  @override
+  String get voiceRecordFailed => 'Aufnahme nicht möglich.';
+
+  @override
+  String get voiceRecording => 'Aufnahme läuft';
+
+  @override
+  String voiceLimit(int minutes) {
+    return 'Höchstens $minutes Minuten; die Aufnahme endet dann von selbst.';
+  }
+
+  @override
+  String get voiceStop => 'Stopp';
+
+  @override
+  String get voiceSent => 'Sprachnotiz angehängt.';
+
+  @override
+  String get voiceQueued =>
+      'Sprachnotiz auf dem Gerät gespeichert – wird gesendet, sobald eine Verbindung besteht.';
+
+  @override
+  String get notSentYet => 'Noch nicht gesendet';
+
+  @override
+  String uploadRefused(String key) {
+    return 'Der Server hat die Datei abgelehnt ($key).';
+  }
+
+  @override
+  String get loadFailed => 'Konnte nicht geladen werden.';
+
+  @override
+  String get planPhoto => 'Foto platzieren';
+
+  @override
+  String get planPhotoTap =>
+      'Tippe auf die Stelle im Plan, an der du das Foto aufgenommen hast.';
+
+  @override
+  String get planPhotoCaption => 'Beschriftung';
+
+  @override
+  String get planPhotoDraft =>
+      'Foto im Entwurf des Plans gespeichert. Es erscheint im Plan, sobald jemand den Entwurf in der Web-App veröffentlicht.';
+
+  @override
+  String get planPhotoQueued =>
+      'Foto auf dem Gerät gespeichert – es kommt in den Entwurf des Plans, sobald eine Verbindung besteht.';
+
+  @override
+  String get planPhotoDone => 'Foto im Plan gespeichert.';
+
+  @override
+  String planPhotosPending(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Fotos noch nicht im Entwurf',
+      one: '1 Foto noch nicht im Entwurf',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get planDraftNote =>
+      'Neue Fotos landen im Entwurf des Plans und erscheinen hier erst nach dem Veröffentlichen.';
+
+  @override
+  String get voiceMicContinue => 'Weiter';
 }

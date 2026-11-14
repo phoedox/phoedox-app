@@ -3,6 +3,10 @@
     <uses-permission android:name="android.permission.NFC" />
     <uses-feature android:name="android.hardware.nfc" android:required="false" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <!-- Voice notes on entries: the microphone is used only while recording
+         (the app explains why before Android asks). -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-feature android:name="android.hardware.microphone" android:required="false" />
     <application
         android:label="phoedox"
         android:name="${applicationName}"

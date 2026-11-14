@@ -8,6 +8,7 @@ import '../../l10n/gen/app_localizations.dart';
 import '../doc/doc_page.dart';
 import '../scan/nfc.dart';
 import 'nameplate_flow.dart';
+import 'voice_notes.dart';
 
 /// An entry of the knowledge graph: attributes, relations, pages mentioning it.
 class EntityPage extends ConsumerWidget {
@@ -25,6 +26,9 @@ class EntityPage extends ConsumerWidget {
     final ent = data == null
         ? null
         : ((data['entity'] as Map?)?.cast<String, dynamic>() ?? data);
+    final role = (ref.watch(apiProvider('/projects/$project')).value?.data
+        as Map?)?['role'] as String?;
+    final canEdit = role == 'editor' || role == 'owner';
     return Scaffold(
       appBar: AppBar(actions: [
         if (ent != null && loaded?.offline != true)
@@ -95,6 +99,11 @@ class EntityPage extends ConsumerWidget {
                       title: Text(a.key),
                       trailing: Text(showValue(a.value))),
               ],
+              if (e['slug'] is String)
+                VoiceNotesSection(
+                    project: project,
+                    entity: e['slug'] as String,
+                    canRecord: canEdit),
               if (edges.isNotEmpty) ...[
                 const SizedBox(height: 16),
                 Text(t.relations.toUpperCase(),

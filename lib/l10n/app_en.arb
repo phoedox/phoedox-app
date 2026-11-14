@@ -95,5 +95,52 @@
   "nfcUnavailable": "NFC is not available or switched off.",
   "nfcWritten": "Tag written.",
   "nfcReadonly": "The tag is write-protected.",
-  "nfcWriteFailed": "Could not write the tag."
+  "nfcWriteFailed": "Could not write the tag.",
+  "play": "Play",
+  "pause": "Pause",
+  "voiceNotes": "Voice notes",
+  "voiceNone": "No voice notes yet.",
+  "voiceRecord": "Record voice note",
+  "voiceMicTitle": "Microphone",
+  "voiceMicRationale": "Phoedox uses the microphone only while you record a voice note. The recording is attached to this entry.",
+  "voiceMicDenied": "No access to the microphone. Allow it in the system settings.",
+  "voiceRecordFailed": "Could not record.",
+  "voiceRecording": "Recording",
+  "voiceLimit": "Up to {minutes} minutes; the recording then stops by itself.",
+  "@voiceLimit": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceStop": "Stop",
+  "voiceSent": "Voice note attached.",
+  "voiceQueued": "Voice note saved on this device – sent as soon as there is a connection.",
+  "notSentYet": "Not sent yet",
+  "uploadRefused": "The server refused the file ({key}).",
+  "@uploadRefused": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "loadFailed": "Could not be loaded.",
+  "planPhoto": "Place photo",
+  "planPhotoTap": "Tap the spot on the plan where you took the photo.",
+  "planPhotoCaption": "Caption",
+  "planPhotoDraft": "Photo saved in the plan's draft. It appears on the plan once someone publishes the draft in the web app.",
+  "planPhotoQueued": "Photo saved on this device – it goes into the plan's draft as soon as there is a connection.",
+  "planPhotoDone": "Photo saved on the plan.",
+  "planPhotosPending": "{count, plural, =1{1 photo not in the draft yet} other{{count} photos not in the draft yet}}",
+  "@planPhotosPending": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "planDraftNote": "New photos go into the plan's draft and show here only once it is published.",
+  "voiceMicContinue": "Continue"
 }

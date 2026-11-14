@@ -102,5 +102,52 @@
   "nfcUnavailable": "NFC ist nicht verfügbar oder ausgeschaltet.",
   "nfcWritten": "Tag beschrieben.",
   "nfcReadonly": "Der Tag ist schreibgeschützt.",
-  "nfcWriteFailed": "Der Tag konnte nicht beschrieben werden."
+  "nfcWriteFailed": "Der Tag konnte nicht beschrieben werden.",
+  "play": "Abspielen",
+  "pause": "Pause",
+  "voiceNotes": "Sprachnotizen",
+  "voiceNone": "Noch keine Sprachnotizen.",
+  "voiceRecord": "Sprachnotiz aufnehmen",
+  "voiceMicTitle": "Mikrofon",
+  "voiceMicRationale": "Phoedox braucht das Mikrofon nur, während du eine Sprachnotiz aufnimmst. Die Aufnahme wird an diesen Eintrag angehängt.",
+  "voiceMicDenied": "Kein Zugriff auf das Mikrofon. Erlaube ihn in den Systemeinstellungen.",
+  "voiceRecordFailed": "Aufnahme nicht möglich.",
+  "voiceRecording": "Aufnahme läuft",
+  "voiceLimit": "Höchstens {minutes} Minuten; die Aufnahme endet dann von selbst.",
+  "@voiceLimit": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceStop": "Stopp",
+  "voiceSent": "Sprachnotiz angehängt.",
+  "voiceQueued": "Sprachnotiz auf dem Gerät gespeichert – wird gesendet, sobald eine Verbindung besteht.",
+  "notSentYet": "Noch nicht gesendet",
+  "uploadRefused": "Der Server hat die Datei abgelehnt ({key}).",
+  "@uploadRefused": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "loadFailed": "Konnte nicht geladen werden.",
+  "planPhoto": "Foto platzieren",
+  "planPhotoTap": "Tippe auf die Stelle im Plan, an der du das Foto aufgenommen hast.",
+  "planPhotoCaption": "Beschriftung",
+  "planPhotoDraft": "Foto im Entwurf des Plans gespeichert. Es erscheint im Plan, sobald jemand den Entwurf in der Web-App veröffentlicht.",
+  "planPhotoQueued": "Foto auf dem Gerät gespeichert – es kommt in den Entwurf des Plans, sobald eine Verbindung besteht.",
+  "planPhotoDone": "Foto im Plan gespeichert.",
+  "planPhotosPending": "{count, plural, =1{1 Foto noch nicht im Entwurf} other{{count} Fotos noch nicht im Entwurf}}",
+  "@planPhotosPending": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "planDraftNote": "Neue Fotos landen im Entwurf des Plans und erscheinen hier erst nach dem Veröffentlichen.",
+  "voiceMicContinue": "Weiter"
 }

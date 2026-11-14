@@ -100,6 +100,22 @@ class PhxClient {
     return res.body.isEmpty ? null : jsonDecode(utf8.decode(res.bodyBytes));
   }
 
+  /// Downloads the content of a file (GET /files/{id}).
+  Future<List<int>> download(String fileId) async {
+    final http.Response res;
+    try {
+      res = await _http.get(url('/files/${Uri.encodeComponent(fileId)}'),
+          headers: {
+            ..._headers,
+            'Accept': '*/*'
+          }).timeout(const Duration(minutes: 2));
+    } catch (_) {
+      throw OfflineException();
+    }
+    if (res.statusCode >= 400) throw _error(res);
+    return res.bodyBytes;
+  }
+
   /// Uploads a file into a project (raw body), e.g. attached to an entry.
   Future<Map<String, dynamic>> upload(
       String project, String name, List<int> bytes,

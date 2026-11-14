@@ -463,6 +463,162 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'Der Tag konnte nicht beschrieben werden.'**
   String get nfcWriteFailed;
+
+  /// No description provided for @play.
+  ///
+  /// In de, this message translates to:
+  /// **'Abspielen'**
+  String get play;
+
+  /// No description provided for @pause.
+  ///
+  /// In de, this message translates to:
+  /// **'Pause'**
+  String get pause;
+
+  /// No description provided for @voiceNotes.
+  ///
+  /// In de, this message translates to:
+  /// **'Sprachnotizen'**
+  String get voiceNotes;
+
+  /// No description provided for @voiceNone.
+  ///
+  /// In de, this message translates to:
+  /// **'Noch keine Sprachnotizen.'**
+  String get voiceNone;
+
+  /// No description provided for @voiceRecord.
+  ///
+  /// In de, this message translates to:
+  /// **'Sprachnotiz aufnehmen'**
+  String get voiceRecord;
+
+  /// No description provided for @voiceMicTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Mikrofon'**
+  String get voiceMicTitle;
+
+  /// No description provided for @voiceMicRationale.
+  ///
+  /// In de, this message translates to:
+  /// **'Phoedox braucht das Mikrofon nur, während du eine Sprachnotiz aufnimmst. Die Aufnahme wird an diesen Eintrag angehängt.'**
+  String get voiceMicRationale;
+
+  /// No description provided for @voiceMicDenied.
+  ///
+  /// In de, this message translates to:
+  /// **'Kein Zugriff auf das Mikrofon. Erlaube ihn in den Systemeinstellungen.'**
+  String get voiceMicDenied;
+
+  /// No description provided for @voiceRecordFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Aufnahme nicht möglich.'**
+  String get voiceRecordFailed;
+
+  /// No description provided for @voiceRecording.
+  ///
+  /// In de, this message translates to:
+  /// **'Aufnahme läuft'**
+  String get voiceRecording;
+
+  /// No description provided for @voiceLimit.
+  ///
+  /// In de, this message translates to:
+  /// **'Höchstens {minutes} Minuten; die Aufnahme endet dann von selbst.'**
+  String voiceLimit(int minutes);
+
+  /// No description provided for @voiceStop.
+  ///
+  /// In de, this message translates to:
+  /// **'Stopp'**
+  String get voiceStop;
+
+  /// No description provided for @voiceSent.
+  ///
+  /// In de, this message translates to:
+  /// **'Sprachnotiz angehängt.'**
+  String get voiceSent;
+
+  /// No description provided for @voiceQueued.
+  ///
+  /// In de, this message translates to:
+  /// **'Sprachnotiz auf dem Gerät gespeichert – wird gesendet, sobald eine Verbindung besteht.'**
+  String get voiceQueued;
+
+  /// No description provided for @notSentYet.
+  ///
+  /// In de, this message translates to:
+  /// **'Noch nicht gesendet'**
+  String get notSentYet;
+
+  /// No description provided for @uploadRefused.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Server hat die Datei abgelehnt ({key}).'**
+  String uploadRefused(String key);
+
+  /// No description provided for @loadFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Konnte nicht geladen werden.'**
+  String get loadFailed;
+
+  /// No description provided for @planPhoto.
+  ///
+  /// In de, this message translates to:
+  /// **'Foto platzieren'**
+  String get planPhoto;
+
+  /// No description provided for @planPhotoTap.
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe auf die Stelle im Plan, an der du das Foto aufgenommen hast.'**
+  String get planPhotoTap;
+
+  /// No description provided for @planPhotoCaption.
+  ///
+  /// In de, this message translates to:
+  /// **'Beschriftung'**
+  String get planPhotoCaption;
+
+  /// No description provided for @planPhotoDraft.
+  ///
+  /// In de, this message translates to:
+  /// **'Foto im Entwurf des Plans gespeichert. Es erscheint im Plan, sobald jemand den Entwurf in der Web-App veröffentlicht.'**
+  String get planPhotoDraft;
+
+  /// No description provided for @planPhotoQueued.
+  ///
+  /// In de, this message translates to:
+  /// **'Foto auf dem Gerät gespeichert – es kommt in den Entwurf des Plans, sobald eine Verbindung besteht.'**
+  String get planPhotoQueued;
+
+  /// No description provided for @planPhotoDone.
+  ///
+  /// In de, this message translates to:
+  /// **'Foto im Plan gespeichert.'**
+  String get planPhotoDone;
+
+  /// No description provided for @planPhotosPending.
+  ///
+  /// In de, this message translates to:
+  /// **'{count, plural, =1{1 Foto noch nicht im Entwurf} other{{count} Fotos noch nicht im Entwurf}}'**
+  String planPhotosPending(int count);
+
+  /// No description provided for @planDraftNote.
+  ///
+  /// In de, this message translates to:
+  /// **'Neue Fotos landen im Entwurf des Plans und erscheinen hier erst nach dem Veröffentlichen.'**
+  String get planDraftNote;
+
+  /// No description provided for @voiceMicContinue.
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter'**
+  String get voiceMicContinue;
 }
 
 class _AppLocalizationsDelegate
