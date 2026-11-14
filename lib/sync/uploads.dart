@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import '../api/client.dart';
+import '../features/floorplan/plan.dart';
 
 /// Where a queued photo goes on a floor plan once it is uploaded.
 class PlanPlacement {
@@ -241,6 +242,11 @@ class UploadQueue {
           u = u.copyWith(fileId: res['id'] as String, clearError: true);
           await _update(u);
         }
+        if (u.place != null) {
+          final inDraft =
+              await placePhoto(client, u.project, u.place!, u.fileId!);
+          if (inDraft) report.placedInDraft++;
+        }
         await remove(u.id);
         report.sent++;
       } on OfflineException {
@@ -254,4 +260,35 @@ class UploadQueue {
     }
     return report;
   }
+}
+
+/// Writes a photo into a floor plan through its draft (ADR-0027/0039): it
+/// starts or joins the draft, adds the photo to the draft's plan and saves it.
+/// It never publishes. Returns whether the change went into a draft.
+///
+/// The plan is saved with PATCH on the document: while a draft is open the
+/// server puts it into the draft and tells people editing the plan live in
+/// the browser to reload it, so their next save keeps the photo (a plain PUT
+/// on the draft would not tell them). expectVersion guards the short moment
+/// in which the draft could be published between both calls.
+Future<bool> placePhoto(PhxClient client, String project, PlanPlacement place,
+    String fileId) async {
+  final docPath = '/projects/$project/documents/${place.doc}';
+  final draft = await client.send('POST', '$docPath/draft') as Map;
+  final raw = draft['markdown'];
+  final plan = raw is String && raw.trim().isNotEmpty
+      ? (jsonDecode(raw) as Map).cast<String, dynamic>()
+      : <String, dynamic>{};
+  final next = withPhoto(plan,
+      id: place.photoId,
+      file: fileId,
+      x: place.x,
+      y: place.y,
+      caption: place.caption);
+  if (identical(next, plan)) return true; // placed by an earlier attempt
+  final res = await client.send('PATCH', docPath, {
+    'floorplan': next,
+    if (draft['baseVersion'] is int) 'expectVersion': draft['baseVersion'],
+  });
+  return res is Map && res['draft'] != null;
 }

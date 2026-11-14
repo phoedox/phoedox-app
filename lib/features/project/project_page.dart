@@ -12,6 +12,7 @@ IconData docIcon(String? type) => switch (type) {
       'adr' => LucideIcons.scale,
       'link' => LucideIcons.link,
       'board' => LucideIcons.squareKanban,
+      'floorplan' => LucideIcons.landPlot,
       _ => LucideIcons.fileText,
     };
 

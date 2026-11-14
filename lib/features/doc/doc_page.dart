@@ -12,9 +12,11 @@ import '../../app/widgets.dart';
 import '../../l10n/gen/app_localizations.dart';
 import '../../sync/providers.dart';
 import '../entity/entity_page.dart';
+import '../floorplan/floorplan_view.dart';
 import 'edit_page.dart';
 
-/// Reads a page: Markdown, decision, link or board (read-only).
+/// Reads a page: Markdown, decision, link, board or floor plan (read-only;
+/// Markdown pages can be edited, photos placed on floor plans).
 class DocPage extends ConsumerWidget {
   const DocPage({super.key, required this.project, required this.doc});
 
@@ -64,6 +66,15 @@ class DocPage extends ConsumerWidget {
         path: path,
         builder: (context, data) {
           final d = data as Map<String, dynamic>;
+          if (d['type'] == 'floorplan') {
+            return FloorplanBody(
+                project: project,
+                doc: d,
+                canEdit: role == 'editor' ||
+                    role == 'owner' ||
+                    d['role'] == 'editor' ||
+                    d['role'] == 'owner');
+          }
           final c = Map<String, dynamic>.from((d['content'] as Map?) ?? {});
           // A change made on this device and not sent yet is shown instead.
           final pending = pendingList

@@ -26,6 +26,21 @@ its type plate, read and edit docs offline, alarms with one-click actions.
   play them back and attach them to the entry. Recordings wait in the device's upload queue
   (`lib/sync/uploads.dart`) and are sent with the next sync, so they work offline too. Notes
   already on the server are downloaded once and then play offline.
+- Floor plans (read only): rooms, walls, devices and photos drawn from the plan; tap a device
+  to open its entry, a photo to see it. Editors take a photo and tap the spot where it was
+  taken: the photo is uploaded as a file of the plan and written into the plan's **draft**
+  (`POST …/draft`, then the plan with the new photo). The app never publishes – the photo
+  appears on the plan once someone publishes the draft in the web app. Offline, the photo and
+  its position wait in the upload queue. The server's photo shape has a position and a caption,
+  no viewing direction, so the compass is not used.
+
+### AR
+
+Placing photos with AR (ARCore/ARKit anchors) is not built. There is no maintained Flutter
+package for both platforms: `ar_flutter_plugin` was last released in 2022,
+`arcore_flutter_plugin` in early 2023, the forks have single releases; only `arkit_plugin`
+(iOS only) is maintained. A plan photo also has no height, direction or anchor to store an AR
+pose in. Revisit with native 3D (flutter_scene/Filament) or when the plan format gets anchors.
 
 ## Development
 
