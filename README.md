@@ -1,21 +1,21 @@
 # Phoedox App
 
-Flutter-App für [Phoedox](https://github.com/phoedox/phoedox) auf iOS, Android, Windows, macOS und Linux.
+Flutter app for [Phoedox](https://github.com/phoedox/phoedox) on iOS, Android, Windows, macOS and Linux.
 
-Erste Funktionen: QR-/NFC-Etiketten scannen und den Eintrag öffnen, Gerät mit Foto und
-Typenschild erfassen, Doku offline lesen und bearbeiten, Alarme mit Ein-Klick-Aktionen.
+First features: scan QR/NFC labels and open the entry, record a device with a photo and
+its type plate, read and edit docs offline, alarms with one-click actions.
 
-## Stand
+## Status
 
-- Anmelden mit Adresse der Instanz und API-Token (Einstellungen → API-Tokens & MCP); das Token liegt im
-  sicheren Speicher des Geräts.
-- Projekte, Seiten nach Ordnern, Suche, Entscheidungen, Links und Boards (nur lesen), Einträge mit
-  Attributen, Beziehungen und Erwähnungen.
-- Offline lesen: Jede geladene Antwort wird auf dem Gerät gespeichert und ohne Netz angezeigt.
-- QR-Etiketten scannen (`https://<instanz>/e/<projekt>/<slug>`, `phx://e/<projekt>/<slug>`).
-- Als Nächstes: Offline bearbeiten über `native/phoedox_sync` (yrs), NFC, Gerät mit Foto erfassen.
+- Sign in with the address of the instance and an API token (Settings → API tokens & MCP); the token is stored in the
+  device's secure storage.
+- Projects, pages by folder, search, decisions, links and boards (read only), entries with
+  attributes, relations and mentions.
+- Offline reading: every loaded response is stored on the device and shown without a network.
+- Scan QR labels (`https://<instance>/e/<project>/<slug>`, `phx://e/<project>/<slug>`).
+- Next: offline editing via `native/phoedox_sync` (yrs), NFC, recording a device with a photo.
 
-## Entwickeln
+## Development
 
 ```bash
 flutter pub get
@@ -23,12 +23,12 @@ flutter run
 flutter analyze && flutter test
 ```
 
-## Aufbau
+## Structure
 
 - `lib/` – Dart/Flutter
-- `native/phoedox_sync` – Rust-Crate mit yrs (Yjs) für Offline-Bearbeitung; Anbindung an Dart per FFI
-- 3D nativ (flutter_scene/Filament), dadurch auch AR
+- `native/phoedox_sync` – Rust crate with yrs (Yjs) for offline editing; connected to Dart via FFI
+- Native 3D (flutter_scene/Filament), which also enables AR
 
-## Lizenz
+## License
 
-AGPL-3.0 – siehe [LICENSE](LICENSE).
+AGPL-3.0 – see [LICENSE](LICENSE).
