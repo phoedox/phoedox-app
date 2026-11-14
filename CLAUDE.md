@@ -12,6 +12,7 @@ Gesamtentscheidungen: in Phoedox (https://app.phoedox.com, Projekt `phoedox`), v
 
 ## Regeln
 
+- **Dokumentation und Aufgaben auf Englisch:** README, `docs/`, Phoedox-Seiten, Entscheidungen (ADRs) und Karten auf dem Board „Roadmap“ immer auf Englisch schreiben; Deutsch nur als Übersetzung (Projekt `phoedox` hat Englisch als Hauptsprache).
 - Texte Deutsch + Englisch über Flutter-Lokalisierung (noch einzurichten, `flutter gen-l10n`).
 - Icons: Lucide (Paket `lucide_icons`), Material-Icons nur als Übergang.
 - Offline zuerst: Lesen und Bearbeiten müssen ohne Netz funktionieren; Aktionen an Geräten (Schalten, Agent) nur online und mit Bestätigung.
