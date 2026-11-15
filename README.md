@@ -7,8 +7,7 @@ its type plate, read and edit docs offline, alarms with one-click actions.
 
 ## Status
 
-- Sign in with the address of the instance and an API token (Settings → API tokens & MCP); the token is stored in the
-  device's secure storage.
+- Sign in in the browser (ADR-0065): enter the address of the instance, sign in on its own page (passkeys, SSO and two-factor work) and allow the app. The instance answers on `phoedox://signin` with a one-time code; with the PKCE verifier the app exchanges it at `/api/v1/app/token` for its own API token ("Phoedox app (<device>)", revocable under API tokens). Signing in with a pasted API token stays available as the alternative. The token is stored in the platform's secure storage.
 - Projects, pages by folder, search, decisions, links and boards (read only), entries with
   attributes, relations and mentions.
 - Offline reading: every loaded response is stored on the device and shown without a network.

@@ -3,7 +3,7 @@
   "projects": "Projects",
   "scan": "Scan",
   "signInTitle": "Connect to Phoedox",
-  "signInHint": "Address of your instance and an API token from Settings → API tokens & MCP.",
+  "signInHint": "Address of your instance, e.g. app.phoedox.com.",
   "instance": "Instance address",
   "token": "API token",
   "connect": "Connect",
@@ -142,5 +142,8 @@
     }
   },
   "planDraftNote": "New photos go into the plan's draft and show here only once it is published.",
-  "voiceMicContinue": "Continue"
+  "voiceMicContinue": "Continue",
+  "signInBrowser": "Sign in with the browser",
+  "signInBrowserHint": "You sign in on your instance's page (passkeys and SSO work too) and allow the app. It gets its own token, which you can revoke under API tokens.",
+  "signInWithToken": "Connect with an API token instead"
 }

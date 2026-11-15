@@ -18,8 +18,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get signInTitle => 'Mit Phoedox verbinden';
 
   @override
-  String get signInHint =>
-      'Adresse deiner Instanz und ein API-Token aus Einstellungen → API-Tokens & MCP.';
+  String get signInHint => 'Adresse deiner Instanz, z. B. app.phoedox.com.';
 
   @override
   String get instance => 'Adresse der Instanz';
@@ -307,4 +306,14 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get voiceMicContinue => 'Weiter';
+
+  @override
+  String get signInBrowser => 'Im Browser anmelden';
+
+  @override
+  String get signInBrowserHint =>
+      'Du meldest dich auf der Seite deiner Instanz an (auch mit Passkey oder SSO) und erlaubst der App den Zugriff. Sie bekommt ein eigenes Token, das du unter API-Tokens widerrufen kannst.';
+
+  @override
+  String get signInWithToken => 'Stattdessen mit API-Token verbinden';
 }

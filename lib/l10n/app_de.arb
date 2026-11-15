@@ -3,7 +3,7 @@
   "projects": "Projekte",
   "scan": "Scannen",
   "signInTitle": "Mit Phoedox verbinden",
-  "signInHint": "Adresse deiner Instanz und ein API-Token aus Einstellungen → API-Tokens & MCP.",
+  "signInHint": "Adresse deiner Instanz, z. B. app.phoedox.com.",
   "instance": "Adresse der Instanz",
   "token": "API-Token",
   "connect": "Verbinden",
@@ -149,5 +149,8 @@
     }
   },
   "planDraftNote": "Neue Fotos landen im Entwurf des Plans und erscheinen hier erst nach dem Veröffentlichen.",
-  "voiceMicContinue": "Weiter"
+  "voiceMicContinue": "Weiter",
+  "signInBrowser": "Im Browser anmelden",
+  "signInBrowserHint": "Du meldest dich auf der Seite deiner Instanz an (auch mit Passkey oder SSO) und erlaubst der App den Zugriff. Sie bekommt ein eigenes Token, das du unter API-Tokens widerrufen kannst.",
+  "signInWithToken": "Stattdessen mit API-Token verbinden"
 }

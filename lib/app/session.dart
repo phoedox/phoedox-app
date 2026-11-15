@@ -1,11 +1,16 @@
 import 'dart:io';
 
+import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../api/cache.dart';
 import '../api/client.dart';
+import 'browser_signin.dart';
 
 /// The connected instance. The token lives in the platform's secure storage.
 class Session {
@@ -58,6 +63,38 @@ class SessionNotifier extends AsyncNotifier<Session?> {
     } catch (_) {
       return false;
     }
+  }
+
+  /// Signs in through the instance's own sign-in page in the browser
+  /// (ADR-0065) and keeps the personal token it hands out for this device.
+  Future<bool> signInWithBrowser(String instance) async {
+    final base = instanceUri(instance);
+    final pkce = Pkce.generate();
+    try {
+      final answer = await FlutterWebAuth2.authenticate(
+          url: signInUrl(base, pkce).toString(), callbackUrlScheme: appScheme);
+      final code = codeFrom(answer, pkce);
+      if (code == null) return false;
+      final res = await http.post(base.replace(path: '/api/v1/app/token'),
+          headers: {'Content-Type': 'application/json', 'X-Phoedox': '1'},
+          body: jsonEncode({
+            'code': code,
+            'code_verifier': pkce.verifier,
+            'device': _deviceName(),
+          }));
+      if (res.statusCode != 200) return false;
+      final token = (jsonDecode(res.body) as Map)['token'] as String?;
+      if (token == null || token.isEmpty) return false;
+      return await signIn(base.toString(), token);
+    } catch (_) {
+      return false; // cancelled, offline or refused
+    }
+  }
+
+  static String _deviceName() {
+    if (Platform.isAndroid) return 'Android';
+    if (Platform.isIOS) return 'iPhone/iPad';
+    return Platform.operatingSystem;
   }
 
   Future<void> signOut() async {

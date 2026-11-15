@@ -16,6 +16,24 @@ class _SignInPageState extends ConsumerState<SignInPage> {
   final _token = TextEditingController();
   bool _busy = false;
   bool _failed = false;
+  bool _withToken = false;
+
+  Future<void> _browser() async {
+    if (_instance.text.trim().isEmpty) return;
+    setState(() {
+      _busy = true;
+      _failed = false;
+    });
+    final ok = await ref
+        .read(sessionProvider.notifier)
+        .signInWithBrowser(_instance.text);
+    if (mounted) {
+      setState(() {
+        _busy = false;
+        _failed = !ok;
+      });
+    }
+  }
 
   Future<void> _connect() async {
     setState(() {
@@ -58,24 +76,39 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                   keyboardType: TextInputType.url,
                   autocorrect: false,
                 ),
+                const SizedBox(height: 20),
+                FilledButton.icon(
+                    onPressed: _busy ? null : _browser,
+                    icon: const Icon(Icons.open_in_browser),
+                    label: Text(t.signInBrowser)),
+                const SizedBox(height: 8),
+                Text(t.signInBrowserHint,
+                    style: Theme.of(context).textTheme.bodySmall),
                 const SizedBox(height: 12),
-                TextField(
-                  controller: _token,
-                  decoration:
-                      InputDecoration(labelText: t.token, hintText: 'phx_…'),
-                  obscureText: true,
-                  autocorrect: false,
-                  onSubmitted: (_) => _connect(),
-                ),
+                TextButton(
+                    onPressed: () => setState(() => _withToken = !_withToken),
+                    child: Text(t.signInWithToken)),
+                if (_withToken) ...[
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: _token,
+                    decoration:
+                        InputDecoration(labelText: t.token, hintText: 'phx_…'),
+                    obscureText: true,
+                    autocorrect: false,
+                    onSubmitted: (_) => _connect(),
+                  ),
+                  const SizedBox(height: 12),
+                  OutlinedButton(
+                      onPressed: _busy ? null : _connect,
+                      child: Text(t.connect)),
+                ],
                 if (_failed) ...[
                   const SizedBox(height: 12),
                   Text(t.signInFailed,
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.error)),
                 ],
-                const SizedBox(height: 20),
-                FilledButton(
-                    onPressed: _busy ? null : _connect, child: Text(t.connect)),
               ],
             ),
           ),

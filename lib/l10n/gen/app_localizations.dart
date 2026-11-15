@@ -119,7 +119,7 @@ abstract class AppLocalizations {
   /// No description provided for @signInHint.
   ///
   /// In de, this message translates to:
-  /// **'Adresse deiner Instanz und ein API-Token aus Einstellungen → API-Tokens & MCP.'**
+  /// **'Adresse deiner Instanz, z. B. app.phoedox.com.'**
   String get signInHint;
 
   /// No description provided for @instance.
@@ -619,6 +619,24 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'Weiter'**
   String get voiceMicContinue;
+
+  /// No description provided for @signInBrowser.
+  ///
+  /// In de, this message translates to:
+  /// **'Im Browser anmelden'**
+  String get signInBrowser;
+
+  /// No description provided for @signInBrowserHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Du meldest dich auf der Seite deiner Instanz an (auch mit Passkey oder SSO) und erlaubst der App den Zugriff. Sie bekommt ein eigenes Token, das du unter API-Tokens widerrufen kannst.'**
+  String get signInBrowserHint;
+
+  /// No description provided for @signInWithToken.
+  ///
+  /// In de, this message translates to:
+  /// **'Stattdessen mit API-Token verbinden'**
+  String get signInWithToken;
 }
 
 class _AppLocalizationsDelegate
