@@ -36,8 +36,11 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
     final t = AppLocalizations.of(context);
     final color =
         hexColor(widget.project['primaryColor'] as String?, PhxColors.brand);
+    // The project's theme (or the one that applies there); without one the
+    // project colour tints Phoedox's own look.
+    final tokens = ref.watch(projectThemeProvider(_slug)).value;
     return Theme(
-      data: phxTheme(Theme.of(context).brightness, seed: color),
+      data: phxTheme(Theme.of(context).brightness, seed: color, tokens: tokens),
       child: Scaffold(
         appBar: AppBar(title: Text(widget.project['name'] as String? ?? '')),
         body: Column(

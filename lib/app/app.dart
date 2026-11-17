@@ -15,15 +15,16 @@ import '../l10n/gen/app_localizations.dart';
 import 'session.dart';
 import 'theme.dart';
 
-class PhoedoxApp extends StatelessWidget {
+class PhoedoxApp extends ConsumerWidget {
   const PhoedoxApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tokens = ref.watch(appThemeProvider).value;
     return MaterialApp(
       onGenerateTitle: (context) => 'Phoedox',
-      theme: phxTheme(Brightness.light),
-      darkTheme: phxTheme(Brightness.dark),
+      theme: phxTheme(Brightness.light, tokens: tokens),
+      darkTheme: phxTheme(Brightness.dark, tokens: tokens),
       themeMode: ThemeMode.system,
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [
