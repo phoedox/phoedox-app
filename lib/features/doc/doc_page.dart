@@ -11,7 +11,7 @@ import '../../app/session.dart';
 import '../../app/widgets.dart';
 import '../../l10n/gen/app_localizations.dart';
 import '../../sync/providers.dart';
-import '../charts/chart.dart';
+import '../blocks/blocks.dart';
 import '../entity/entity_page.dart';
 import '../apps/app_page.dart';
 import '../floorplan/floorplan_view.dart';
@@ -166,10 +166,10 @@ class DocPage extends ConsumerWidget {
                   ],
                 _ => [
                     for (final part
-                        in splitCharts(c['markdown'] as String? ?? ''))
-                      part.kind == 'chart'
-                          ? ChartView(source: part.text)
-                          : _md(context, part.text)
+                        in splitBlocks(c['markdown'] as String? ?? ''))
+                      part.kind == 'md'
+                          ? _md(context, part.text)
+                          : blockKinds[part.kind]!.view(part.text)
                   ],
               },
             ],

@@ -995,27 +995,3 @@ class _ChartPainter extends CustomPainter {
   bool shouldRepaint(_ChartPainter old) =>
       old.chart != chart || old.style.dark != style.dark;
 }
-
-/// Splits page Markdown into text and ```chart blocks (kind "md" or "chart").
-List<({String kind, String text})> splitCharts(String md) {
-  final out = <({String kind, String text})>[];
-  final buf = <String>[];
-  List<String>? chart;
-  for (final line in md.replaceAll('\r\n', '\n').split('\n')) {
-    if (chart == null && RegExp(r'^\s{0,3}```chart\s*$').hasMatch(line)) {
-      if (buf.isNotEmpty) out.add((kind: 'md', text: buf.join('\n')));
-      buf.clear();
-      chart = [];
-    } else if (chart != null && RegExp(r'^\s{0,3}```\s*$').hasMatch(line)) {
-      out.add((kind: 'chart', text: chart.join('\n')));
-      chart = null;
-    } else if (chart != null) {
-      chart.add(line);
-    } else {
-      buf.add(line);
-    }
-  }
-  if (chart != null) buf.addAll(['```chart', ...chart]);
-  if (buf.isNotEmpty) out.add((kind: 'md', text: buf.join('\n')));
-  return out;
-}

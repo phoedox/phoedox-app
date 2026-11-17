@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:phoedox/features/blocks/blocks.dart';
 import 'package:phoedox/features/charts/chart.dart';
 
 const vormaerz = '''{
@@ -56,7 +57,7 @@ void main() {
   });
 
   test('pages are split into text and charts', () {
-    final parts = splitCharts(
+    final parts = splitBlocks(
         '# A\n\n```chart\n{"points":[{"x":1,"y":2}]}\n```\n\nafter\n```js\nx\n```');
     expect(parts.map((p) => p.kind), ['md', 'chart', 'md']);
     expect(parts[1].text, '{"points":[{"x":1,"y":2}]}');

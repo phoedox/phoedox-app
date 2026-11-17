@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -10,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import '../../api/client.dart';
 import '../../app/session.dart';
 import '../../l10n/gen/app_localizations.dart';
+import '../blocks/blocks.dart';
 import '../charts/chart.dart';
 import 'board.dart';
 import 'prototype_page.dart';
@@ -670,7 +672,8 @@ class BoardPainter extends CustomPainter {
                 stroke);
           }
         case 'chart':
-          // Charts: the same drawing as in pages (lib/features/charts).
+        case 'block':
+          // Blocks (ADR-0085): the same drawing as in pages.
           canvas.drawRRect(
               RRect.fromRectAndRadius(b, const Radius.circular(10)),
               Paint()..color = surface);
@@ -680,22 +683,17 @@ class BoardPainter extends CustomPainter {
                 ..color = line
                 ..style = PaintingStyle.stroke
                 ..strokeWidth = 1.5);
+          final kind = e['type'] == 'chart' ? 'chart' : '${e['kind'] ?? ''}';
+          final src = e['type'] == 'chart'
+              ? jsonEncode(e['chart'])
+              : '${e['source'] ?? ''}';
           try {
-            final ch = Chart.parse(e['chart']);
-            var r = b.deflate(8);
-            if (ch.title != null) {
-              _text(canvas, ch.title!,
-                  Rect.fromLTWH(b.left + 14, b.top + 10, b.width - 28, 22),
-                  size: 15,
-                  align: TextAlign.left,
-                  top: true,
-                  color: dark ? Colors.white : Colors.black87);
-              r = Rect.fromLTRB(r.left, b.top + 36, r.right, r.bottom);
-            }
-            paintChart(
+            final def = blockKinds[kind];
+            if (def == null) throw const FormatException('unknown kind');
+            def.paint(
                 canvas,
-                r,
-                ch,
+                b.deflate(8),
+                src,
                 ChartStyle(
                     dark: dark,
                     fg: dark ? Colors.white : Colors.black87,
@@ -703,8 +701,7 @@ class BoardPainter extends CustomPainter {
                     line: line,
                     surface: surface));
           } on FormatException {
-            _text(canvas, '${e['type']}', b.deflate(10),
-                size: 14, color: muted);
+            _text(canvas, kind, b.deflate(10), size: 14, color: muted);
           }
         default:
           // Images, embeds and entries: a card with their name.
