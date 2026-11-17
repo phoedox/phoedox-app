@@ -17,4 +17,19 @@ void main() {
     expect(out, contains('`[x]{color=red}` bleibt.'));
     expect(out, isNot(contains('```board')));
   });
+
+  test('foldable callouts, tabs and steps show their title', () {
+    final out = toPlainMarkdown([
+      '> [!faq]- Why does the NAS sleep?',
+      '> Power saving.',
+      '> [!tab] macOS',
+      '> Open Terminal.',
+      '> [!steps id=s1] Set up the router',
+      '> 1. Plug in',
+    ].join('\n'));
+    expect(out, contains('> **Why does the NAS sleep?**'));
+    expect(out, contains('> **macOS**'));
+    expect(out, contains('> **Set up the router**'));
+    expect(out, isNot(contains('[!')));
+  });
 }

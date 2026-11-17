@@ -29,10 +29,16 @@ String toPlainMarkdown(String md) {
       out.add(line);
       continue;
     }
-    final callout = RegExp(r'^> \[!([a-z]+)[^\]]*\]\s*$').firstMatch(line);
+    // Callouts, also foldable ones ("-"/"+") and with a title: tabs and
+    // steps show as quotes with their title.
+    final callout = RegExp(r'^> \[!([A-Za-z]+)[^\]]*\][+-]?(?:\s+(.*?))?\s*$')
+        .firstMatch(line);
     if (callout != null) {
-      final kind = callout.group(1)!;
-      out.add('> **${kind[0].toUpperCase()}${kind.substring(1)}**');
+      final kind = callout.group(1)!.toLowerCase();
+      final title = callout.group(2);
+      out.add(
+          '> **${title != null && title.isNotEmpty ? title : '${kind[0].toUpperCase()}${kind.substring(1)}'}**');
+      out.add('>');
       continue;
     }
     out.add(_inline(line));
