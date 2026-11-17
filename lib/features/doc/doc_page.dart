@@ -11,6 +11,7 @@ import '../../app/session.dart';
 import '../../app/widgets.dart';
 import '../../l10n/gen/app_localizations.dart';
 import '../../sync/providers.dart';
+import '../charts/chart.dart';
 import '../entity/entity_page.dart';
 import '../apps/app_page.dart';
 import '../floorplan/floorplan_view.dart';
@@ -163,7 +164,13 @@ class DocPage extends ConsumerWidget {
                         columns: (c['columns'] as List? ?? [])
                             .cast<Map<String, dynamic>>())
                   ],
-                _ => [_md(context, c['markdown'] as String? ?? '')],
+                _ => [
+                    for (final part
+                        in splitCharts(c['markdown'] as String? ?? ''))
+                      part.kind == 'chart'
+                          ? ChartView(source: part.text)
+                          : _md(context, part.text)
+                  ],
               },
             ],
           );

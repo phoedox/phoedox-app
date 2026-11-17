@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import '../../api/client.dart';
 import '../../app/session.dart';
 import '../../l10n/gen/app_localizations.dart';
+import '../charts/chart.dart';
 import 'board.dart';
 import 'prototype_page.dart';
 
@@ -667,6 +668,43 @@ class BoardPainter extends CustomPainter {
                   ..lineTo(
                       z.dx - l * cos(ang + 0.45), z.dy - l * sin(ang + 0.45)),
                 stroke);
+          }
+        case 'chart':
+          // Charts: the same drawing as in pages (lib/features/charts).
+          canvas.drawRRect(
+              RRect.fromRectAndRadius(b, const Radius.circular(10)),
+              Paint()..color = surface);
+          canvas.drawRRect(
+              RRect.fromRectAndRadius(b, const Radius.circular(10)),
+              Paint()
+                ..color = line
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 1.5);
+          try {
+            final ch = Chart.parse(e['chart']);
+            var r = b.deflate(8);
+            if (ch.title != null) {
+              _text(canvas, ch.title!,
+                  Rect.fromLTWH(b.left + 14, b.top + 10, b.width - 28, 22),
+                  size: 15,
+                  align: TextAlign.left,
+                  top: true,
+                  color: dark ? Colors.white : Colors.black87);
+              r = Rect.fromLTRB(r.left, b.top + 36, r.right, r.bottom);
+            }
+            paintChart(
+                canvas,
+                r,
+                ch,
+                ChartStyle(
+                    dark: dark,
+                    fg: dark ? Colors.white : Colors.black87,
+                    muted: muted,
+                    line: line,
+                    surface: surface));
+          } on FormatException {
+            _text(canvas, '${e['type']}', b.deflate(10),
+                size: 14, color: muted);
           }
         default:
           // Images, embeds and entries: a card with their name.
