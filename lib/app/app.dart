@@ -5,6 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'dart:async';
 
+import '../features/apps/app_page.dart';
 import '../features/projects/projects_page.dart';
 import '../sync/outbox.dart';
 import '../sync/providers.dart';
@@ -87,6 +88,11 @@ class _HomeShellState extends ConsumerState<HomeShell> {
       ref.read(pendingProvider.notifier).sync(),
       ref.read(uploadsProvider.notifier).sync(),
     ]);
+    // Storage writes of apps made offline.
+    final client = await ref.read(clientProvider.future);
+    if (client != null) {
+      await (await ref.read(appOutboxProvider.future)).flush(client);
+    }
     final edits = results[0] as SyncReport?;
     final uploads = results[1] as UploadReport?;
     if (!tell || !mounted || (edits == null && uploads == null)) return;

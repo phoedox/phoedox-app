@@ -12,6 +12,7 @@ import '../../app/widgets.dart';
 import '../../l10n/gen/app_localizations.dart';
 import '../../sync/providers.dart';
 import '../entity/entity_page.dart';
+import '../apps/app_page.dart';
 import '../floorplan/floorplan_view.dart';
 import 'edit_page.dart';
 
@@ -66,6 +67,9 @@ class DocPage extends ConsumerWidget {
         path: path,
         builder: (context, data) {
           final d = data as Map<String, dynamic>;
+          if (d['type'] == 'app') {
+            return AppBody(project: project, doc: d['slug'] as String? ?? doc);
+          }
           if (d['type'] == 'floorplan') {
             return FloorplanBody(
                 project: project,

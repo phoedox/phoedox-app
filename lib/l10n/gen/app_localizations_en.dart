@@ -313,4 +313,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInWithToken => 'Connect with an API token instead';
+
+  @override
+  String get appAccessTitle => 'This app asks for access';
+
+  @override
+  String get appLevel1 =>
+      'It wants to read the project data its author named (e.g. entries or a board). It never sees your sign-in.';
+
+  @override
+  String get appLevel2 =>
+      'It wants to read the named project data and keep its own data (shared or just for you).';
+
+  @override
+  String get appLevel3 =>
+      'It wants to read project data, keep its own data and propose changes – every change asks you first.';
+
+  @override
+  String get appAllow => 'Allow';
+
+  @override
+  String get appNotNow => 'Not now';
+
+  @override
+  String get appProposeTitle => 'The app proposes a change';
+
+  @override
+  String appProposeTask(Object board, Object title) {
+    return 'New card “$title” on board $board.';
+  }
+
+  @override
+  String appProposeComment(Object body, Object document) {
+    return 'Comment on $document: $body';
+  }
+
+  @override
+  String appProposeEntity(Object kind, Object name) {
+    return 'New entry “$name” ($kind).';
+  }
+
+  @override
+  String get appConfirm => 'Apply';
+
+  @override
+  String get appOffline =>
+      'This app has not been opened on this device yet; it needs the network the first time.';
+
+  @override
+  String get appUnavailable =>
+      'The app cannot be opened (switched off, or no access).';
+
+  @override
+  String get appOfflineNote =>
+      'Offline: you see the app as last loaded; its storage changes are sent later.';
 }

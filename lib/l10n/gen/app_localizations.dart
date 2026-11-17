@@ -637,6 +637,90 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'Stattdessen mit API-Token verbinden'**
   String get signInWithToken;
+
+  /// No description provided for @appAccessTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese App bittet um Zugriff'**
+  String get appAccessTitle;
+
+  /// No description provided for @appLevel1.
+  ///
+  /// In de, this message translates to:
+  /// **'Sie möchte die Projektdaten lesen, die ihr Autor angegeben hat (z. B. Einträge oder ein Board). Deine Anmeldung sieht sie nie.'**
+  String get appLevel1;
+
+  /// No description provided for @appLevel2.
+  ///
+  /// In de, this message translates to:
+  /// **'Sie möchte die angegebenen Projektdaten lesen und eigene Daten speichern (gemeinsam oder nur für dich).'**
+  String get appLevel2;
+
+  /// No description provided for @appLevel3.
+  ///
+  /// In de, this message translates to:
+  /// **'Sie möchte Projektdaten lesen, eigene Daten speichern und Änderungen vorschlagen – jede Änderung fragt dich vorher.'**
+  String get appLevel3;
+
+  /// No description provided for @appAllow.
+  ///
+  /// In de, this message translates to:
+  /// **'Erlauben'**
+  String get appAllow;
+
+  /// No description provided for @appNotNow.
+  ///
+  /// In de, this message translates to:
+  /// **'Nicht jetzt'**
+  String get appNotNow;
+
+  /// No description provided for @appProposeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Die App schlägt eine Änderung vor'**
+  String get appProposeTitle;
+
+  /// No description provided for @appProposeTask.
+  ///
+  /// In de, this message translates to:
+  /// **'Neue Karte „{title}“ auf Board {board}.'**
+  String appProposeTask(Object board, Object title);
+
+  /// No description provided for @appProposeComment.
+  ///
+  /// In de, this message translates to:
+  /// **'Kommentar zu {document}: {body}'**
+  String appProposeComment(Object body, Object document);
+
+  /// No description provided for @appProposeEntity.
+  ///
+  /// In de, this message translates to:
+  /// **'Neuer Eintrag „{name}“ ({kind}).'**
+  String appProposeEntity(Object kind, Object name);
+
+  /// No description provided for @appConfirm.
+  ///
+  /// In de, this message translates to:
+  /// **'Übernehmen'**
+  String get appConfirm;
+
+  /// No description provided for @appOffline.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese App wurde auf diesem Gerät noch nicht geöffnet; beim ersten Mal braucht sie das Netz.'**
+  String get appOffline;
+
+  /// No description provided for @appUnavailable.
+  ///
+  /// In de, this message translates to:
+  /// **'Die App lässt sich nicht öffnen (ausgeschaltet oder kein Zugriff).'**
+  String get appUnavailable;
+
+  /// No description provided for @appOfflineNote.
+  ///
+  /// In de, this message translates to:
+  /// **'Offline: Du siehst die App wie zuletzt geladen; ihre Speicheränderungen werden später gesendet.'**
+  String get appOfflineNote;
 }
 
 class _AppLocalizationsDelegate

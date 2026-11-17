@@ -145,5 +145,19 @@
   "voiceMicContinue": "Continue",
   "signInBrowser": "Sign in with the browser",
   "signInBrowserHint": "You sign in on your instance's page (passkeys and SSO work too) and allow the app. It gets its own token, which you can revoke under API tokens.",
-  "signInWithToken": "Connect with an API token instead"
+  "signInWithToken": "Connect with an API token instead",
+  "appAccessTitle": "This app asks for access",
+  "appLevel1": "It wants to read the project data its author named (e.g. entries or a board). It never sees your sign-in.",
+  "appLevel2": "It wants to read the named project data and keep its own data (shared or just for you).",
+  "appLevel3": "It wants to read project data, keep its own data and propose changes – every change asks you first.",
+  "appAllow": "Allow",
+  "appNotNow": "Not now",
+  "appProposeTitle": "The app proposes a change",
+  "appProposeTask": "New card “{title}” on board {board}.",
+  "appProposeComment": "Comment on {document}: {body}",
+  "appProposeEntity": "New entry “{name}” ({kind}).",
+  "appConfirm": "Apply",
+  "appOffline": "This app has not been opened on this device yet; it needs the network the first time.",
+  "appUnavailable": "The app cannot be opened (switched off, or no access).",
+  "appOfflineNote": "Offline: you see the app as last loaded; its storage changes are sent later."
 }

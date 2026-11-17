@@ -12,6 +12,7 @@ import flutter_secure_storage_darwin
 import mobile_scanner
 import record_darwin
 import url_launcher_macos
+import webview_flutter_wkwebview
 import window_to_front
 import flutter_web_auth_2
 
@@ -23,6 +24,7 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   MobileScannerPlugin.register(with: registry.registrar(forPlugin: "MobileScannerPlugin"))
   RecordDarwinPlugin.register(with: registry.registrar(forPlugin: "RecordDarwinPlugin"))
   UrlLauncherPlugin.register(with: registry.registrar(forPlugin: "UrlLauncherPlugin"))
+  WebViewFlutterPlugin.register(with: registry.registrar(forPlugin: "WebViewFlutterPlugin"))
   WindowToFrontPlugin.register(with: registry.registrar(forPlugin: "WindowToFrontPlugin"))
   FlutterWebAuth2Plugin.register(with: registry.registrar(forPlugin: "FlutterWebAuth2Plugin"))
 }

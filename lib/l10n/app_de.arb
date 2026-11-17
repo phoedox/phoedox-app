@@ -152,5 +152,19 @@
   "voiceMicContinue": "Weiter",
   "signInBrowser": "Im Browser anmelden",
   "signInBrowserHint": "Du meldest dich auf der Seite deiner Instanz an (auch mit Passkey oder SSO) und erlaubst der App den Zugriff. Sie bekommt ein eigenes Token, das du unter API-Tokens widerrufen kannst.",
-  "signInWithToken": "Stattdessen mit API-Token verbinden"
+  "signInWithToken": "Stattdessen mit API-Token verbinden",
+  "appAccessTitle": "Diese App bittet um Zugriff",
+  "appLevel1": "Sie möchte die Projektdaten lesen, die ihr Autor angegeben hat (z. B. Einträge oder ein Board). Deine Anmeldung sieht sie nie.",
+  "appLevel2": "Sie möchte die angegebenen Projektdaten lesen und eigene Daten speichern (gemeinsam oder nur für dich).",
+  "appLevel3": "Sie möchte Projektdaten lesen, eigene Daten speichern und Änderungen vorschlagen – jede Änderung fragt dich vorher.",
+  "appAllow": "Erlauben",
+  "appNotNow": "Nicht jetzt",
+  "appProposeTitle": "Die App schlägt eine Änderung vor",
+  "appProposeTask": "Neue Karte „{title}“ auf Board {board}.",
+  "appProposeComment": "Kommentar zu {document}: {body}",
+  "appProposeEntity": "Neuer Eintrag „{name}“ ({kind}).",
+  "appConfirm": "Übernehmen",
+  "appOffline": "Diese App wurde auf diesem Gerät noch nicht geöffnet; beim ersten Mal braucht sie das Netz.",
+  "appUnavailable": "Die App lässt sich nicht öffnen (ausgeschaltet oder kein Zugriff).",
+  "appOfflineNote": "Offline: Du siehst die App wie zuletzt geladen; ihre Speicheränderungen werden später gesendet."
 }

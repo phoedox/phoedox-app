@@ -316,4 +316,58 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get signInWithToken => 'Stattdessen mit API-Token verbinden';
+
+  @override
+  String get appAccessTitle => 'Diese App bittet um Zugriff';
+
+  @override
+  String get appLevel1 =>
+      'Sie möchte die Projektdaten lesen, die ihr Autor angegeben hat (z. B. Einträge oder ein Board). Deine Anmeldung sieht sie nie.';
+
+  @override
+  String get appLevel2 =>
+      'Sie möchte die angegebenen Projektdaten lesen und eigene Daten speichern (gemeinsam oder nur für dich).';
+
+  @override
+  String get appLevel3 =>
+      'Sie möchte Projektdaten lesen, eigene Daten speichern und Änderungen vorschlagen – jede Änderung fragt dich vorher.';
+
+  @override
+  String get appAllow => 'Erlauben';
+
+  @override
+  String get appNotNow => 'Nicht jetzt';
+
+  @override
+  String get appProposeTitle => 'Die App schlägt eine Änderung vor';
+
+  @override
+  String appProposeTask(Object board, Object title) {
+    return 'Neue Karte „$title“ auf Board $board.';
+  }
+
+  @override
+  String appProposeComment(Object body, Object document) {
+    return 'Kommentar zu $document: $body';
+  }
+
+  @override
+  String appProposeEntity(Object kind, Object name) {
+    return 'Neuer Eintrag „$name“ ($kind).';
+  }
+
+  @override
+  String get appConfirm => 'Übernehmen';
+
+  @override
+  String get appOffline =>
+      'Diese App wurde auf diesem Gerät noch nicht geöffnet; beim ersten Mal braucht sie das Netz.';
+
+  @override
+  String get appUnavailable =>
+      'Die App lässt sich nicht öffnen (ausgeschaltet oder kein Zugriff).';
+
+  @override
+  String get appOfflineNote =>
+      'Offline: Du siehst die App wie zuletzt geladen; ihre Speicheränderungen werden später gesendet.';
 }
