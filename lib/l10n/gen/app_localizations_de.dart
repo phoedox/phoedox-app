@@ -572,4 +572,30 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get quizWrong => 'falsch';
+
+  @override
+  String get mindmapExpandAll => 'Alles aufklappen';
+
+  @override
+  String get ganttDone => 'erledigt';
+
+  @override
+  String get ganttToday => 'heute';
+
+  @override
+  String get beforeAfterBefore => 'Vorher';
+
+  @override
+  String get beforeAfterAfter => 'Nachher';
+
+  @override
+  String get beforeAfterMissing => 'Es fehlen noch Fotos.';
+
+  @override
+  String beforeAfterValue(int n, String before) {
+    return '$n % $before';
+  }
+
+  @override
+  String get annotateNoImage => 'Noch kein Bild.';
 }

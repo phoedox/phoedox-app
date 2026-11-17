@@ -279,5 +279,23 @@
   "quizKnew": "Gewusst",
   "quizMissed": "Nicht gewusst",
   "quizRight": "richtig",
-  "quizWrong": "falsch"
+  "quizWrong": "falsch",
+  "mindmapExpandAll": "Alles aufklappen",
+  "ganttDone": "erledigt",
+  "ganttToday": "heute",
+  "beforeAfterBefore": "Vorher",
+  "beforeAfterAfter": "Nachher",
+  "beforeAfterMissing": "Es fehlen noch Fotos.",
+  "beforeAfterValue": "{n} % {before}",
+  "@beforeAfterValue": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "before": {
+        "type": "String"
+      }
+    }
+  },
+  "annotateNoImage": "Noch kein Bild."
 }

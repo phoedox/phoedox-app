@@ -3,6 +3,8 @@ import 'package:material_ui/material_ui.dart';
 import '../charts/chart.dart';
 import 'interactive.dart';
 import 'interactive_views.dart';
+import 'picture_views.dart';
+import 'pictures.dart';
 
 /// Where a block is shown: its project and page (or whiteboard) and, on
 /// whiteboards, the element id as the key of its per-reader state.
@@ -101,6 +103,26 @@ final Map<String, BlockKind> blockKinds = {
     view: (src, ctx) => CalcView(calc: Calc.parse(src), ctx: ctx),
     paint: (canvas, r, src, style) =>
         paintCalc(canvas, r, Calc.parse(src), style),
+  ),
+  'mindmap': BlockKind(
+    view: (src, _) => MindmapView(root: parseMindmap(src)),
+    paint: (canvas, r, src, style) =>
+        paintMindmap(canvas, r, parseMindmap(src), style),
+  ),
+  'gantt': BlockKind(
+    view: (src, ctx) => GanttView(gantt: Gantt.parse(src), ctx: ctx),
+    paint: (canvas, r, src, style) =>
+        paintGantt(canvas, r, Gantt.parse(src), style),
+  ),
+  'beforeafter': BlockKind(
+    view: (src, _) => BeforeAfterView(m: BeforeAfter.parse(src)),
+    paint: (canvas, r, src, style) =>
+        paintBeforeAfter(canvas, r, BeforeAfter.parse(src), style),
+  ),
+  'annotate': BlockKind(
+    view: (src, ctx) => AnnotatedView(m: Annotated.parse(src), ctx: ctx),
+    paint: (canvas, r, src, style) =>
+        paintAnnotated(canvas, r, Annotated.parse(src), style),
   ),
   'quiz': BlockKind(
     view: (src, ctx) => QuizView(quiz: Quiz.parse(src), ctx: ctx, source: src),

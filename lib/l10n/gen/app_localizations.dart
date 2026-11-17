@@ -1069,6 +1069,54 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'falsch'**
   String get quizWrong;
+
+  /// No description provided for @mindmapExpandAll.
+  ///
+  /// In de, this message translates to:
+  /// **'Alles aufklappen'**
+  String get mindmapExpandAll;
+
+  /// No description provided for @ganttDone.
+  ///
+  /// In de, this message translates to:
+  /// **'erledigt'**
+  String get ganttDone;
+
+  /// No description provided for @ganttToday.
+  ///
+  /// In de, this message translates to:
+  /// **'heute'**
+  String get ganttToday;
+
+  /// No description provided for @beforeAfterBefore.
+  ///
+  /// In de, this message translates to:
+  /// **'Vorher'**
+  String get beforeAfterBefore;
+
+  /// No description provided for @beforeAfterAfter.
+  ///
+  /// In de, this message translates to:
+  /// **'Nachher'**
+  String get beforeAfterAfter;
+
+  /// No description provided for @beforeAfterMissing.
+  ///
+  /// In de, this message translates to:
+  /// **'Es fehlen noch Fotos.'**
+  String get beforeAfterMissing;
+
+  /// No description provided for @beforeAfterValue.
+  ///
+  /// In de, this message translates to:
+  /// **'{n} % {before}'**
+  String beforeAfterValue(int n, String before);
+
+  /// No description provided for @annotateNoImage.
+  ///
+  /// In de, this message translates to:
+  /// **'Noch kein Bild.'**
+  String get annotateNoImage;
 }
 
 class _AppLocalizationsDelegate

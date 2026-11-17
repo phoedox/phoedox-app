@@ -217,5 +217,13 @@
   "quizKnew": "Knew it",
   "quizMissed": "Didn't know",
   "quizRight": "right",
-  "quizWrong": "wrong"
+  "quizWrong": "wrong",
+  "mindmapExpandAll": "Expand all",
+  "ganttDone": "done",
+  "ganttToday": "today",
+  "beforeAfterBefore": "Before",
+  "beforeAfterAfter": "After",
+  "beforeAfterMissing": "Photos are still missing.",
+  "beforeAfterValue": "{n} % {before}",
+  "annotateNoImage": "No image yet."
 }

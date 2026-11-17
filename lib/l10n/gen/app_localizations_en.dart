@@ -568,4 +568,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quizWrong => 'wrong';
+
+  @override
+  String get mindmapExpandAll => 'Expand all';
+
+  @override
+  String get ganttDone => 'done';
+
+  @override
+  String get ganttToday => 'today';
+
+  @override
+  String get beforeAfterBefore => 'Before';
+
+  @override
+  String get beforeAfterAfter => 'After';
+
+  @override
+  String get beforeAfterMissing => 'Photos are still missing.';
+
+  @override
+  String beforeAfterValue(int n, String before) {
+    return '$n % $before';
+  }
+
+  @override
+  String get annotateNoImage => 'No image yet.';
 }
