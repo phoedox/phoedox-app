@@ -817,6 +817,84 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'Offline: Du spielst den Prototyp, wie er zuletzt geladen wurde.'**
   String get protoOfflineNote;
+
+  /// No description provided for @appDeviceCamera.
+  ///
+  /// In de, this message translates to:
+  /// **'die Kamera'**
+  String get appDeviceCamera;
+
+  /// No description provided for @appDeviceMicrophone.
+  ///
+  /// In de, this message translates to:
+  /// **'das Mikrofon'**
+  String get appDeviceMicrophone;
+
+  /// No description provided for @appDeviceLocation.
+  ///
+  /// In de, this message translates to:
+  /// **'deinen Standort'**
+  String get appDeviceLocation;
+
+  /// No description provided for @appDeviceMotion.
+  ///
+  /// In de, this message translates to:
+  /// **'die Bewegungssensoren'**
+  String get appDeviceMotion;
+
+  /// No description provided for @appDeviceTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Darf diese App {what} verwenden?'**
+  String appDeviceTitle(String what);
+
+  /// No description provided for @appDeviceBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Nur diese App, nur für dich. Du kannst es später in den Berechtigungen der App in Phoedox ändern; dein Telefon fragt eventuell zusätzlich.'**
+  String get appDeviceBody;
+
+  /// No description provided for @appDeviceDeny.
+  ///
+  /// In de, this message translates to:
+  /// **'Nicht erlauben'**
+  String get appDeviceDeny;
+
+  /// No description provided for @appDownloadTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Datei aus der App speichern?'**
+  String get appDownloadTitle;
+
+  /// No description provided for @appDownloadBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Die App gibt dir „{name}“ ({kb} KB).'**
+  String appDownloadBody(String name, int kb);
+
+  /// No description provided for @appDownloadSave.
+  ///
+  /// In de, this message translates to:
+  /// **'Speichern oder teilen'**
+  String get appDownloadSave;
+
+  /// No description provided for @appSelfSaveTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Änderungen der App speichern?'**
+  String get appSelfSaveTitle;
+
+  /// No description provided for @appSelfSaveBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Die App möchte ihre eigenen Dateien ändern ({files}). Das ergibt eine neue Version für alle.'**
+  String appSelfSaveBody(String files);
+
+  /// No description provided for @appSelfSaveConfirm.
+  ///
+  /// In de, this message translates to:
+  /// **'Neue Version speichern'**
+  String get appSelfSaveConfirm;
 }
 
 class _AppLocalizationsDelegate

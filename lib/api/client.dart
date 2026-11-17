@@ -142,4 +142,70 @@ class PhxClient {
     if (res.statusCode >= 400) throw _error(res);
     return jsonDecode(utf8.decode(res.bodyBytes)) as Map<String, dynamic>;
   }
+
+  /// Sends raw bytes (e.g. a file people add in an app) and returns the JSON
+  /// answer.
+  Future<dynamic> sendBytes(String method, String path, List<int> bytes,
+      {String contentType = 'application/octet-stream',
+      Map<String, String>? query}) async {
+    var u = url(path);
+    if (query != null && query.isNotEmpty) {
+      u = u.replace(queryParameters: query);
+    }
+    final req = http.Request(method, u)
+      ..headers.addAll({..._headers, 'Content-Type': contentType})
+      ..bodyBytes = bytes;
+    final http.Response res;
+    try {
+      res = await http.Response.fromStream(
+          await _http.send(req).timeout(const Duration(minutes: 2)));
+    } catch (_) {
+      throw OfflineException();
+    }
+    if (res.statusCode >= 400) throw _error(res);
+    return res.body.isEmpty ? null : jsonDecode(utf8.decode(res.bodyBytes));
+  }
+
+  /// GETs raw bytes with their content type.
+  Future<(List<int>, String)> getBytes(String path) async {
+    final http.Response res;
+    try {
+      res = await _http.get(url(path), headers: {
+        ..._headers,
+        'Accept': '*/*'
+      }).timeout(const Duration(minutes: 2));
+    } catch (_) {
+      throw OfflineException();
+    }
+    if (res.statusCode >= 400) throw _error(res);
+    return (
+      res.bodyBytes as List<int>,
+      res.headers['content-type'] ?? 'application/octet-stream'
+    );
+  }
+
+  /// Follows a server-sent event stream (text/event-stream) and yields the
+  /// data of each event named [event]. Ends when the connection ends.
+  Stream<String> events(String path, {String event = 'change'}) async* {
+    final req = http.Request('GET', url(path))
+      ..headers.addAll({..._headers, 'Accept': 'text/event-stream'});
+    final res = await _http.send(req);
+    if (res.statusCode >= 400) {
+      throw ApiException(res.statusCode, 'error.unknown');
+    }
+    var name = 'message';
+    final data = <String>[];
+    await for (final line
+        in res.stream.transform(utf8.decoder).transform(const LineSplitter())) {
+      if (line.isEmpty) {
+        if (name == event && data.isNotEmpty) yield data.join('\n');
+        name = 'message';
+        data.clear();
+      } else if (line.startsWith('event:')) {
+        name = line.substring(6).trim();
+      } else if (line.startsWith('data:')) {
+        data.add(line.substring(5).trimLeft());
+      }
+    }
+  }
 }

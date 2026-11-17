@@ -175,5 +175,18 @@
   "protoPlay": "Play",
   "protoOffline": "This prototype has not been played on this device yet; the first time it needs the network.",
   "protoUnavailable": "The prototype cannot be opened.",
-  "protoOfflineNote": "Offline: you are playing the prototype as it was last loaded."
+  "protoOfflineNote": "Offline: you are playing the prototype as it was last loaded.",
+  "appDeviceCamera": "the camera",
+  "appDeviceMicrophone": "the microphone",
+  "appDeviceLocation": "your location",
+  "appDeviceMotion": "the motion sensors",
+  "appDeviceTitle": "Allow this app to use {what}?",
+  "appDeviceBody": "Only this app, only for you. You can change it later in the app's permissions in Phoedox; your phone may ask as well.",
+  "appDeviceDeny": "Don't allow",
+  "appDownloadTitle": "Save a file from the app?",
+  "appDownloadBody": "The app gives you “{name}” ({kb} KB).",
+  "appDownloadSave": "Save or share",
+  "appSelfSaveTitle": "Save the app's changes?",
+  "appSelfSaveBody": "The app wants to change its own files ({files}). This makes a new version for everyone.",
+  "appSelfSaveConfirm": "Save new version"
 }

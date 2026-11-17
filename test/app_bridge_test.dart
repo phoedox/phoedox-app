@@ -114,4 +114,175 @@ void main() {
     expect((await call('ai', {'prompt': 'x'}))['code'], 'ai_unavailable');
     expect((await call('nope'))['code'], 'unknown');
   });
+
+  test('collections, files, downloads, devices one by one and self-editing',
+      () async {
+    final calls = <String>[];
+    final grants = <String, bool>{'motion': false};
+    final mock = MockClient((req) async {
+      final p =
+          req.url.path.replaceFirst('/api/v1/projects/haus/apps/poll', '');
+      calls.add('${req.method} $p');
+      switch ('${req.method} $p') {
+        case 'GET /me':
+          return http.Response('{"id":"u1","name":"Ann","editor":true}', 200);
+        case 'POST /db/votes':
+          final b = jsonDecode(req.body) as Map;
+          return http.Response(
+              jsonEncode({'id': 'r1', 'data': b['data'], 'mine': true}), 201);
+        case 'POST /db/votes/query':
+          expect((jsonDecode(req.body) as Map)['limit'], 5);
+          return http.Response('[{"id":"r1","data":{"c":"pizza"}}]', 200);
+        case 'PUT /db/votes/r1':
+          expect((jsonDecode(req.body) as Map)['merge'], true);
+          return http.Response('{"id":"r1"}', 200);
+        case 'POST /uploads':
+          expect(req.url.queryParameters['name'], 'a.txt');
+          expect(req.headers['content-type'], 'text/plain');
+          expect(utf8.decode(req.bodyBytes), 'hello');
+          return http.Response('{"id":"f1","name":"a.txt"}', 201);
+        case 'GET /uploads/f1':
+          return http.Response('hello', 200,
+              headers: {'content-type': 'text/plain'});
+        case 'PUT /self':
+          return http.Response('{"document":{"version":2}}', 200);
+      }
+      if (req.method == 'PUT' && p.startsWith('/devices/')) {
+        grants[p.substring(9)] = (jsonDecode(req.body) as Map)['allowed'];
+        return http.Response(jsonEncode(grants), 200);
+      }
+      return http.Response('{"key":"error.not_found"}', 404);
+    });
+    final client = PhxClient(
+        base: Uri.parse('https://app.example.org'),
+        token: 't',
+        httpClient: mock);
+    final asked = <String>[];
+    var allow = true, confirmDl = false, watching = 0, motion = 0;
+    final saved = <String, List<int>>{};
+    List<String>? selfFiles;
+    final b = AppBridge(
+      client: client,
+      project: 'haus',
+      doc: 'poll',
+      info: AppFrameInfo.fromJson({
+        'url': '/app-frame/x/',
+        'level': 2,
+        'maxLevel': 2,
+        'granted': 2,
+        'sources': [],
+        'devices': ['camera', 'location', 'screen', 'motion'],
+        'deviceGrants': {'motion': false},
+        'selfEdit': true,
+        'canEdit': true,
+      }),
+      askLevel: (want) async => want,
+      confirm: (_) async => true,
+      open: (_) {},
+      host: AppHost(
+        askDevice: (f) async {
+          asked.add(f);
+          return allow;
+        },
+        confirmDownload: (name, size) async => confirmDl,
+        saveFile: (name, bytes, type) async => saved[name] = bytes,
+        confirmSelfSave: (files) async {
+          selfFiles = files;
+          return true;
+        },
+        location: () async => {'lat': 52.5, 'lng': 13.4, 'accuracy': 10},
+        startMotion: () => motion++,
+        startWatch: () => watching++,
+      ),
+    );
+    Future<Map<String, dynamic>> call(String op,
+            [Map<String, dynamic>? args]) =>
+        b.handle({'phx': 1, 'id': 1, 'op': op, 'args': args ?? {}});
+
+    expect((await call('me'))['result']['name'], 'Ann');
+    expect((await call('info'))['result']['selfEdit'], true);
+    // Collections
+    expect(
+        (await call('db.add', {
+          'collection': 'votes',
+          'data': {'c': 'pizza'}
+        }))['result']['id'],
+        'r1');
+    expect(
+        (await call('db.query', {
+          'collection': 'votes',
+          'query': {'limit': 5}
+        }))['result'],
+        hasLength(1));
+    await call('db.put', {
+      'collection': 'votes',
+      'id': 'r1',
+      'data': {'c': null},
+      'merge': true
+    });
+    await call('db.watch', {'collection': 'votes'});
+    expect(watching, 1);
+    // Files travel as base64 over the text channel.
+    expect(
+        (await call('files.upload', {
+          'file': {
+            'base64': base64Encode(utf8.encode('hello')),
+            'type': 'text/plain'
+          },
+          'name': 'a.txt'
+        }))['result']['id'],
+        'f1');
+    final got = (await call('files.get', {'id': 'f1'}))['result'] as Map;
+    expect(utf8.decode(base64Decode(got['base64'] as String)), 'hello');
+    // Downloads need the person's yes.
+    expect((await call('download', {'name': 'a/b.csv', 'data': 'x,y'}))['code'],
+        'cancelled');
+    confirmDl = true;
+    expect(
+        (await call('download', {'name': 'a/b.csv', 'data': 'x,y'}))['result'],
+        true);
+    expect(utf8.decode(saved['a_b.csv']!), 'x,y');
+    // Devices: each feature asked separately and once; only listed ones.
+    expect((await call('device.status'))['result'],
+        {'camera': null, 'location': null, 'screen': null, 'motion': false});
+    expect(
+        (await call('device.request', {'feature': 'camera'}))['result'], true);
+    expect(
+        (await call('device.request', {'feature': 'camera'}))['result'], true);
+    expect(asked, ['camera']);
+    expect((await call('device.request', {'feature': 'microphone'}))['code'],
+        'not_allowed');
+    expect((await call('device.request', {'feature': 'screen'}))['code'],
+        'not_supported');
+    expect(
+        (await call('device.motion'))['code'], 'not_allowed'); // said no before
+    expect(motion, 0);
+    allow = false;
+    expect((await call('device.location'))['code'], 'not_allowed');
+    expect(asked, ['camera', 'location']);
+    expect(b.info.deviceGrants,
+        {'motion': false, 'camera': true, 'location': false});
+    // Self-editing asks first.
+    final r = await call('self.save', {
+      'files': {'index.html': '<h1>v2</h1>'}
+    });
+    expect(r['result']['document']['version'], 2);
+    expect(selfFiles, ['index.html']);
+  });
+
+  test('server-sent events are read by name', () async {
+    final mock = MockClient.streaming((req, _) async => http.StreamedResponse(
+        Stream.fromIterable([
+          utf8.encode('retry: 5000\n\n: ping\n\n'),
+          utf8.encode('event: change\ndata: {"id":"r1",'),
+          utf8.encode('"kind":"add"}\n\nevent: other\ndata: x\n\n'),
+        ]),
+        200,
+        headers: {'content-type': 'text/event-stream'}));
+    final client = PhxClient(
+        base: Uri.parse('https://app.example.org'),
+        token: 't',
+        httpClient: mock);
+    expect(await client.events('/x').toList(), ['{"id":"r1","kind":"add"}']);
+  });
 }

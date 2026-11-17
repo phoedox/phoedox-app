@@ -182,5 +182,42 @@
   "protoPlay": "Abspielen",
   "protoOffline": "Dieser Prototyp wurde auf diesem Gerät noch nicht abgespielt; beim ersten Mal braucht er das Netz.",
   "protoUnavailable": "Der Prototyp lässt sich nicht öffnen.",
-  "protoOfflineNote": "Offline: Du spielst den Prototyp, wie er zuletzt geladen wurde."
+  "protoOfflineNote": "Offline: Du spielst den Prototyp, wie er zuletzt geladen wurde.",
+  "appDeviceCamera": "die Kamera",
+  "appDeviceMicrophone": "das Mikrofon",
+  "appDeviceLocation": "deinen Standort",
+  "appDeviceMotion": "die Bewegungssensoren",
+  "appDeviceTitle": "Darf diese App {what} verwenden?",
+  "@appDeviceTitle": {
+    "placeholders": {
+      "what": {
+        "type": "String"
+      }
+    }
+  },
+  "appDeviceBody": "Nur diese App, nur für dich. Du kannst es später in den Berechtigungen der App in Phoedox ändern; dein Telefon fragt eventuell zusätzlich.",
+  "appDeviceDeny": "Nicht erlauben",
+  "appDownloadTitle": "Datei aus der App speichern?",
+  "appDownloadBody": "Die App gibt dir „{name}“ ({kb} KB).",
+  "@appDownloadBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "kb": {
+        "type": "int"
+      }
+    }
+  },
+  "appDownloadSave": "Speichern oder teilen",
+  "appSelfSaveTitle": "Änderungen der App speichern?",
+  "appSelfSaveBody": "Die App möchte ihre eigenen Dateien ändern ({files}). Das ergibt eine neue Version für alle.",
+  "@appSelfSaveBody": {
+    "placeholders": {
+      "files": {
+        "type": "String"
+      }
+    }
+  },
+  "appSelfSaveConfirm": "Neue Version speichern"
 }

@@ -20,6 +20,7 @@ dependencies:
   flutter_riverpod: ^3.5.0
   flutter_secure_storage: ^11.2.0
   flutter_web_auth_2: ^5.1.0
+  geolocator: ^14.1.2
   hooks: ^2.2.0
   http: ^1.6.0
   image_picker: ^1.2.4
@@ -31,7 +32,10 @@ dependencies:
   nfc_manager: ^4.3.0
   nfc_manager_ndef: ^1.1.0
   path_provider: ^2.1.6
+  permission_handler: ^13.0.2
   record: ^7.2.0
+  sensors_plus: ^7.1.1
+  share_plus: ^13.3.1
   url_launcher: ^6.3.3
   webview_flutter: ^4.14.1
 

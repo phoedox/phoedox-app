@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationUsageDescription</key>
+	<string>Apps in Phoedox fragen nach deinem Standort, wenn du es für die jeweilige App erlaubt hast.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Apps in Phoedox fragen nach deinem Standort, wenn du es für die jeweilige App erlaubt hast.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Phoedox scannt QR-Etiketten an Dosen und Geräten.</string>
 	<key>NSMicrophoneUsageDescription</key>

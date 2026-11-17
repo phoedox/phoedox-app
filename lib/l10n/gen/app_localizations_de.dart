@@ -421,4 +421,50 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get protoOfflineNote =>
       'Offline: Du spielst den Prototyp, wie er zuletzt geladen wurde.';
+
+  @override
+  String get appDeviceCamera => 'die Kamera';
+
+  @override
+  String get appDeviceMicrophone => 'das Mikrofon';
+
+  @override
+  String get appDeviceLocation => 'deinen Standort';
+
+  @override
+  String get appDeviceMotion => 'die Bewegungssensoren';
+
+  @override
+  String appDeviceTitle(String what) {
+    return 'Darf diese App $what verwenden?';
+  }
+
+  @override
+  String get appDeviceBody =>
+      'Nur diese App, nur für dich. Du kannst es später in den Berechtigungen der App in Phoedox ändern; dein Telefon fragt eventuell zusätzlich.';
+
+  @override
+  String get appDeviceDeny => 'Nicht erlauben';
+
+  @override
+  String get appDownloadTitle => 'Datei aus der App speichern?';
+
+  @override
+  String appDownloadBody(String name, int kb) {
+    return 'Die App gibt dir „$name“ ($kb KB).';
+  }
+
+  @override
+  String get appDownloadSave => 'Speichern oder teilen';
+
+  @override
+  String get appSelfSaveTitle => 'Änderungen der App speichern?';
+
+  @override
+  String appSelfSaveBody(String files) {
+    return 'Die App möchte ihre eigenen Dateien ändern ($files). Das ergibt eine neue Version für alle.';
+  }
+
+  @override
+  String get appSelfSaveConfirm => 'Neue Version speichern';
 }

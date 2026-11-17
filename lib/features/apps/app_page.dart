@@ -1,11 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:sensors_plus/sensors_plus.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -42,6 +48,21 @@ class _AppBodyState extends ConsumerState<AppBody> {
   AppBridge? _bridge;
   String? _error;
   bool _offline = false;
+  StreamSubscription<String>? _watch;
+  StreamSubscription<AccelerometerEvent>? _acc;
+  StreamSubscription<GyroscopeEvent>? _gyro;
+  GyroscopeEvent? _lastGyro;
+  DateTime _motionAt = DateTime.fromMillisecondsSinceEpoch(0);
+  bool _disposed = false;
+
+  @override
+  void dispose() {
+    _disposed = true;
+    _watch?.cancel();
+    _acc?.cancel();
+    _gyro?.cancel();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -66,9 +87,22 @@ class _AppBodyState extends ConsumerState<AppBody> {
     final base =
         '/projects/${widget.project}/apps/${Uri.encodeComponent(widget.doc)}';
     try {
-      final r = await client.get('$base/open');
-      final info =
-          AppFrameInfo.fromJson(Map<String, dynamic>.from(r.data as Map));
+      // POST /open (the frame's address and what the person allowed); kept
+      // for offline use.
+      final openKey = 'appopen:${client.base.host}$base';
+      Map<String, dynamic> data;
+      var offline = false;
+      try {
+        data = Map<String, dynamic>.from(
+            await client.send('POST', '$base/open') as Map);
+        await cache.put(openKey, jsonEncode(data));
+      } on OfflineException {
+        final c = await cache.get(openKey);
+        if (c == null) rethrow;
+        data = Map<String, dynamic>.from(jsonDecode(c) as Map);
+        offline = true;
+      }
+      final info = AppFrameInfo.fromJson(data);
       final frame = client.base.resolve(info.url);
       _bridge = AppBridge(
           client: client,
@@ -78,9 +112,19 @@ class _AppBodyState extends ConsumerState<AppBody> {
           askLevel: _askLevel,
           confirm: _confirm,
           open: _open,
+          host: AppHost(
+              askDevice: _askDevice,
+              confirmDownload: _confirmDownload,
+              saveFile: _saveFile,
+              confirmSelfSave: _confirmSelfSave,
+              location: _location,
+              startMotion: _startMotion,
+              startWatch: () => _startWatch(client, base)),
           outbox: outbox,
           cache: cache);
-      final web = WebViewController()
+      // Camera and microphone reach the app only for features the person
+      // allowed in Phoedox; the phone asks as well.
+      final web = WebViewController(onPermissionRequest: _onPermission)
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
         ..addJavaScriptChannel('PhoedoxBridge',
             onMessageReceived: (m) => _onCall(m.message))
@@ -96,7 +140,7 @@ class _AppBodyState extends ConsumerState<AppBody> {
           return NavigationDecision.prevent;
         }));
       final cacheKey = 'appframe:${client.base.host}$base';
-      if (r.offline) {
+      if (offline) {
         // Offline: the page as it was last seen.
         final html = await cache.get(cacheKey);
         if (html == null) throw OfflineException();
@@ -165,6 +209,200 @@ class _AppBodyState extends ConsumerState<AppBody> {
     final js = jsonEncode(jsonEncode(msg));
     _web?.runJavaScript(
         "window.dispatchEvent(new MessageEvent('message', {data: JSON.parse($js), source: window}));");
+  }
+
+  void _onPermission(WebViewPermissionRequest req) {
+    final info = _bridge?.info;
+    final wanted = req.types.map((t) => switch (t) {
+          WebViewPermissionResourceType.camera => 'camera',
+          WebViewPermissionResourceType.microphone => 'microphone',
+          _ => '',
+        });
+    final allowed = info != null &&
+        wanted.isNotEmpty &&
+        wanted.every((f) =>
+            f.isNotEmpty &&
+            info.devices.contains(f) &&
+            info.deviceGrants[f] == true);
+    if (!allowed) {
+      req.deny();
+      return;
+    }
+    if (!Platform.isAndroid) {
+      req.grant(); // iOS and macOS ask the person themselves
+      return;
+    }
+    // Android: the WebView gets the camera or microphone only when the app
+    // has the permission; ask for it now (after the person agreed in Phoedox).
+    final perms = [
+      if (wanted.contains('camera')) Permission.camera,
+      if (wanted.contains('microphone')) Permission.microphone,
+    ];
+    () async {
+      try {
+        final r = await perms.request();
+        r.values.every((s) => s.isGranted) ? req.grant() : req.deny();
+      } catch (_) {
+        req.deny();
+      }
+    }();
+  }
+
+  /// Follows changes of the app's records (others' writes) and passes them
+  /// to the app; reconnects while the page is open.
+  void _startWatch(PhxClient client, String base) {
+    if (_watch != null) return;
+    void connect() {
+      _watch = client.events('$base/events').listen(
+          (data) {
+            try {
+              _send({'phx': 1, 'event': 'db', 'change': jsonDecode(data)});
+            } catch (_) {}
+          },
+          onError: (_) {},
+          onDone: () {
+            if (_disposed) return;
+            Future.delayed(const Duration(seconds: 5), () {
+              if (!_disposed) connect();
+            });
+          },
+          cancelOnError: true);
+    }
+
+    connect();
+  }
+
+  void _startMotion() {
+    if (_acc != null) return;
+    const deg = 57.29577951308232;
+    _gyro =
+        gyroscopeEventStream().listen((e) => _lastGyro = e, onError: (_) {});
+    _acc = accelerometerEventStream().listen((e) {
+      final now = DateTime.now();
+      if (now.difference(_motionAt).inMilliseconds < 100) return;
+      _motionAt = now;
+      final g = _lastGyro;
+      // Like the browser's devicemotion: acceleration with gravity (m/s²),
+      // rotation rate in degrees per second.
+      _send({
+        'phx': 1,
+        'event': 'motion',
+        'motion': {
+          'x': e.x,
+          'y': e.y,
+          'z': e.z,
+          'alpha': g == null ? null : g.z * deg,
+          'beta': g == null ? null : g.x * deg,
+          'gamma': g == null ? null : g.y * deg,
+        }
+      });
+    }, onError: (_) {});
+  }
+
+  Future<Map<String, dynamic>> _location() async {
+    if (!await Geolocator.isLocationServiceEnabled()) {
+      throw BridgeError('location_off');
+    }
+    var perm = await Geolocator.checkPermission();
+    if (perm == LocationPermission.denied) {
+      perm = await Geolocator.requestPermission();
+    }
+    if (perm == LocationPermission.denied ||
+        perm == LocationPermission.deniedForever) {
+      throw BridgeError('not_allowed');
+    }
+    final p = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+            accuracy: LocationAccuracy.high, timeLimit: Duration(seconds: 20)));
+    return {
+      'lat': p.latitude,
+      'lng': p.longitude,
+      'accuracy': p.accuracy,
+      'at': p.timestamp.millisecondsSinceEpoch
+    };
+  }
+
+  /// Asks for one device feature; each one is asked separately.
+  Future<bool> _askDevice(String feature) async {
+    final t = AppLocalizations.of(context);
+    final (icon, what) = switch (feature) {
+      'camera' => (LucideIcons.camera, t.appDeviceCamera),
+      'microphone' => (LucideIcons.mic, t.appDeviceMicrophone),
+      'location' => (LucideIcons.mapPin, t.appDeviceLocation),
+      _ => (LucideIcons.smartphone, t.appDeviceMotion),
+    };
+    final ok = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (c) => AlertDialog(
+        icon: Icon(icon),
+        title: Text(t.appDeviceTitle(what)),
+        content: Text(t.appDeviceBody),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(c, false),
+              child: Text(t.appDeviceDeny)),
+          FilledButton(
+              onPressed: () => Navigator.pop(c, true), child: Text(t.appAllow)),
+        ],
+      ),
+    );
+    return ok == true;
+  }
+
+  Future<bool> _confirmDownload(String name, int size) async {
+    final t = AppLocalizations.of(context);
+    final kb = (size / 1024).ceil();
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        icon: const Icon(LucideIcons.download),
+        title: Text(t.appDownloadTitle),
+        content: Text(t.appDownloadBody(name, kb)),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(c, false), child: Text(t.cancel)),
+          FilledButton(
+              onPressed: () => Navigator.pop(c, true),
+              child: Text(t.appDownloadSave)),
+        ],
+      ),
+    );
+    return ok == true;
+  }
+
+  /// Hands the file to the phone's share sheet (save to files, send, open).
+  Future<void> _saveFile(String name, List<int> bytes, String type) async {
+    final box = context.findRenderObject() as RenderBox?;
+    await SharePlus.instance.share(ShareParams(
+        files: [
+          XFile.fromData(Uint8List.fromList(bytes), mimeType: type, name: name)
+        ],
+        fileNameOverrides: [
+          name
+        ],
+        sharePositionOrigin:
+            box == null ? null : box.localToGlobal(Offset.zero) & box.size));
+  }
+
+  Future<bool> _confirmSelfSave(List<String> files) async {
+    final t = AppLocalizations.of(context);
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        icon: const Icon(LucideIcons.filePen),
+        title: Text(t.appSelfSaveTitle),
+        content: Text(t.appSelfSaveBody(files.join(', '))),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(c, false), child: Text(t.cancel)),
+          FilledButton(
+              onPressed: () => Navigator.pop(c, true),
+              child: Text(t.appSelfSaveConfirm)),
+        ],
+      ),
+    );
+    return ok == true;
   }
 
   Future<int> _askLevel(int wanted) async {

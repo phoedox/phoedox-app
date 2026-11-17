@@ -418,4 +418,50 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get protoOfflineNote =>
       'Offline: you are playing the prototype as it was last loaded.';
+
+  @override
+  String get appDeviceCamera => 'the camera';
+
+  @override
+  String get appDeviceMicrophone => 'the microphone';
+
+  @override
+  String get appDeviceLocation => 'your location';
+
+  @override
+  String get appDeviceMotion => 'the motion sensors';
+
+  @override
+  String appDeviceTitle(String what) {
+    return 'Allow this app to use $what?';
+  }
+
+  @override
+  String get appDeviceBody =>
+      'Only this app, only for you. You can change it later in the app\'s permissions in Phoedox; your phone may ask as well.';
+
+  @override
+  String get appDeviceDeny => 'Don\'t allow';
+
+  @override
+  String get appDownloadTitle => 'Save a file from the app?';
+
+  @override
+  String appDownloadBody(String name, int kb) {
+    return 'The app gives you “$name” ($kb KB).';
+  }
+
+  @override
+  String get appDownloadSave => 'Save or share';
+
+  @override
+  String get appSelfSaveTitle => 'Save the app\'s changes?';
+
+  @override
+  String appSelfSaveBody(String files) {
+    return 'The app wants to change its own files ($files). This makes a new version for everyone.';
+  }
+
+  @override
+  String get appSelfSaveConfirm => 'Save new version';
 }
