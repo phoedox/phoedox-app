@@ -594,4 +594,63 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get annotateNoImage => 'No image yet.';
+
+  @override
+  String get statusOk => 'OK';
+
+  @override
+  String get statusWarn => 'Warning';
+
+  @override
+  String get statusDown => 'Down';
+
+  @override
+  String get blockLoadFailed => 'Could not be loaded.';
+
+  @override
+  String treeMissing(String root) {
+    return 'There is no entry \"$root\".';
+  }
+
+  @override
+  String treeEmpty(String relation) {
+    return 'Nothing is linked to the root via \"$relation\". Are relation and direction right?';
+  }
+
+  @override
+  String rackMissing(String rack) {
+    return 'There is no entry \"$rack\".';
+  }
+
+  @override
+  String rackUnits(int units) {
+    return '$units U';
+  }
+
+  @override
+  String get rackConflict => 'Two devices use the same height units.';
+
+  @override
+  String rackUnplaced(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count devices without a position',
+      one: '1 device without a position',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get rackEmpty => 'No devices in this rack yet.';
+
+  @override
+  String floorplanMissing(String plan) {
+    return 'There is no floor plan \"$plan\".';
+  }
+
+  @override
+  String floorplanNoRoom(String room, String plan) {
+    return 'The floor plan \"$plan\" has no room \"$room\".';
+  }
 }

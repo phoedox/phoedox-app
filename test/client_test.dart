@@ -7,6 +7,14 @@ import 'package:phoedox/api/cache.dart';
 import 'package:phoedox/api/client.dart';
 
 void main() {
+  test('paths keep their query', () {
+    final c = PhxClient(base: Uri.parse('https://x.example/sub/'), token: 't');
+    final u = c.url('/projects/haus/status?e=nas&e=router');
+    expect(u.path, '/sub/api/v1/projects/haus/status');
+    expect(u.queryParametersAll['e'], ['nas', 'router']);
+    expect(c.url('/projects').query, '');
+  });
+
   test('falls back to the cache when offline', () async {
     final dir = await Directory.systemTemp.createTemp('phx');
     final cache = OfflineCache(dir);

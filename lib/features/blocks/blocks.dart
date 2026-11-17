@@ -3,6 +3,8 @@ import 'package:material_ui/material_ui.dart';
 import '../charts/chart.dart';
 import 'interactive.dart';
 import 'interactive_views.dart';
+import 'graph.dart';
+import 'graph_views.dart';
 import 'picture_views.dart';
 import 'pictures.dart';
 
@@ -123,6 +125,30 @@ final Map<String, BlockKind> blockKinds = {
     view: (src, ctx) => AnnotatedView(m: Annotated.parse(src), ctx: ctx),
     paint: (canvas, r, src, style) =>
         paintAnnotated(canvas, r, Annotated.parse(src), style),
+  ),
+  'tree': BlockKind(
+    view: (src, ctx) => TreeView(spec: TreeSpec.parse(src), ctx: ctx),
+    paint: (canvas, r, src, style) {
+      final t = TreeSpec.parse(src);
+      paintGraphSketch(canvas, r, t.title.isEmpty ? '@${t.root}' : t.title,
+          '@${t.root} · ${t.relation.isEmpty ? '*' : t.relation}', style);
+    },
+  ),
+  'rack': BlockKind(
+    view: (src, ctx) => RackView(spec: RackSpec.parse(src), ctx: ctx),
+    paint: (canvas, r, src, style) {
+      final t = RackSpec.parse(src);
+      paintGraphSketch(canvas, r, t.title.isEmpty ? '@${t.rack}' : t.title,
+          '@${t.rack}', style);
+    },
+  ),
+  'floorplan': BlockKind(
+    view: (src, ctx) => PlanView(spec: PlanSpec.parse(src), ctx: ctx),
+    paint: (canvas, r, src, style) {
+      final t = PlanSpec.parse(src);
+      paintGraphSketch(canvas, r, t.title.isEmpty ? t.plan : t.title,
+          [t.plan, if (t.room.isNotEmpty) t.room].join(' · '), style);
+    },
   ),
   'quiz': BlockKind(
     view: (src, ctx) => QuizView(quiz: Quiz.parse(src), ctx: ctx, source: src),

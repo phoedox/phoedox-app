@@ -297,5 +297,70 @@
       }
     }
   },
-  "annotateNoImage": "Noch kein Bild."
+  "annotateNoImage": "Noch kein Bild.",
+  "statusOk": "In Ordnung",
+  "statusWarn": "Warnung",
+  "statusDown": "Gestört",
+  "blockLoadFailed": "Konnte nicht geladen werden.",
+  "treeMissing": "Den Eintrag „{root}“ gibt es nicht.",
+  "@treeMissing": {
+    "placeholders": {
+      "root": {
+        "type": "String"
+      }
+    }
+  },
+  "treeEmpty": "Nichts hängt über „{relation}“ an der Wurzel. Stimmen Beziehung und Richtung?",
+  "@treeEmpty": {
+    "placeholders": {
+      "relation": {
+        "type": "String"
+      }
+    }
+  },
+  "rackMissing": "Den Eintrag „{rack}“ gibt es nicht.",
+  "@rackMissing": {
+    "placeholders": {
+      "rack": {
+        "type": "String"
+      }
+    }
+  },
+  "rackUnits": "{units} HE",
+  "@rackUnits": {
+    "placeholders": {
+      "units": {
+        "type": "int"
+      }
+    }
+  },
+  "rackConflict": "Zwei Geräte belegen dieselben Höheneinheiten.",
+  "rackUnplaced": "{count, plural, =1{1 Gerät ohne Position} other{{count} Geräte ohne Position}}",
+  "@rackUnplaced": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "rackEmpty": "Noch keine Geräte in diesem Schrank.",
+  "floorplanMissing": "Den Grundriss „{plan}“ gibt es nicht.",
+  "@floorplanMissing": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "floorplanNoRoom": "Im Grundriss „{plan}“ gibt es keinen Raum „{room}“.",
+  "@floorplanNoRoom": {
+    "placeholders": {
+      "room": {
+        "type": "String"
+      },
+      "plan": {
+        "type": "String"
+      }
+    }
+  }
 }

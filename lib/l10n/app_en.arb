@@ -225,5 +225,18 @@
   "beforeAfterAfter": "After",
   "beforeAfterMissing": "Photos are still missing.",
   "beforeAfterValue": "{n} % {before}",
-  "annotateNoImage": "No image yet."
+  "annotateNoImage": "No image yet.",
+  "statusOk": "OK",
+  "statusWarn": "Warning",
+  "statusDown": "Down",
+  "blockLoadFailed": "Could not be loaded.",
+  "treeMissing": "There is no entry \"{root}\".",
+  "treeEmpty": "Nothing is linked to the root via \"{relation}\". Are relation and direction right?",
+  "rackMissing": "There is no entry \"{rack}\".",
+  "rackUnits": "{units} U",
+  "rackConflict": "Two devices use the same height units.",
+  "rackUnplaced": "{count, plural, =1{1 device without a position} other{{count} devices without a position}}",
+  "rackEmpty": "No devices in this rack yet.",
+  "floorplanMissing": "There is no floor plan \"{plan}\".",
+  "floorplanNoRoom": "The floor plan \"{plan}\" has no room \"{room}\"."
 }

@@ -598,4 +598,63 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get annotateNoImage => 'Noch kein Bild.';
+
+  @override
+  String get statusOk => 'In Ordnung';
+
+  @override
+  String get statusWarn => 'Warnung';
+
+  @override
+  String get statusDown => 'Gestört';
+
+  @override
+  String get blockLoadFailed => 'Konnte nicht geladen werden.';
+
+  @override
+  String treeMissing(String root) {
+    return 'Den Eintrag „$root“ gibt es nicht.';
+  }
+
+  @override
+  String treeEmpty(String relation) {
+    return 'Nichts hängt über „$relation“ an der Wurzel. Stimmen Beziehung und Richtung?';
+  }
+
+  @override
+  String rackMissing(String rack) {
+    return 'Den Eintrag „$rack“ gibt es nicht.';
+  }
+
+  @override
+  String rackUnits(int units) {
+    return '$units HE';
+  }
+
+  @override
+  String get rackConflict => 'Zwei Geräte belegen dieselben Höheneinheiten.';
+
+  @override
+  String rackUnplaced(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Geräte ohne Position',
+      one: '1 Gerät ohne Position',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get rackEmpty => 'Noch keine Geräte in diesem Schrank.';
+
+  @override
+  String floorplanMissing(String plan) {
+    return 'Den Grundriss „$plan“ gibt es nicht.';
+  }
+
+  @override
+  String floorplanNoRoom(String room, String plan) {
+    return 'Im Grundriss „$plan“ gibt es keinen Raum „$room“.';
+  }
 }

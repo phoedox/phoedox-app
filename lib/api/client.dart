@@ -47,8 +47,14 @@ class PhxClient {
         'X-Phoedox': '1'
       };
 
-  Uri url(String path) => base.replace(
-      path: '${base.path.replaceAll(RegExp(r'/$'), '')}/api/v1$path');
+  /// The URL of an API path; a query after "?" stays a query.
+  Uri url(String path) {
+    final q = path.indexOf('?');
+    return base.replace(
+        path:
+            '${base.path.replaceAll(RegExp(r'/$'), '')}/api/v1${q < 0 ? path : path.substring(0, q)}',
+        query: q < 0 ? null : path.substring(q + 1));
+  }
 
   /// GETs JSON; falls back to the cached answer when the network fails.
   Future<ApiResult<dynamic>> get(String path) async {

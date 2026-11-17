@@ -1117,6 +1117,84 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'Noch kein Bild.'**
   String get annotateNoImage;
+
+  /// No description provided for @statusOk.
+  ///
+  /// In de, this message translates to:
+  /// **'In Ordnung'**
+  String get statusOk;
+
+  /// No description provided for @statusWarn.
+  ///
+  /// In de, this message translates to:
+  /// **'Warnung'**
+  String get statusWarn;
+
+  /// No description provided for @statusDown.
+  ///
+  /// In de, this message translates to:
+  /// **'Gestört'**
+  String get statusDown;
+
+  /// No description provided for @blockLoadFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Konnte nicht geladen werden.'**
+  String get blockLoadFailed;
+
+  /// No description provided for @treeMissing.
+  ///
+  /// In de, this message translates to:
+  /// **'Den Eintrag „{root}“ gibt es nicht.'**
+  String treeMissing(String root);
+
+  /// No description provided for @treeEmpty.
+  ///
+  /// In de, this message translates to:
+  /// **'Nichts hängt über „{relation}“ an der Wurzel. Stimmen Beziehung und Richtung?'**
+  String treeEmpty(String relation);
+
+  /// No description provided for @rackMissing.
+  ///
+  /// In de, this message translates to:
+  /// **'Den Eintrag „{rack}“ gibt es nicht.'**
+  String rackMissing(String rack);
+
+  /// No description provided for @rackUnits.
+  ///
+  /// In de, this message translates to:
+  /// **'{units} HE'**
+  String rackUnits(int units);
+
+  /// No description provided for @rackConflict.
+  ///
+  /// In de, this message translates to:
+  /// **'Zwei Geräte belegen dieselben Höheneinheiten.'**
+  String get rackConflict;
+
+  /// No description provided for @rackUnplaced.
+  ///
+  /// In de, this message translates to:
+  /// **'{count, plural, =1{1 Gerät ohne Position} other{{count} Geräte ohne Position}}'**
+  String rackUnplaced(int count);
+
+  /// No description provided for @rackEmpty.
+  ///
+  /// In de, this message translates to:
+  /// **'Noch keine Geräte in diesem Schrank.'**
+  String get rackEmpty;
+
+  /// No description provided for @floorplanMissing.
+  ///
+  /// In de, this message translates to:
+  /// **'Den Grundriss „{plan}“ gibt es nicht.'**
+  String floorplanMissing(String plan);
+
+  /// No description provided for @floorplanNoRoom.
+  ///
+  /// In de, this message translates to:
+  /// **'Im Grundriss „{plan}“ gibt es keinen Raum „{room}“.'**
+  String floorplanNoRoom(String room, String plan);
 }
 
 class _AppLocalizationsDelegate
