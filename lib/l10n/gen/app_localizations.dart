@@ -793,6 +793,30 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'Radierer'**
   String get wbEraser;
+
+  /// No description provided for @protoPlay.
+  ///
+  /// In de, this message translates to:
+  /// **'Abspielen'**
+  String get protoPlay;
+
+  /// No description provided for @protoOffline.
+  ///
+  /// In de, this message translates to:
+  /// **'Dieser Prototyp wurde auf diesem Gerät noch nicht abgespielt; beim ersten Mal braucht er das Netz.'**
+  String get protoOffline;
+
+  /// No description provided for @protoUnavailable.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Prototyp lässt sich nicht öffnen.'**
+  String get protoUnavailable;
+
+  /// No description provided for @protoOfflineNote.
+  ///
+  /// In de, this message translates to:
+  /// **'Offline: Du spielst den Prototyp, wie er zuletzt geladen wurde.'**
+  String get protoOfflineNote;
 }
 
 class _AppLocalizationsDelegate

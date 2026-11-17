@@ -407,4 +407,18 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get wbEraser => 'Radierer';
+
+  @override
+  String get protoPlay => 'Abspielen';
+
+  @override
+  String get protoOffline =>
+      'Dieser Prototyp wurde auf diesem Gerät noch nicht abgespielt; beim ersten Mal braucht er das Netz.';
+
+  @override
+  String get protoUnavailable => 'Der Prototyp lässt sich nicht öffnen.';
+
+  @override
+  String get protoOfflineNote =>
+      'Offline: Du spielst den Prototyp, wie er zuletzt geladen wurde.';
 }

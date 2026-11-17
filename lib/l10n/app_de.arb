@@ -178,5 +178,9 @@
   "wbArrow": "Pfeil",
   "wbSticky": "Haftnotiz",
   "wbTextTool": "Text",
-  "wbEraser": "Radierer"
+  "wbEraser": "Radierer",
+  "protoPlay": "Abspielen",
+  "protoOffline": "Dieser Prototyp wurde auf diesem Gerät noch nicht abgespielt; beim ersten Mal braucht er das Netz.",
+  "protoUnavailable": "Der Prototyp lässt sich nicht öffnen.",
+  "protoOfflineNote": "Offline: Du spielst den Prototyp, wie er zuletzt geladen wurde."
 }

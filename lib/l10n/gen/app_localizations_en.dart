@@ -404,4 +404,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get wbEraser => 'Eraser';
+
+  @override
+  String get protoPlay => 'Play';
+
+  @override
+  String get protoOffline =>
+      'This prototype has not been played on this device yet; the first time it needs the network.';
+
+  @override
+  String get protoUnavailable => 'The prototype cannot be opened.';
+
+  @override
+  String get protoOfflineNote =>
+      'Offline: you are playing the prototype as it was last loaded.';
 }

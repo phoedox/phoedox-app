@@ -11,6 +11,7 @@ import '../../api/client.dart';
 import '../../app/session.dart';
 import '../../l10n/gen/app_localizations.dart';
 import 'board.dart';
+import 'prototype_page.dart';
 
 enum WbTool { hand, select, pen, rect, ellipse, arrow, sticky, text, eraser }
 
@@ -53,6 +54,7 @@ class _WhiteboardBodyState extends ConsumerState<WhiteboardBody> {
   Timer? _send;
   Timer? _poll;
   bool _offline = false;
+  List<(String, String)> _protos = [];
 
   String get _docPath => '/projects/${widget.project}/documents/${widget.doc}';
 
@@ -60,6 +62,7 @@ class _WhiteboardBodyState extends ConsumerState<WhiteboardBody> {
   void initState() {
     super.initState();
     _server = _elementsOf(widget.initial);
+    _protos = prototypesOf(widget.initial);
     _els = sorted(_server);
     _init();
   }
@@ -114,6 +117,7 @@ class _WhiteboardBodyState extends ConsumerState<WhiteboardBody> {
         _offline = r.offline;
         if (!r.offline) {
           _server = _elementsOf(Map<String, dynamic>.from(r.data as Map));
+          _protos = prototypesOf(Map<String, dynamic>.from(r.data as Map));
         }
         if (_drawing == null && _dragId == null) _els = ops.apply(_server);
       });
@@ -346,6 +350,33 @@ class _WhiteboardBodyState extends ConsumerState<WhiteboardBody> {
         onPressed: () => setState(() => _tool = tool),
       );
 
+  /// Plays a prototype of the board (asks which one if there are several).
+  Future<void> _play() async {
+    var pick = _protos.length == 1 ? _protos.first : null;
+    pick ??= await showModalBottomSheet<(String, String)>(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: ListView(shrinkWrap: true, children: [
+          for (final p in _protos)
+            ListTile(
+              leading: const Icon(LucideIcons.play),
+              title: Text(p.$2),
+              onTap: () => Navigator.pop(ctx, p),
+            ),
+        ]),
+      ),
+    );
+    if (pick == null || !mounted) return;
+    final chosen = pick;
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => PrototypePage(
+            project: widget.project,
+            doc: widget.doc,
+            proto: chosen.$1,
+            name: chosen.$2)));
+    _sync();
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
@@ -364,22 +395,37 @@ class _WhiteboardBodyState extends ConsumerState<WhiteboardBody> {
           ),
         ),
       Expanded(
-        child: ClipRect(
-          child: GestureDetector(
-            onScaleStart: _start,
-            onScaleUpdate: _update,
-            onScaleEnd: _end,
-            onTapUp: _tap,
-            onLongPressStart: _longPress,
-            child: CustomPaint(
-              painter: BoardPainter(shown, _pan, _zoom,
-                  dark: Theme.of(context).brightness == Brightness.dark,
-                  line: cs.outlineVariant,
-                  muted: cs.onSurfaceVariant),
-              size: Size.infinite,
+        child: Stack(children: [
+          Positioned.fill(
+              child: ClipRect(
+            child: GestureDetector(
+              onScaleStart: _start,
+              onScaleUpdate: _update,
+              onScaleEnd: _end,
+              onTapUp: _tap,
+              onLongPressStart: _longPress,
+              child: CustomPaint(
+                painter: BoardPainter(shown, _pan, _zoom,
+                    dark: Theme.of(context).brightness == Brightness.dark,
+                    line: cs.outlineVariant,
+                    muted: cs.onSurfaceVariant,
+                    surface: cs.surface,
+                    accent: cs.primary),
+                size: Size.infinite,
+              ),
             ),
-          ),
-        ),
+          )),
+          if (_protos.isNotEmpty)
+            Positioned(
+              right: 12,
+              top: 12,
+              child: FilledButton.tonalIcon(
+                icon: const Icon(LucideIcons.play, size: 18),
+                label: Text(t.protoPlay),
+                onPressed: _play,
+              ),
+            ),
+        ]),
       ),
       if (widget.canEdit)
         Material(
@@ -429,7 +475,11 @@ class _WhiteboardBodyState extends ConsumerState<WhiteboardBody> {
 /// Paints the elements like the web editor (without the hand-drawn look).
 class BoardPainter extends CustomPainter {
   BoardPainter(this.els, this.pan, this.zoom,
-      {required this.dark, required this.line, required this.muted});
+      {required this.dark,
+      required this.line,
+      required this.muted,
+      this.surface = Colors.white,
+      this.accent = const Color(0xFFC2410C)});
 
   final List<El> els;
   final Offset pan;
@@ -437,6 +487,8 @@ class BoardPainter extends CustomPainter {
   final bool dark;
   final Color line;
   final Color muted;
+  final Color surface;
+  final Color accent;
 
   Color _stroke(El e) {
     final c = strokeColors['${e['stroke'] ?? 'gray'}'] ?? strokeColors['gray']!;
@@ -473,7 +525,12 @@ class BoardPainter extends CustomPainter {
     canvas.save();
     canvas.translate(pan.dx, pan.dy);
     canvas.scale(zoom);
-    for (final e in els) {
+    // Screens are opaque: always behind what is on them.
+    final order = [
+      ...els.where((e) => e['screen'] != null),
+      ...els.where((e) => e['screen'] == null)
+    ];
+    for (final e in order) {
       final b = boundsOf(e);
       final stroke = Paint()
         ..color = _stroke(e)
@@ -487,6 +544,48 @@ class BoardPainter extends CustomPainter {
           ? null
           : (Paint()..color = fillColors[fillName] ?? fillColors['yellow']!);
       switch (e['type']) {
+        case 'frame' when e['screen'] is Map:
+          final dev = '${(e['screen'] as Map)['device'] ?? 'phone'}';
+          final rad = dev == 'phone'
+              ? 40.0
+              : dev == 'tablet'
+                  ? 26.0
+                  : dev == 'desktop'
+                      ? 10.0
+                      : 14.0;
+          final r = RRect.fromRectAndRadius(b, Radius.circular(rad));
+          canvas.drawRRect(
+              r,
+              Paint()
+                ..color = fillName == null
+                    ? surface
+                    : fillColors[fillName] ?? surface);
+          canvas.drawRRect(
+              r,
+              Paint()
+                ..color = line
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 1.5);
+          _text(canvas, '${e['text'] ?? ''}',
+              Rect.fromLTWH(b.left + 4, b.top - 26, b.width, 20),
+              size: 14, color: muted, align: TextAlign.left, top: true);
+        case 'ui':
+          final ui = e['ui'] is Map ? e['ui'] as Map : const {};
+          final comp = '${ui['comp'] ?? ''}';
+          final primary = comp == 'button' &&
+              (ui['variant'] == null || ui['variant'] == 'primary');
+          final rr = RRect.fromRectAndRadius(
+              b, Radius.circular(comp == 'avatar' ? b.shortestSide / 2 : 10));
+          canvas.drawRRect(rr,
+              Paint()..color = primary ? accent : line.withValues(alpha: 0.25));
+          final opts =
+              ui['options'] is List ? (ui['options'] as List).join(' · ') : '';
+          _text(
+              canvas,
+              '${e['text'] ?? (opts.isNotEmpty ? opts : ui['placeholder'] ?? comp)}',
+              b.deflate(6),
+              size: 14,
+              color: primary ? Colors.white : muted);
         case 'frame':
           final r = RRect.fromRectAndRadius(b, const Radius.circular(14));
           canvas.drawRRect(
