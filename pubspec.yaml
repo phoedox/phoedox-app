@@ -1,7 +1,7 @@
 name: phoedox
 description: Phoedox – Doku vor Ort. Scannen, erfassen, offline lesen, Alarme.
 publish_to: none
-version: 0.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=3.5.0 <4.0.0"
