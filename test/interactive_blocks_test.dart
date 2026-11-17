@@ -90,6 +90,8 @@ void main() {
     expect(p.multiple, isTrue);
     // Several answers: shares of the people who voted.
     expect(p.share('Zoo', {'Zoo': 2, 'Museum': 1}, 2), 1.0);
+    final f = Poll.parse('multiple\nWohin?\n- Zoo\n- Museum\nclosed');
+    expect((f.question, f.multiple, f.closed), ('Wohin?', true, true));
     expect(() => Poll.parse('Wohin?\n- Zoo'), throwsFormatException);
     expect(() => Poll.parse('Wohin?\n- Zoo\n- Zoo'), throwsFormatException);
     final z = Quiz.parse(_quiz);

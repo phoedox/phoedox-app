@@ -69,6 +69,15 @@ class Poll {
         }
         continue;
       }
+      // A flag on its own line: "multiple" or "closed".
+      if (l.toLowerCase() == 'multiple') {
+        multiple = true;
+        continue;
+      }
+      if (l.toLowerCase() == 'closed') {
+        closed = true;
+        continue;
+      }
       final o = RegExp(r'^[-*+]\s+(.+)$').firstMatch(l);
       if (o != null) {
         opts.add(o[1]!.trim());
