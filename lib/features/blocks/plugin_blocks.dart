@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -12,6 +13,7 @@ import '../../api/client.dart';
 import '../../app/session.dart';
 import '../../l10n/gen/app_localizations.dart';
 import '../charts/chart.dart';
+import '../doc/doc_page.dart';
 import 'interactive.dart' show blockKey;
 
 // Plugin blocks (ADR-0086): block kinds a project's plugins add. The server
@@ -104,8 +106,13 @@ class PluginBlockView extends ConsumerStatefulWidget {
       {super.key,
       required this.kind,
       required this.source,
-      required this.project});
+      required this.project,
+      this.doc = '',
+      this.stateKey = ''});
   final String kind, source, project;
+
+  /// Where the reader's state of the block lives (block_states).
+  final String doc, stateKey;
 
   @override
   ConsumerState<PluginBlockView> createState() => _PluginBlockViewState();
@@ -221,6 +228,10 @@ class _PluginBlockViewState extends ConsumerState<PluginBlockView> {
                       info: info!,
                       source: widget.source,
                       project: widget.project,
+                      doc: widget.doc,
+                      stateKey: widget.stateKey.isEmpty
+                          ? blockKey(widget.source)
+                          : widget.stateKey,
                       svg: _svg!))),
             ),
           ),
@@ -240,17 +251,20 @@ class _PluginBlockViewState extends ConsumerState<PluginBlockView> {
 
 /// The plugin's element in a WebView. The page is built here: the plugin's
 /// frontend module (loaded with the app's sign-in) is imported from a blob,
-/// its element gets source, svg and project, and the SDK calls it makes
-/// (tasks.list, blocks.render, ui.toast) come to the app over a channel.
+/// its element gets source, svg, project, doc and stateKey, and the SDK
+/// calls it makes (tasks, blocks incl. the reader's state, entries,
+/// documents, toasts, copying) come to the app over a channel.
 class PluginBlockPage extends ConsumerStatefulWidget {
   const PluginBlockPage(
       {super.key,
       required this.info,
       required this.source,
       required this.project,
-      required this.svg});
+      required this.svg,
+      this.doc = '',
+      this.stateKey = ''});
   final PluginBlockInfo info;
-  final String source, project, svg;
+  final String source, project, svg, doc, stateKey;
 
   @override
   ConsumerState<PluginBlockPage> createState() => _PluginBlockPageState();
@@ -268,6 +282,8 @@ class _PluginBlockPageState extends ConsumerState<PluginBlockPage> {
 
   Future<void> _open() async {
     final t = AppLocalizations.of(context);
+    final lang = Localizations.localeOf(context).languageCode;
+    final css = _cssVars();
     final c = await ref.read(clientProvider.future);
     if (c == null) return;
     try {
@@ -279,7 +295,10 @@ class _PluginBlockPageState extends ConsumerState<PluginBlockPage> {
           source: widget.source,
           svg: widget.svg,
           project: widget.project,
-          css: _cssVars());
+          doc: widget.doc,
+          stateKey: widget.stateKey,
+          locale: lang,
+          css: css);
       final web = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
         ..addJavaScriptChannel('PhoedoxBridge',
@@ -333,10 +352,46 @@ class _PluginBlockPageState extends ConsumerState<PluginBlockPage> {
                 'width': args['width'] ?? 720,
                 'locale': Localizations.localeOf(context).languageCode
               });
+        case 'blocks.state':
+          // The reader's state of the block, as on the web (block_states).
+          final doc = '${args['doc'] ?? ''}', key = '${args['key'] ?? ''}';
+          if (doc.isEmpty || !RegExp(r'^[A-Za-z0-9-]{1,40}$').hasMatch(key)) {
+            throw 'no page for the block state';
+          }
+          final path =
+              '/projects/${widget.project}/documents/${Uri.encodeComponent(doc)}/blocks/${Uri.encodeComponent(key)}';
+          result = args['put'] == true
+              ? await c.send('PUT', path, {'data': args['data']})
+              : (await c.get(path)).data;
+        case 'graph.get':
+          final r = (await c.get(
+                  '/projects/${widget.project}/entities/${Uri.encodeComponent('${args['id']}')}'))
+              .data;
+          result = r is Map ? r['entity'] : null;
+        case 'docs.create':
+          final content = (args['content'] as Map?) ?? const {};
+          final r =
+              await c.send('POST', '/projects/${widget.project}/documents', {
+            ...content,
+            'type': '${args['type']}',
+            'title': '${args['title'] ?? ''}',
+          });
+          result = r is Map ? r['document'] : null;
+        case 'ui.open':
+          // "d/<slug>": the page in the app; other paths are not shown here.
+          final m = RegExp(r'^d/([^/?#]+)$').firstMatch('${args['path']}');
+          if (m != null && mounted) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => DocPage(project: widget.project, doc: m[1]!)));
+          }
+        case 'ui.copy':
+          await Clipboard.setData(ClipboardData(text: '${args['text']}'));
         case 'ui.toast':
           if (mounted) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text('${args['message']}')));
+            final cs = Theme.of(context).colorScheme;
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('${args['message']}'),
+                backgroundColor: args['kind'] == 'error' ? cs.error : null));
           }
         default:
           error = 'not available in the app';
@@ -368,7 +423,10 @@ String blockFrameHtml(
     required String source,
     required String svg,
     required String project,
-    required String css}) {
+    required String css,
+    String doc = '',
+    String stateKey = '',
+    String locale = 'en'}) {
   // As JS string literals; "<" is escaped so no value can close the script.
   String js(Object? v) => jsonEncode(v).replaceAll('<', r'\u003c');
   return '''<!doctype html><html><head><meta charset="utf-8">
@@ -381,10 +439,18 @@ window.__phxReply = (raw) => { const m = JSON.parse(raw); const p = pending.get(
 const call = (op, args) => new Promise((resolve, reject) => { const id = ++seq; pending.set(id, { resolve, reject }); PhoedoxBridge.postMessage(JSON.stringify({ id, op, args })); });
 const sdk = {
   tasks: { list: (board) => call("tasks.list", { board }) },
-  blocks: { render: (kind, source, width) => call("blocks.render", { kind, source, width }) },
-  ui: { toast: (message) => call("ui.toast", { message }) },
-  graph: { get: () => Promise.reject(new Error("not available in the app")), watch: () => () => {} },
-  docs: { create: () => Promise.reject(new Error("not available in the app")) },
+  blocks: {
+    render: (kind, source, width) => call("blocks.render", { kind, source, width }),
+    state: ({ doc, key }) => ({ get: () => call("blocks.state", { doc, key }), put: (data) => call("blocks.state", { doc, key, data, put: true }) }),
+  },
+  ui: {
+    toast: (message, kind) => call("ui.toast", { message, kind }),
+    locale: () => ${js(locale)},
+    open: (path) => { call("ui.open", { path }); },
+    copyToWhiteboard: (elements) => call("ui.copy", { text: "phoedox-whiteboard:" + JSON.stringify(Array.isArray(elements) ? elements : []) }),
+  },
+  graph: { get: (id) => call("graph.get", { id }), watch: (id, cb) => { call("graph.get", { id }).then(cb, () => {}); return () => {}; } },
+  docs: { create: (type, title, content) => call("docs.create", { type, title, content }) },
   tool: () => Promise.reject(new Error("not available in the app")),
   commands: { add() {} }, icons: { render: () => document.createElement("span") },
 };
@@ -396,6 +462,7 @@ for (const [tag, Base] of Object.entries(def.elements ?? {})) {
 }
 const el = document.createElement(${js(element)});
 el.source = ${js(source)}; el.svg = ${js(svg)}; el.project = ${js(project)};
+el.doc = ${js(doc)}; el.stateKey = ${js(stateKey)};
 document.getElementById("root").append(el);
 </script></body></html>''';
 }

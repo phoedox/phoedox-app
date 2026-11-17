@@ -2,7 +2,6 @@ import 'package:material_ui/material_ui.dart';
 
 import '../charts/chart.dart';
 import 'interactive.dart';
-import 'interactive_views.dart';
 import 'graph.dart';
 import 'graph_views.dart';
 import 'picture_views.dart';
@@ -39,7 +38,12 @@ Widget blockView(String kind, String source, BlockCtx ctx) {
   final def = blockKinds[kind];
   // Kinds the core does not know may come from a plugin (ADR-0086).
   if (def == null && ctx.project.isNotEmpty) {
-    return PluginBlockView(kind: kind, source: source, project: ctx.project);
+    return PluginBlockView(
+        kind: kind,
+        source: source,
+        project: ctx.project,
+        doc: ctx.doc,
+        stateKey: ctx.key ?? blockKey(source));
   }
   if (def == null) return _BlockError(kind: kind, source: source);
   try {
@@ -96,11 +100,6 @@ final Map<String, BlockKind> blockKinds = {
       paintChart(canvas, rect, c, style);
     },
   ),
-  'poll': BlockKind(
-    view: (src, ctx) => PollView(poll: Poll.parse(src), ctx: ctx, source: src),
-    paint: (canvas, r, src, style) =>
-        paintPoll(canvas, r, Poll.parse(src), style),
-  ),
   'beforeafter': BlockKind(
     view: (src, _) => BeforeAfterView(m: BeforeAfter.parse(src)),
     paint: (canvas, r, src, style) =>
@@ -134,9 +133,6 @@ final Map<String, BlockKind> blockKinds = {
       paintGraphSketch(canvas, r, t.title.isEmpty ? t.plan : t.title,
           [t.plan, if (t.room.isNotEmpty) t.room].join(' · '), style);
     },
-  ),
-  'quiz': BlockKind(
-    view: (src, ctx) => QuizView(quiz: Quiz.parse(src), ctx: ctx, source: src),
   ),
 };
 

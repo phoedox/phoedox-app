@@ -43,10 +43,15 @@ void main() {
         source: 'A: 2026-01-01</script><script>alert(1)',
         svg: '<svg/>',
         project: 'haus',
+        doc: '01DOC',
+        stateKey: 'hk1',
+        locale: 'de',
         css: '--fg: #000;');
     expect(html, contains("default-src 'none'"));
     expect(html, contains('PhoedoxBridge.postMessage'));
     expect(html, contains('document.createElement("phx-gantt")'));
+    expect(html, contains('el.doc = "01DOC"; el.stateKey = "hk1"'));
+    expect(html, contains('locale: () => "de"'));
     // The source is a JS string, it cannot close the script.
     expect(html, isNot(contains('</script><script>alert(1)')));
   });

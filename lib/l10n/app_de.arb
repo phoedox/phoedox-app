@@ -222,35 +222,6 @@
   "appSelfSaveConfirm": "Neue Version speichern",
   "blockOffline": "Ohne Verbindung nicht möglich. Versuche es gleich noch einmal.",
   "blockSaveFailed": "Das konnte nicht gespeichert werden.",
-  "pollClosed": "Abgeschlossen",
-  "pollVoters": "{n, plural, =0{Noch keine Stimmen} =1{1 Person hat abgestimmt} other{{n} Personen haben abgestimmt}}",
-  "@pollVoters": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "pollChooseOne": "Wähle eine Antwort",
-  "pollChooseMany": "Wähle eine oder mehrere Antworten",
-  "pollUndo": "Stimme zurückziehen",
-  "quizScore": "{right} von {all} richtig",
-  "@quizScore": {
-    "placeholders": {
-      "right": {
-        "type": "int"
-      },
-      "all": {
-        "type": "int"
-      }
-    }
-  },
-  "quizAgain": "Nochmal",
-  "quizShow": "Antwort zeigen",
-  "quizKnew": "Gewusst",
-  "quizMissed": "Nicht gewusst",
-  "quizRight": "richtig",
-  "quizWrong": "falsch",
   "beforeAfterBefore": "Vorher",
   "beforeAfterAfter": "Nachher",
   "beforeAfterMissing": "Es fehlen noch Fotos.",

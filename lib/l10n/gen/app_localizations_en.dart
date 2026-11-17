@@ -473,53 +473,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get blockSaveFailed => 'This could not be saved.';
 
   @override
-  String get pollClosed => 'Closed';
-
-  @override
-  String pollVoters(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n people voted',
-      one: '1 person voted',
-      zero: 'No votes yet',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get pollChooseOne => 'Choose one answer';
-
-  @override
-  String get pollChooseMany => 'Choose one or more answers';
-
-  @override
-  String get pollUndo => 'Take back my vote';
-
-  @override
-  String quizScore(int right, int all) {
-    return '$right of $all right';
-  }
-
-  @override
-  String get quizAgain => 'Again';
-
-  @override
-  String get quizShow => 'Show the answer';
-
-  @override
-  String get quizKnew => 'Knew it';
-
-  @override
-  String get quizMissed => 'Didn\'t know';
-
-  @override
-  String get quizRight => 'right';
-
-  @override
-  String get quizWrong => 'wrong';
-
-  @override
   String get beforeAfterBefore => 'Before';
 
   @override
