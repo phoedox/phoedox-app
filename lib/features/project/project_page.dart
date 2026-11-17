@@ -2,9 +2,11 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../app/session.dart';
 import '../../app/theme.dart';
 import '../../app/widgets.dart';
 import '../../l10n/gen/app_localizations.dart';
+import '../calendar/calendar.dart';
 import '../doc/doc_page.dart';
 import '../entity/entity_page.dart';
 
@@ -13,6 +15,7 @@ IconData docIcon(String? type) => switch (type) {
       'link' => LucideIcons.link,
       'board' => LucideIcons.squareKanban,
       'floorplan' => LucideIcons.landPlot,
+      'calendar' => LucideIcons.calendarDays,
       _ => LucideIcons.fileText,
     };
 
@@ -31,6 +34,15 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
 
   String get _slug => widget.project['slug'] as String;
 
+  /// The project's optional tabs (features), from the list or, once
+  /// loaded, from the project itself.
+  Set<String> get _features {
+    final p = ref.watch(apiProvider('/projects/$_slug')).value?.data;
+    final list =
+        (p is Map ? p['features'] : null) ?? widget.project['features'];
+    return {for (final f in (list as List? ?? const [])) '$f'};
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
@@ -39,6 +51,7 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
     // The project's theme (or the one that applies there); without one the
     // project colour tints Phoedox's own look.
     final tokens = ref.watch(projectThemeProvider(_slug)).value;
+    final calendar = _features.contains('calendar');
     return Theme(
       data: phxTheme(Theme.of(context).brightness, seed: color, tokens: tokens),
       child: Scaffold(
@@ -56,14 +69,17 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                 },
               ),
             ),
-            Expanded(child: _query.isEmpty ? _tree(t) : _results(t)),
+            Expanded(
+                child: _query.isEmpty
+                    ? _tree(t, calendar: calendar)
+                    : _results(t)),
           ],
         ),
       ),
     );
   }
 
-  Widget _tree(AppLocalizations t) => ApiView(
+  Widget _tree(AppLocalizations t, {bool calendar = false}) => ApiView(
         path: '/projects/$_slug/documents',
         builder: (context, data) {
           final docs = (data as List).cast<Map<String, dynamic>>();
@@ -78,6 +94,15 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
           }
           return ListView(
             children: [
+              // The calendar tab (ADR-0089), when the project has it.
+              if (calendar)
+                ListTile(
+                  leading: const Icon(LucideIcons.calendarDays, size: 20),
+                  title: Text(t.calTitle),
+                  trailing: const Icon(LucideIcons.chevronRight, size: 18),
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => CalendarPage(project: _slug))),
+                ),
               for (final e in groups.entries) ...[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),

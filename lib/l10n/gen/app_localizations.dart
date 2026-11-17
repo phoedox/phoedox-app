@@ -1045,6 +1045,90 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'Ein Projektinhaber oder Administrator kann es im Browser aktivieren.'**
   String get pluginBlockNeedsHint;
+
+  /// No description provided for @calTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kalender'**
+  String get calTitle;
+
+  /// No description provided for @calAllDay.
+  ///
+  /// In de, this message translates to:
+  /// **'ganztägig'**
+  String get calAllDay;
+
+  /// No description provided for @calPrev.
+  ///
+  /// In de, this message translates to:
+  /// **'Voriger Monat'**
+  String get calPrev;
+
+  /// No description provided for @calNext.
+  ///
+  /// In de, this message translates to:
+  /// **'Nächster Monat'**
+  String get calNext;
+
+  /// No description provided for @calToday.
+  ///
+  /// In de, this message translates to:
+  /// **'Heute'**
+  String get calToday;
+
+  /// No description provided for @calNone.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Termine in diesem Zeitraum.'**
+  String get calNone;
+
+  /// No description provided for @calFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Kalender konnte nicht geladen werden.'**
+  String get calFailed;
+
+  /// No description provided for @calSources.
+  ///
+  /// In de, this message translates to:
+  /// **'Quellen'**
+  String get calSources;
+
+  /// No description provided for @calSrcMaintenance.
+  ///
+  /// In de, this message translates to:
+  /// **'Wartung'**
+  String get calSrcMaintenance;
+
+  /// No description provided for @calSrcTasks.
+  ///
+  /// In de, this message translates to:
+  /// **'Fällige Karten'**
+  String get calSrcTasks;
+
+  /// No description provided for @calSrcEntities.
+  ///
+  /// In de, this message translates to:
+  /// **'Datumsfelder'**
+  String get calSrcEntities;
+
+  /// No description provided for @calSrcExternal.
+  ///
+  /// In de, this message translates to:
+  /// **'Externe Kalender'**
+  String get calSrcExternal;
+
+  /// No description provided for @calViewMonth.
+  ///
+  /// In de, this message translates to:
+  /// **'Monat'**
+  String get calViewMonth;
+
+  /// No description provided for @calViewList.
+  ///
+  /// In de, this message translates to:
+  /// **'Liste'**
+  String get calViewList;
 }
 
 class _AppLocalizationsDelegate

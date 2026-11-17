@@ -13,20 +13,25 @@ import '../../l10n/gen/app_localizations.dart';
 import '../../sync/providers.dart';
 import '../blocks/blocks.dart';
 import '../blocks/plugin_blocks.dart';
+import '../calendar/calendar.dart';
 import '../entity/entity_page.dart';
 import '../apps/app_page.dart';
 import '../floorplan/floorplan_view.dart';
 import '../whiteboard/whiteboard_view.dart';
 import 'edit_page.dart';
 
-/// Reads a page: Markdown, decision, link, board, floor plan, whiteboard
-/// or app (Markdown pages can be edited, photos placed on floor plans,
-/// whiteboards drawn on).
+/// Reads a page: Markdown, decision, link, board, calendar, floor plan,
+/// whiteboard or app (Markdown pages can be edited, photos placed on floor
+/// plans, whiteboards drawn on).
 class DocPage extends ConsumerWidget {
-  const DocPage({super.key, required this.project, required this.doc});
+  const DocPage(
+      {super.key, required this.project, required this.doc, this.task});
 
   final String project;
   final String doc;
+
+  /// On a board: the card to highlight (e.g. opened from the calendar).
+  final String? task;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -162,8 +167,17 @@ class DocPage extends ConsumerWidget {
                     _Board(
                         project: project,
                         board: d['id'] as String,
+                        task: task,
                         columns: (c['columns'] as List? ?? [])
                             .cast<Map<String, dynamic>>())
+                  ],
+                // A calendar document (ADR-0089): the server applies its
+                // filters for doc=<slug>.
+                'calendar' => [
+                    CalendarView(
+                        project: project,
+                        spec: CalendarSpec.fromJson(c,
+                            doc: d['slug'] as String? ?? doc))
                   ],
                 _ => [
                     for (final part in splitBlocks(
@@ -205,10 +219,14 @@ class DocPage extends ConsumerWidget {
 
 class _Board extends ConsumerWidget {
   const _Board(
-      {required this.project, required this.board, required this.columns});
+      {required this.project,
+      required this.board,
+      required this.columns,
+      this.task});
 
   final String project;
   final String board;
+  final String? task;
   final List<Map<String, dynamic>> columns;
 
   @override
@@ -238,6 +256,9 @@ class _Board extends ConsumerWidget {
                       for (final task
                           in tasks.where((x) => x['column'] == col['id']))
                         Card(
+                          color: task['id'] == this.task
+                              ? Theme.of(context).colorScheme.primaryContainer
+                              : null,
                           child: ListTile(
                             dense: true,
                             title: Text(task['title'] as String? ?? '',

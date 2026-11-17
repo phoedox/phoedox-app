@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../calendar/calendar.dart';
 import '../charts/chart.dart';
 import 'interactive.dart';
 import 'graph.dart';
@@ -134,6 +135,13 @@ final Map<String, BlockKind> blockKinds = {
           [t.plan, if (t.room.isNotEmpty) t.room].join(' · '), style);
     },
   ),
+  // The project's dates (ADR-0089); it needs the project, so it cannot be
+  // shown without one.
+  'calendar': BlockKind(view: (src, ctx) {
+    if (ctx.project.isEmpty) throw const FormatException('calendar.project');
+    return CalendarBlockView(
+        spec: CalendarSpec.parse(src), project: ctx.project);
+  }),
 };
 
 /// Splits page Markdown into text and registered blocks (kind "md" for text);

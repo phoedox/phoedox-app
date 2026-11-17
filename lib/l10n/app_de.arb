@@ -320,5 +320,19 @@
       }
     }
   },
-  "pluginBlockNeedsHint": "Ein Projektinhaber oder Administrator kann es im Browser aktivieren."
+  "pluginBlockNeedsHint": "Ein Projektinhaber oder Administrator kann es im Browser aktivieren.",
+  "calTitle": "Kalender",
+  "calAllDay": "ganztägig",
+  "calPrev": "Voriger Monat",
+  "calNext": "Nächster Monat",
+  "calToday": "Heute",
+  "calNone": "Keine Termine in diesem Zeitraum.",
+  "calFailed": "Der Kalender konnte nicht geladen werden.",
+  "calSources": "Quellen",
+  "calSrcMaintenance": "Wartung",
+  "calSrcTasks": "Fällige Karten",
+  "calSrcEntities": "Datumsfelder",
+  "calSrcExternal": "Externe Kalender",
+  "calViewMonth": "Monat",
+  "calViewList": "Liste"
 }

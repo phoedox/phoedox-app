@@ -567,4 +567,46 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get pluginBlockNeedsHint =>
       'A project owner or administrator can enable it in the browser.';
+
+  @override
+  String get calTitle => 'Calendar';
+
+  @override
+  String get calAllDay => 'all day';
+
+  @override
+  String get calPrev => 'Previous month';
+
+  @override
+  String get calNext => 'Next month';
+
+  @override
+  String get calToday => 'Today';
+
+  @override
+  String get calNone => 'No dates in this period.';
+
+  @override
+  String get calFailed => 'The calendar could not be loaded.';
+
+  @override
+  String get calSources => 'Sources';
+
+  @override
+  String get calSrcMaintenance => 'Maintenance';
+
+  @override
+  String get calSrcTasks => 'Cards due';
+
+  @override
+  String get calSrcEntities => 'Date fields';
+
+  @override
+  String get calSrcExternal => 'External calendars';
+
+  @override
+  String get calViewMonth => 'Month';
+
+  @override
+  String get calViewList => 'List';
 }

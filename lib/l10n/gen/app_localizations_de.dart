@@ -570,4 +570,46 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get pluginBlockNeedsHint =>
       'Ein Projektinhaber oder Administrator kann es im Browser aktivieren.';
+
+  @override
+  String get calTitle => 'Kalender';
+
+  @override
+  String get calAllDay => 'ganztägig';
+
+  @override
+  String get calPrev => 'Voriger Monat';
+
+  @override
+  String get calNext => 'Nächster Monat';
+
+  @override
+  String get calToday => 'Heute';
+
+  @override
+  String get calNone => 'Keine Termine in diesem Zeitraum.';
+
+  @override
+  String get calFailed => 'Der Kalender konnte nicht geladen werden.';
+
+  @override
+  String get calSources => 'Quellen';
+
+  @override
+  String get calSrcMaintenance => 'Wartung';
+
+  @override
+  String get calSrcTasks => 'Fällige Karten';
+
+  @override
+  String get calSrcEntities => 'Datumsfelder';
+
+  @override
+  String get calSrcExternal => 'Externe Kalender';
+
+  @override
+  String get calViewMonth => 'Monat';
+
+  @override
+  String get calViewList => 'Liste';
 }

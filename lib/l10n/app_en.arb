@@ -213,5 +213,19 @@
   "pluginBlockOpen": "Open interactively",
   "pluginBlockLine": "Line {line}:",
   "pluginBlockNeeds": "needs the plugin {plugin}",
-  "pluginBlockNeedsHint": "A project owner or administrator can enable it in the browser."
+  "pluginBlockNeedsHint": "A project owner or administrator can enable it in the browser.",
+  "calTitle": "Calendar",
+  "calAllDay": "all day",
+  "calPrev": "Previous month",
+  "calNext": "Next month",
+  "calToday": "Today",
+  "calNone": "No dates in this period.",
+  "calFailed": "The calendar could not be loaded.",
+  "calSources": "Sources",
+  "calSrcMaintenance": "Maintenance",
+  "calSrcTasks": "Cards due",
+  "calSrcEntities": "Date fields",
+  "calSrcExternal": "External calendars",
+  "calViewMonth": "Month",
+  "calViewList": "List"
 }
