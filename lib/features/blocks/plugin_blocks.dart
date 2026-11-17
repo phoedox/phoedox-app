@@ -21,10 +21,15 @@ import 'interactive.dart' show blockKey;
 
 class PluginBlockInfo {
   PluginBlockInfo(this.kind, this.label, this.plugin, this.element,
-      this.frontend, this.board);
+      this.frontend, this.board,
+      [this.missing]);
   final String kind, label, plugin;
   final String? element, frontend;
   final bool board;
+
+  /// Set for a kind that moved into a plugin which is not active in the
+  /// project (ADR-0088): the plugin it needs.
+  final String? missing;
 
   factory PluginBlockInfo.fromJson(Map m) => PluginBlockInfo(
       '${m['kind']}',
@@ -32,7 +37,8 @@ class PluginBlockInfo {
       '${m['plugin'] ?? ''}',
       m['element'] as String?,
       m['frontend'] as String?,
-      m['board'] == true);
+      m['board'] == true,
+      (m['missing'] as Map?)?['plugin'] as String?);
 }
 
 /// The plugin blocks of a project (kind -> info), cached offline by the client.
@@ -109,6 +115,7 @@ class _PluginBlockViewState extends ConsumerState<PluginBlockView> {
   String? _svg;
   List<String> _problems = const [];
   bool _failed = false;
+  String? _missing;
 
   String get _cacheKey =>
       'pblock:${widget.project}:${widget.kind}:${blockKey(widget.source)}';
@@ -150,6 +157,7 @@ class _PluginBlockViewState extends ConsumerState<PluginBlockView> {
     if (!mounted) return;
     setState(() {
       _svg = '${r['svg'] ?? ''}';
+      _missing = (r['missing'] as Map?)?['plugin'] as String?;
       final t = AppLocalizations.of(context);
       _problems = [
         for (final p in (r['problems'] as List? ?? const []))
@@ -166,7 +174,21 @@ class _PluginBlockViewState extends ConsumerState<PluginBlockView> {
     final info =
         ref.watch(pluginBlocksProvider(widget.project)).value?[widget.kind];
     Widget body;
-    if (_failed || (_svg != null && _svg!.isEmpty)) {
+    final missing = info?.missing ?? _missing;
+    if (missing != null) {
+      body = Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text('${info?.label ?? widget.kind}: ${t.pluginBlockNeeds(missing)}',
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Text(t.pluginBlockNeedsHint,
+            style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant)),
+        const SizedBox(height: 6),
+        Text(widget.source,
+            style: TextStyle(
+                fontFamily: 'monospace',
+                fontSize: 12,
+                color: cs.onSurfaceVariant)),
+      ]);
+    } else if (_failed || (_svg != null && _svg!.isEmpty)) {
       body = Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text('${info?.label ?? widget.kind}: ${t.pluginBlockFailed}',
             style: TextStyle(color: cs.error, fontWeight: FontWeight.w600)),

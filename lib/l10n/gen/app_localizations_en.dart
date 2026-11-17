@@ -658,4 +658,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String pluginBlockLine(int line) {
     return 'Line $line:';
   }
+
+  @override
+  String pluginBlockNeeds(String plugin) {
+    return 'needs the plugin $plugin';
+  }
+
+  @override
+  String get pluginBlockNeedsHint =>
+      'A project owner or administrator can enable it in the browser.';
 }

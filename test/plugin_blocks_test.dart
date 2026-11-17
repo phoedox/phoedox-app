@@ -75,22 +75,38 @@ void main() {
       if (req.url.path.endsWith('/render')) {
         final src = (jsonDecode(req.body) as Map)['source'] as String;
         return http.Response(
-            jsonEncode(src == 'bad'
+            jsonEncode(src == 'missing'
                 ? {
                     'svg': '',
                     'problems': [
                       {
                         'line': 1,
-                        'message': 'bad is not a date',
+                        'message': 'this block needs the plugin',
                         'severity': 'error'
                       }
-                    ]
+                    ],
+                    'missing': {
+                      'plugin': 'com.phoedox.gantt',
+                      'installed': false,
+                      'store': true
+                    }
                   }
-                : {
-                    'svg':
-                        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><rect width="100" height="20" style="fill:var(--tc-blue)"/></svg>',
-                    'problems': []
-                  }),
+                : src == 'bad'
+                    ? {
+                        'svg': '',
+                        'problems': [
+                          {
+                            'line': 1,
+                            'message': 'bad is not a date',
+                            'severity': 'error'
+                          }
+                        ]
+                      }
+                    : {
+                        'svg':
+                            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><rect width="100" height="20" style="fill:var(--tc-blue)"/></svg>',
+                        'problems': []
+                      }),
             200);
       }
       return http.Response('{}', 404);
@@ -118,6 +134,7 @@ void main() {
           blockView(
               'gantt', 'A: 2026-01-01, 2w', const BlockCtx(project: 'haus')),
           blockView('gantt', 'bad', const BlockCtx(project: 'haus')),
+          blockView('gantt', 'missing', const BlockCtx(project: 'haus')),
         ]))),
       ),
     ));
@@ -129,5 +146,9 @@ void main() {
     expect(find.byType(SvgPicture), findsOneWidget);
     expect(find.text('Interaktiv öffnen'), findsOneWidget);
     expect(find.textContaining('bad is not a date'), findsOneWidget);
+    // A moved kind whose plugin is not active (ADR-0088): what it needs.
+    expect(find.textContaining('braucht das Plugin com.phoedox.gantt'),
+        findsOneWidget);
+    expect(find.textContaining('this block needs the plugin'), findsNothing);
   });
 }

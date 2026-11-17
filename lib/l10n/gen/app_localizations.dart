@@ -1201,6 +1201,18 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'Zeile {line}:'**
   String pluginBlockLine(int line);
+
+  /// No description provided for @pluginBlockNeeds.
+  ///
+  /// In de, this message translates to:
+  /// **'braucht das Plugin {plugin}'**
+  String pluginBlockNeeds(String plugin);
+
+  /// No description provided for @pluginBlockNeedsHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Projektinhaber oder Administrator kann es im Browser aktivieren.'**
+  String get pluginBlockNeedsHint;
 }
 
 class _AppLocalizationsDelegate

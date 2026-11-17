@@ -239,5 +239,7 @@
   "floorplanNoRoom": "The floor plan \"{plan}\" has no room \"{room}\".",
   "pluginBlockFailed": "The plugin could not draw the block.",
   "pluginBlockOpen": "Open interactively",
-  "pluginBlockLine": "Line {line}:"
+  "pluginBlockLine": "Line {line}:",
+  "pluginBlockNeeds": "needs the plugin {plugin}",
+  "pluginBlockNeedsHint": "A project owner or administrator can enable it in the browser."
 }
