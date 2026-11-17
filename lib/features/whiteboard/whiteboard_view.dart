@@ -298,8 +298,13 @@ class _WhiteboardBodyState extends ConsumerState<WhiteboardBody> {
   }
 
   Future<void> _tap(TapUpDetails d) async {
-    if (!widget.canEdit) return;
     final p = _toBoard(d.localPosition);
+    if (_tool == WbTool.hand || _tool == WbTool.select || !widget.canEdit) {
+      // Blocks (poll, calculator …) are used in a sheet: the board stays a picture.
+      final e = elementAt(_els, p, 8 / _zoom);
+      if (e != null && e['type'] == 'block') await _openBlock(e);
+      return;
+    }
     if (_tool == WbTool.sticky || _tool == WbTool.text) {
       final sticky = _tool == WbTool.sticky;
       final text = await _askText('');
@@ -312,6 +317,27 @@ class _WhiteboardBodyState extends ConsumerState<WhiteboardBody> {
       await _ops?.add(e);
       _changed();
     }
+  }
+
+  Future<void> _openBlock(El e) async {
+    final kind = '${e['kind'] ?? ''}';
+    if (blockKinds[kind] == null) return;
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (ctx) => SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.fromLTRB(
+              16, 0, 16, 16 + MediaQuery.viewInsetsOf(ctx).bottom),
+          child: blockView(
+              kind,
+              '${e['source'] ?? ''}',
+              BlockCtx(
+                  project: widget.project, doc: widget.doc, key: '${e['id']}')),
+        ),
+      ),
+    );
   }
 
   Future<void> _longPress(LongPressStartDetails d) async {
@@ -688,9 +714,9 @@ class BoardPainter extends CustomPainter {
               ? jsonEncode(e['chart'])
               : '${e['source'] ?? ''}';
           try {
-            final def = blockKinds[kind];
-            if (def == null) throw const FormatException('unknown kind');
-            def.paint(
+            final paint = blockKinds[kind]?.paint;
+            if (paint == null) throw const FormatException('unknown kind');
+            paint(
                 canvas,
                 b.deflate(8),
                 src,

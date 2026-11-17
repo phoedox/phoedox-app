@@ -219,5 +219,65 @@
       }
     }
   },
-  "appSelfSaveConfirm": "Neue Version speichern"
+  "appSelfSaveConfirm": "Neue Version speichern",
+  "blockOffline": "Ohne Verbindung nicht möglich. Versuche es gleich noch einmal.",
+  "blockSaveFailed": "Das konnte nicht gespeichert werden.",
+  "pollClosed": "Abgeschlossen",
+  "pollVoters": "{n, plural, =0{Noch keine Stimmen} =1{1 Person hat abgestimmt} other{{n} Personen haben abgestimmt}}",
+  "@pollVoters": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "pollChooseOne": "Wähle eine Antwort",
+  "pollChooseMany": "Wähle eine oder mehrere Antworten",
+  "pollUndo": "Stimme zurückziehen",
+  "matrixOption": "Option",
+  "matrixTotal": "Gesamt",
+  "matrixTune": "Gewichte ausprobieren",
+  "matrixTuneDone": "Fertig",
+  "matrixReset": "Zurücksetzen",
+  "matrixNotSaved": "Nur für dich, wird nicht gespeichert.",
+  "matrixWeightLess": "Gewicht von {name} verringern",
+  "@matrixWeightLess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "matrixWeightMore": "Gewicht von {name} erhöhen",
+  "@matrixWeightMore": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "matrixToDecision": "Als offene Entscheidung anlegen",
+  "matrixDecisionTitle": "Entscheidung",
+  "matrixDecisionContext": "Angelegt aus einer Entscheidungsmatrix; die Bewertungen stehen bei den Optionen.",
+  "matrixDecisionMade": "Offene Entscheidung angelegt",
+  "matrixDecisionFailed": "Die Entscheidung konnte nicht angelegt werden.",
+  "calcReset": "Zurücksetzen",
+  "calcNotSaved": "Deine Eingaben werden nicht gespeichert.",
+  "quizScore": "{right} von {all} richtig",
+  "@quizScore": {
+    "placeholders": {
+      "right": {
+        "type": "int"
+      },
+      "all": {
+        "type": "int"
+      }
+    }
+  },
+  "quizAgain": "Nochmal",
+  "quizShow": "Antwort zeigen",
+  "quizKnew": "Gewusst",
+  "quizMissed": "Nicht gewusst",
+  "quizRight": "richtig",
+  "quizWrong": "falsch"
 }

@@ -169,7 +169,8 @@ class DocPage extends ConsumerWidget {
                         in splitBlocks(c['markdown'] as String? ?? ''))
                       part.kind == 'md'
                           ? _md(context, part.text)
-                          : blockKinds[part.kind]!.view(part.text)
+                          : blockView(part.kind, part.text,
+                              BlockCtx(project: project, doc: doc))
                   ],
               },
             ],

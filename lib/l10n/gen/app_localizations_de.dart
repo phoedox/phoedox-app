@@ -467,4 +467,109 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get appSelfSaveConfirm => 'Neue Version speichern';
+
+  @override
+  String get blockOffline =>
+      'Ohne Verbindung nicht möglich. Versuche es gleich noch einmal.';
+
+  @override
+  String get blockSaveFailed => 'Das konnte nicht gespeichert werden.';
+
+  @override
+  String get pollClosed => 'Abgeschlossen';
+
+  @override
+  String pollVoters(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n Personen haben abgestimmt',
+      one: '1 Person hat abgestimmt',
+      zero: 'Noch keine Stimmen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pollChooseOne => 'Wähle eine Antwort';
+
+  @override
+  String get pollChooseMany => 'Wähle eine oder mehrere Antworten';
+
+  @override
+  String get pollUndo => 'Stimme zurückziehen';
+
+  @override
+  String get matrixOption => 'Option';
+
+  @override
+  String get matrixTotal => 'Gesamt';
+
+  @override
+  String get matrixTune => 'Gewichte ausprobieren';
+
+  @override
+  String get matrixTuneDone => 'Fertig';
+
+  @override
+  String get matrixReset => 'Zurücksetzen';
+
+  @override
+  String get matrixNotSaved => 'Nur für dich, wird nicht gespeichert.';
+
+  @override
+  String matrixWeightLess(String name) {
+    return 'Gewicht von $name verringern';
+  }
+
+  @override
+  String matrixWeightMore(String name) {
+    return 'Gewicht von $name erhöhen';
+  }
+
+  @override
+  String get matrixToDecision => 'Als offene Entscheidung anlegen';
+
+  @override
+  String get matrixDecisionTitle => 'Entscheidung';
+
+  @override
+  String get matrixDecisionContext =>
+      'Angelegt aus einer Entscheidungsmatrix; die Bewertungen stehen bei den Optionen.';
+
+  @override
+  String get matrixDecisionMade => 'Offene Entscheidung angelegt';
+
+  @override
+  String get matrixDecisionFailed =>
+      'Die Entscheidung konnte nicht angelegt werden.';
+
+  @override
+  String get calcReset => 'Zurücksetzen';
+
+  @override
+  String get calcNotSaved => 'Deine Eingaben werden nicht gespeichert.';
+
+  @override
+  String quizScore(int right, int all) {
+    return '$right von $all richtig';
+  }
+
+  @override
+  String get quizAgain => 'Nochmal';
+
+  @override
+  String get quizShow => 'Antwort zeigen';
+
+  @override
+  String get quizKnew => 'Gewusst';
+
+  @override
+  String get quizMissed => 'Nicht gewusst';
+
+  @override
+  String get quizRight => 'richtig';
+
+  @override
+  String get quizWrong => 'falsch';
 }

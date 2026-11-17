@@ -895,6 +895,180 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'Neue Version speichern'**
   String get appSelfSaveConfirm;
+
+  /// No description provided for @blockOffline.
+  ///
+  /// In de, this message translates to:
+  /// **'Ohne Verbindung nicht möglich. Versuche es gleich noch einmal.'**
+  String get blockOffline;
+
+  /// No description provided for @blockSaveFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Das konnte nicht gespeichert werden.'**
+  String get blockSaveFailed;
+
+  /// No description provided for @pollClosed.
+  ///
+  /// In de, this message translates to:
+  /// **'Abgeschlossen'**
+  String get pollClosed;
+
+  /// No description provided for @pollVoters.
+  ///
+  /// In de, this message translates to:
+  /// **'{n, plural, =0{Noch keine Stimmen} =1{1 Person hat abgestimmt} other{{n} Personen haben abgestimmt}}'**
+  String pollVoters(int n);
+
+  /// No description provided for @pollChooseOne.
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle eine Antwort'**
+  String get pollChooseOne;
+
+  /// No description provided for @pollChooseMany.
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle eine oder mehrere Antworten'**
+  String get pollChooseMany;
+
+  /// No description provided for @pollUndo.
+  ///
+  /// In de, this message translates to:
+  /// **'Stimme zurückziehen'**
+  String get pollUndo;
+
+  /// No description provided for @matrixOption.
+  ///
+  /// In de, this message translates to:
+  /// **'Option'**
+  String get matrixOption;
+
+  /// No description provided for @matrixTotal.
+  ///
+  /// In de, this message translates to:
+  /// **'Gesamt'**
+  String get matrixTotal;
+
+  /// No description provided for @matrixTune.
+  ///
+  /// In de, this message translates to:
+  /// **'Gewichte ausprobieren'**
+  String get matrixTune;
+
+  /// No description provided for @matrixTuneDone.
+  ///
+  /// In de, this message translates to:
+  /// **'Fertig'**
+  String get matrixTuneDone;
+
+  /// No description provided for @matrixReset.
+  ///
+  /// In de, this message translates to:
+  /// **'Zurücksetzen'**
+  String get matrixReset;
+
+  /// No description provided for @matrixNotSaved.
+  ///
+  /// In de, this message translates to:
+  /// **'Nur für dich, wird nicht gespeichert.'**
+  String get matrixNotSaved;
+
+  /// No description provided for @matrixWeightLess.
+  ///
+  /// In de, this message translates to:
+  /// **'Gewicht von {name} verringern'**
+  String matrixWeightLess(String name);
+
+  /// No description provided for @matrixWeightMore.
+  ///
+  /// In de, this message translates to:
+  /// **'Gewicht von {name} erhöhen'**
+  String matrixWeightMore(String name);
+
+  /// No description provided for @matrixToDecision.
+  ///
+  /// In de, this message translates to:
+  /// **'Als offene Entscheidung anlegen'**
+  String get matrixToDecision;
+
+  /// No description provided for @matrixDecisionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Entscheidung'**
+  String get matrixDecisionTitle;
+
+  /// No description provided for @matrixDecisionContext.
+  ///
+  /// In de, this message translates to:
+  /// **'Angelegt aus einer Entscheidungsmatrix; die Bewertungen stehen bei den Optionen.'**
+  String get matrixDecisionContext;
+
+  /// No description provided for @matrixDecisionMade.
+  ///
+  /// In de, this message translates to:
+  /// **'Offene Entscheidung angelegt'**
+  String get matrixDecisionMade;
+
+  /// No description provided for @matrixDecisionFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Entscheidung konnte nicht angelegt werden.'**
+  String get matrixDecisionFailed;
+
+  /// No description provided for @calcReset.
+  ///
+  /// In de, this message translates to:
+  /// **'Zurücksetzen'**
+  String get calcReset;
+
+  /// No description provided for @calcNotSaved.
+  ///
+  /// In de, this message translates to:
+  /// **'Deine Eingaben werden nicht gespeichert.'**
+  String get calcNotSaved;
+
+  /// No description provided for @quizScore.
+  ///
+  /// In de, this message translates to:
+  /// **'{right} von {all} richtig'**
+  String quizScore(int right, int all);
+
+  /// No description provided for @quizAgain.
+  ///
+  /// In de, this message translates to:
+  /// **'Nochmal'**
+  String get quizAgain;
+
+  /// No description provided for @quizShow.
+  ///
+  /// In de, this message translates to:
+  /// **'Antwort zeigen'**
+  String get quizShow;
+
+  /// No description provided for @quizKnew.
+  ///
+  /// In de, this message translates to:
+  /// **'Gewusst'**
+  String get quizKnew;
+
+  /// No description provided for @quizMissed.
+  ///
+  /// In de, this message translates to:
+  /// **'Nicht gewusst'**
+  String get quizMissed;
+
+  /// No description provided for @quizRight.
+  ///
+  /// In de, this message translates to:
+  /// **'richtig'**
+  String get quizRight;
+
+  /// No description provided for @quizWrong.
+  ///
+  /// In de, this message translates to:
+  /// **'falsch'**
+  String get quizWrong;
 }
 
 class _AppLocalizationsDelegate

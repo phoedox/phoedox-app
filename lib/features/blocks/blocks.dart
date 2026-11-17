@@ -1,24 +1,71 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../charts/chart.dart';
+import 'interactive.dart';
+import 'interactive_views.dart';
+
+/// Where a block is shown: its project and page (or whiteboard) and, on
+/// whiteboards, the element id as the key of its per-reader state.
+class BlockCtx {
+  const BlockCtx({this.project = '', this.doc = '', this.key});
+  final String project, doc;
+  final String? key;
+}
 
 /// Content blocks (ADR-0085): each kind has a native view for pages and a
 /// painter for whiteboards, with the same source as on the web.
 class BlockKind {
-  const BlockKind({required this.view, required this.paint});
+  const BlockKind({required this.view, this.paint});
 
-  /// The interactive view in a page.
-  final Widget Function(String source) view;
+  /// The interactive view in a page; throws [FormatException] when the
+  /// source cannot be shown.
+  final Widget Function(String source, BlockCtx ctx) view;
 
   /// Draws the block into a rectangle of a whiteboard; throws
-  /// [FormatException] when the source cannot be drawn.
-  final void Function(Canvas canvas, Rect r, String source, ChartStyle style)
+  /// [FormatException] when the source cannot be drawn. Null for kinds
+  /// that only live in pages (quiz).
+  final void Function(Canvas canvas, Rect r, String source, ChartStyle style)?
       paint;
+}
+
+/// The view of a block, or a short notice with the source when it cannot be
+/// shown (the web shows the problem in detail).
+Widget blockView(String kind, String source, BlockCtx ctx) {
+  final def = blockKinds[kind];
+  if (def == null) return _BlockError(kind: kind, source: source);
+  try {
+    return def.view(source, ctx);
+  } on FormatException {
+    return _BlockError(kind: kind, source: source);
+  }
+}
+
+class _BlockError extends StatelessWidget {
+  const _BlockError({required this.kind, required this.source});
+  final String kind, source;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        border: Border(left: BorderSide(color: cs.error, width: 3)),
+        color: cs.surfaceContainerHighest,
+      ),
+      child: Text('```$kind\n$source\n```',
+          style: TextStyle(
+              fontFamily: 'monospace',
+              fontSize: 12,
+              color: cs.onSurfaceVariant)),
+    );
+  }
 }
 
 final Map<String, BlockKind> blockKinds = {
   'chart': BlockKind(
-    view: (src) => ChartView(source: src),
+    view: (src, _) => ChartView(source: src),
     paint: (canvas, r, src, style) {
       final c = Chart.parse(src);
       var rect = r;
@@ -39,6 +86,24 @@ final Map<String, BlockKind> blockKinds = {
       }
       paintChart(canvas, rect, c, style);
     },
+  ),
+  'poll': BlockKind(
+    view: (src, ctx) => PollView(poll: Poll.parse(src), ctx: ctx, source: src),
+    paint: (canvas, r, src, style) =>
+        paintPoll(canvas, r, Poll.parse(src), style),
+  ),
+  'matrix': BlockKind(
+    view: (src, ctx) => MatrixView(matrix: Matrix.parse(src), ctx: ctx),
+    paint: (canvas, r, src, style) =>
+        paintMatrix(canvas, r, Matrix.parse(src), style),
+  ),
+  'calc': BlockKind(
+    view: (src, ctx) => CalcView(calc: Calc.parse(src), ctx: ctx),
+    paint: (canvas, r, src, style) =>
+        paintCalc(canvas, r, Calc.parse(src), style),
+  ),
+  'quiz': BlockKind(
+    view: (src, ctx) => QuizView(quiz: Quiz.parse(src), ctx: ctx, source: src),
   ),
 };
 
