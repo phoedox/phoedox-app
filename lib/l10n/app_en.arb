@@ -219,8 +219,6 @@
   "quizRight": "right",
   "quizWrong": "wrong",
   "mindmapExpandAll": "Expand all",
-  "ganttDone": "done",
-  "ganttToday": "today",
   "beforeAfterBefore": "Before",
   "beforeAfterAfter": "After",
   "beforeAfterMissing": "Photos are still missing.",
@@ -238,5 +236,8 @@
   "rackUnplaced": "{count, plural, =1{1 device without a position} other{{count} devices without a position}}",
   "rackEmpty": "No devices in this rack yet.",
   "floorplanMissing": "There is no floor plan \"{plan}\".",
-  "floorplanNoRoom": "The floor plan \"{plan}\" has no room \"{room}\"."
+  "floorplanNoRoom": "The floor plan \"{plan}\" has no room \"{room}\".",
+  "pluginBlockFailed": "The plugin could not draw the block.",
+  "pluginBlockOpen": "Open interactively",
+  "pluginBlockLine": "Line {line}:"
 }

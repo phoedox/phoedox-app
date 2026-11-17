@@ -12,6 +12,7 @@ import '../../api/client.dart';
 import '../../app/session.dart';
 import '../../l10n/gen/app_localizations.dart';
 import '../blocks/blocks.dart';
+import '../blocks/plugin_blocks.dart';
 import '../charts/chart.dart';
 import 'board.dart';
 import 'prototype_page.dart';
@@ -321,7 +322,10 @@ class _WhiteboardBodyState extends ConsumerState<WhiteboardBody> {
 
   Future<void> _openBlock(El e) async {
     final kind = '${e['kind'] ?? ''}';
-    if (blockKinds[kind] == null) return;
+    // Core kinds and those of the project's plugins (ADR-0086).
+    final plugins =
+        ref.read(pluginBlocksProvider(widget.project)).value ?? const {};
+    if (blockKinds[kind] == null && !plugins.containsKey(kind)) return;
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,

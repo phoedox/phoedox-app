@@ -573,12 +573,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mindmapExpandAll => 'Expand all';
 
   @override
-  String get ganttDone => 'done';
-
-  @override
-  String get ganttToday => 'today';
-
-  @override
   String get beforeAfterBefore => 'Before';
 
   @override
@@ -652,5 +646,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String floorplanNoRoom(String room, String plan) {
     return 'The floor plan \"$plan\" has no room \"$room\".';
+  }
+
+  @override
+  String get pluginBlockFailed => 'The plugin could not draw the block.';
+
+  @override
+  String get pluginBlockOpen => 'Open interactively';
+
+  @override
+  String pluginBlockLine(int line) {
+    return 'Line $line:';
   }
 }

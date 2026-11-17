@@ -1076,18 +1076,6 @@ abstract class AppLocalizations {
   /// **'Alles aufklappen'**
   String get mindmapExpandAll;
 
-  /// No description provided for @ganttDone.
-  ///
-  /// In de, this message translates to:
-  /// **'erledigt'**
-  String get ganttDone;
-
-  /// No description provided for @ganttToday.
-  ///
-  /// In de, this message translates to:
-  /// **'heute'**
-  String get ganttToday;
-
   /// No description provided for @beforeAfterBefore.
   ///
   /// In de, this message translates to:
@@ -1195,6 +1183,24 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'Im Grundriss „{plan}“ gibt es keinen Raum „{room}“.'**
   String floorplanNoRoom(String room, String plan);
+
+  /// No description provided for @pluginBlockFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Das Plugin konnte den Block nicht zeichnen.'**
+  String get pluginBlockFailed;
+
+  /// No description provided for @pluginBlockOpen.
+  ///
+  /// In de, this message translates to:
+  /// **'Interaktiv öffnen'**
+  String get pluginBlockOpen;
+
+  /// No description provided for @pluginBlockLine.
+  ///
+  /// In de, this message translates to:
+  /// **'Zeile {line}:'**
+  String pluginBlockLine(int line);
 }
 
 class _AppLocalizationsDelegate

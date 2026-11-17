@@ -281,8 +281,6 @@
   "quizRight": "richtig",
   "quizWrong": "falsch",
   "mindmapExpandAll": "Alles aufklappen",
-  "ganttDone": "erledigt",
-  "ganttToday": "heute",
   "beforeAfterBefore": "Vorher",
   "beforeAfterAfter": "Nachher",
   "beforeAfterMissing": "Es fehlen noch Fotos.",
@@ -360,6 +358,16 @@
       },
       "plan": {
         "type": "String"
+      }
+    }
+  },
+  "pluginBlockFailed": "Das Plugin konnte den Block nicht zeichnen.",
+  "pluginBlockOpen": "Interaktiv öffnen",
+  "pluginBlockLine": "Zeile {line}:",
+  "@pluginBlockLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
       }
     }
   }

@@ -8,15 +8,6 @@ import 'package:phoedox/features/blocks/pictures.dart';
 import 'package:phoedox/features/charts/chart.dart';
 import 'package:phoedox/l10n/gen/app_localizations.dart';
 
-const _gantt = '''title: Bad
-today
-## Planung
-Angebote [a]: 2026-01-05, 2w, done
-Wahl [w]: after a, 3d, 50%
-## Umbau
-Abriss: 2026-02-02 – 2026-02-06, red
-Fertig: 2026-03-20''';
-
 const _mind =
     'Umzug\n  Wohnung\n    Kündigen\n    Übergabe\n  Internet\n    Vertrag\n  - Kartons\n    - Küche';
 
@@ -62,36 +53,6 @@ void main() {
     expect(() => parseMindmap('  \n'), throwsFormatException);
   });
 
-  test('gantt: same rules as the web', () {
-    final g = Gantt.parse(_gantt);
-    final [a, w, ab, f] = g.items;
-    const day = 86400000;
-    expect(a.done, isTrue);
-    expect((a.end - a.start) / day, 14);
-    expect(w.start, a.end);
-    expect(w.progress, 50);
-    expect((ab.end - ab.start) / day, 5);
-    expect(ab.color, 'red');
-    expect(f.milestone, isTrue);
-    expect(g.sections, ['Planung', 'Umbau']);
-    expect(() => Gantt.parse('X: after y, 2d'), throwsFormatException);
-    expect(() => Gantt.parse('A [a]: after b, 1d\nB [b]: after a, 1d'),
-        throwsFormatException);
-    expect(
-        () => Gantt.parse('A: 2026-01-10, 2026-01-05'), throwsFormatException);
-    final cards = Gantt.parse('board: roadmap').withCards([
-      {
-        'title': 'Release',
-        'due': '2026-03-01',
-        'createdAt': '2026-02-01T10:00:00Z',
-        'boardTitle': 'Roadmap'
-      },
-      {'title': 'Ohne Datum'},
-    ]);
-    expect(cards.items.single.name, 'Release');
-    expect(cards.sections, ['Roadmap']);
-  });
-
   test('images: files, https only, markers in percent', () {
     final ba = BeforeAfter.parse(
         'title: Rack\nbefore: /api/v1/files/AB12 Vorher\nafter: 01M7ND6Y5KRMY1R09EK7Q7NMXT\nstart: 30');
@@ -121,7 +82,6 @@ void main() {
   test('whiteboard painters draw every kind', () async {
     for (final (k, src) in [
       ('mindmap', _mind),
-      ('gantt', _gantt),
       (
         'beforeafter',
         'before: /api/v1/files/AB Vorher\nafter: /api/v1/files/CD Nachher'
@@ -146,9 +106,8 @@ void main() {
     expect(find.text('Alles aufklappen'), findsOneWidget);
   });
 
-  testWidgets('gantt and annotated image views build', (tester) async {
+  testWidgets('annotated image views build', (tester) async {
     await tester.pumpWidget(_app(Column(children: [
-      blockView('gantt', _gantt, const BlockCtx()),
       blockView('annotate', 'title: Kasten\n- 20, 30: F1 Küche und @herd',
           const BlockCtx(project: 'haus')),
       blockView('beforeafter', 'title: x\nbefore:\nafter:', const BlockCtx()),

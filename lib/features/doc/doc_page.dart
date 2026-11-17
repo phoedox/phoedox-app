@@ -12,6 +12,7 @@ import '../../app/widgets.dart';
 import '../../l10n/gen/app_localizations.dart';
 import '../../sync/providers.dart';
 import '../blocks/blocks.dart';
+import '../blocks/plugin_blocks.dart';
 import '../entity/entity_page.dart';
 import '../apps/app_page.dart';
 import '../floorplan/floorplan_view.dart';
@@ -165,8 +166,12 @@ class DocPage extends ConsumerWidget {
                             .cast<Map<String, dynamic>>())
                   ],
                 _ => [
-                    for (final part
-                        in splitBlocks(c['markdown'] as String? ?? ''))
+                    for (final part in splitBlocks(
+                        c['markdown'] as String? ?? '',
+                        (ref.watch(pluginBlocksProvider(project)).value ??
+                                const {})
+                            .keys
+                            .toSet()))
                       part.kind == 'md'
                           ? _md(context, part.text)
                           : blockView(part.kind, part.text,

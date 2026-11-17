@@ -7,6 +7,7 @@ import 'graph.dart';
 import 'graph_views.dart';
 import 'picture_views.dart';
 import 'pictures.dart';
+import 'plugin_blocks.dart';
 
 /// Where a block is shown: its project and page (or whiteboard) and, on
 /// whiteboards, the element id as the key of its per-reader state.
@@ -36,6 +37,10 @@ class BlockKind {
 /// shown (the web shows the problem in detail).
 Widget blockView(String kind, String source, BlockCtx ctx) {
   final def = blockKinds[kind];
+  // Kinds the core does not know may come from a plugin (ADR-0086).
+  if (def == null && ctx.project.isNotEmpty) {
+    return PluginBlockView(kind: kind, source: source, project: ctx.project);
+  }
   if (def == null) return _BlockError(kind: kind, source: source);
   try {
     return def.view(source, ctx);
@@ -111,11 +116,6 @@ final Map<String, BlockKind> blockKinds = {
     paint: (canvas, r, src, style) =>
         paintMindmap(canvas, r, parseMindmap(src), style),
   ),
-  'gantt': BlockKind(
-    view: (src, ctx) => GanttView(gantt: Gantt.parse(src), ctx: ctx),
-    paint: (canvas, r, src, style) =>
-        paintGantt(canvas, r, Gantt.parse(src), style),
-  ),
   'beforeafter': BlockKind(
     view: (src, _) => BeforeAfterView(m: BeforeAfter.parse(src)),
     paint: (canvas, r, src, style) =>
@@ -155,15 +155,20 @@ final Map<String, BlockKind> blockKinds = {
   ),
 };
 
-/// Splits page Markdown into text and registered blocks (kind "md" for text).
-List<({String kind, String text})> splitBlocks(String md) {
+/// Splits page Markdown into text and registered blocks (kind "md" for text);
+/// [extra] are block kinds of the project's plugins.
+List<({String kind, String text})> splitBlocks(String md,
+    [Set<String> extra = const {}]) {
   final out = <({String kind, String text})>[];
   final buf = <String>[];
   String? kind;
   final body = <String>[];
   for (final line in md.replaceAll('\r\n', '\n').split('\n')) {
     final open = RegExp(r'^\s{0,3}```(\w+)\s*$').firstMatch(line);
-    if (kind == null && open != null && blockKinds.containsKey(open.group(1))) {
+    if (kind == null &&
+        open != null &&
+        (blockKinds.containsKey(open.group(1)) ||
+            extra.contains(open.group(1)))) {
       if (buf.isNotEmpty) out.add((kind: 'md', text: buf.join('\n')));
       buf.clear();
       kind = open.group(1);
