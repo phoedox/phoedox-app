@@ -166,5 +166,17 @@
   "appConfirm": "Übernehmen",
   "appOffline": "Diese App wurde auf diesem Gerät noch nicht geöffnet; beim ersten Mal braucht sie das Netz.",
   "appUnavailable": "Die App lässt sich nicht öffnen (ausgeschaltet oder kein Zugriff).",
-  "appOfflineNote": "Offline: Du siehst die App wie zuletzt geladen; ihre Speicheränderungen werden später gesendet."
+  "appOfflineNote": "Offline: Du siehst die App wie zuletzt geladen; ihre Speicheränderungen werden später gesendet.",
+  "wbText": "Text",
+  "wbOffline": "Offline: Deine Änderungen an der Tafel werden gesendet, sobald wieder Netz da ist.",
+  "wbSending": "Änderungen werden gesendet …",
+  "wbHand": "Verschieben und zoomen",
+  "wbSelect": "Auswählen und bewegen (lange drücken: Text ändern)",
+  "wbPen": "Stift",
+  "wbRect": "Rechteck",
+  "wbEllipse": "Ellipse",
+  "wbArrow": "Pfeil",
+  "wbSticky": "Haftnotiz",
+  "wbTextTool": "Text",
+  "wbEraser": "Radierer"
 }

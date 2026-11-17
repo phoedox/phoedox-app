@@ -14,10 +14,12 @@ import '../../sync/providers.dart';
 import '../entity/entity_page.dart';
 import '../apps/app_page.dart';
 import '../floorplan/floorplan_view.dart';
+import '../whiteboard/whiteboard_view.dart';
 import 'edit_page.dart';
 
-/// Reads a page: Markdown, decision, link, board or floor plan (read-only;
-/// Markdown pages can be edited, photos placed on floor plans).
+/// Reads a page: Markdown, decision, link, board, floor plan, whiteboard
+/// or app (Markdown pages can be edited, photos placed on floor plans,
+/// whiteboards drawn on).
 class DocPage extends ConsumerWidget {
   const DocPage({super.key, required this.project, required this.doc});
 
@@ -69,6 +71,17 @@ class DocPage extends ConsumerWidget {
           final d = data as Map<String, dynamic>;
           if (d['type'] == 'app') {
             return AppBody(project: project, doc: d['slug'] as String? ?? doc);
+          }
+          if (d['type'] == 'whiteboard') {
+            return WhiteboardBody(
+                key: ValueKey('wb:$project/${d['id']}'),
+                project: project,
+                doc: d['slug'] as String? ?? doc,
+                initial: d,
+                canEdit: role == 'editor' ||
+                    role == 'owner' ||
+                    d['role'] == 'editor' ||
+                    d['role'] == 'owner');
           }
           if (d['type'] == 'floorplan') {
             return FloorplanBody(

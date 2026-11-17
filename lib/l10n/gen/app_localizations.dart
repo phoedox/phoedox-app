@@ -721,6 +721,78 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'Offline: Du siehst die App wie zuletzt geladen; ihre Speicheränderungen werden später gesendet.'**
   String get appOfflineNote;
+
+  /// No description provided for @wbText.
+  ///
+  /// In de, this message translates to:
+  /// **'Text'**
+  String get wbText;
+
+  /// No description provided for @wbOffline.
+  ///
+  /// In de, this message translates to:
+  /// **'Offline: Deine Änderungen an der Tafel werden gesendet, sobald wieder Netz da ist.'**
+  String get wbOffline;
+
+  /// No description provided for @wbSending.
+  ///
+  /// In de, this message translates to:
+  /// **'Änderungen werden gesendet …'**
+  String get wbSending;
+
+  /// No description provided for @wbHand.
+  ///
+  /// In de, this message translates to:
+  /// **'Verschieben und zoomen'**
+  String get wbHand;
+
+  /// No description provided for @wbSelect.
+  ///
+  /// In de, this message translates to:
+  /// **'Auswählen und bewegen (lange drücken: Text ändern)'**
+  String get wbSelect;
+
+  /// No description provided for @wbPen.
+  ///
+  /// In de, this message translates to:
+  /// **'Stift'**
+  String get wbPen;
+
+  /// No description provided for @wbRect.
+  ///
+  /// In de, this message translates to:
+  /// **'Rechteck'**
+  String get wbRect;
+
+  /// No description provided for @wbEllipse.
+  ///
+  /// In de, this message translates to:
+  /// **'Ellipse'**
+  String get wbEllipse;
+
+  /// No description provided for @wbArrow.
+  ///
+  /// In de, this message translates to:
+  /// **'Pfeil'**
+  String get wbArrow;
+
+  /// No description provided for @wbSticky.
+  ///
+  /// In de, this message translates to:
+  /// **'Haftnotiz'**
+  String get wbSticky;
+
+  /// No description provided for @wbTextTool.
+  ///
+  /// In de, this message translates to:
+  /// **'Text'**
+  String get wbTextTool;
+
+  /// No description provided for @wbEraser.
+  ///
+  /// In de, this message translates to:
+  /// **'Radierer'**
+  String get wbEraser;
 }
 
 class _AppLocalizationsDelegate

@@ -370,4 +370,41 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get appOfflineNote =>
       'Offline: Du siehst die App wie zuletzt geladen; ihre Speicheränderungen werden später gesendet.';
+
+  @override
+  String get wbText => 'Text';
+
+  @override
+  String get wbOffline =>
+      'Offline: Deine Änderungen an der Tafel werden gesendet, sobald wieder Netz da ist.';
+
+  @override
+  String get wbSending => 'Änderungen werden gesendet …';
+
+  @override
+  String get wbHand => 'Verschieben und zoomen';
+
+  @override
+  String get wbSelect => 'Auswählen und bewegen (lange drücken: Text ändern)';
+
+  @override
+  String get wbPen => 'Stift';
+
+  @override
+  String get wbRect => 'Rechteck';
+
+  @override
+  String get wbEllipse => 'Ellipse';
+
+  @override
+  String get wbArrow => 'Pfeil';
+
+  @override
+  String get wbSticky => 'Haftnotiz';
+
+  @override
+  String get wbTextTool => 'Text';
+
+  @override
+  String get wbEraser => 'Radierer';
 }

@@ -367,4 +367,41 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get appOfflineNote =>
       'Offline: you see the app as last loaded; its storage changes are sent later.';
+
+  @override
+  String get wbText => 'Text';
+
+  @override
+  String get wbOffline =>
+      'Offline: your changes to the board are sent once you are back online.';
+
+  @override
+  String get wbSending => 'Sending changes …';
+
+  @override
+  String get wbHand => 'Pan and zoom';
+
+  @override
+  String get wbSelect => 'Select and move (long press: edit text)';
+
+  @override
+  String get wbPen => 'Pen';
+
+  @override
+  String get wbRect => 'Rectangle';
+
+  @override
+  String get wbEllipse => 'Ellipse';
+
+  @override
+  String get wbArrow => 'Arrow';
+
+  @override
+  String get wbSticky => 'Sticky note';
+
+  @override
+  String get wbTextTool => 'Text';
+
+  @override
+  String get wbEraser => 'Eraser';
 }

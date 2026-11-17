@@ -159,5 +159,17 @@
   "appConfirm": "Apply",
   "appOffline": "This app has not been opened on this device yet; it needs the network the first time.",
   "appUnavailable": "The app cannot be opened (switched off, or no access).",
-  "appOfflineNote": "Offline: you see the app as last loaded; its storage changes are sent later."
+  "appOfflineNote": "Offline: you see the app as last loaded; its storage changes are sent later.",
+  "wbText": "Text",
+  "wbOffline": "Offline: your changes to the board are sent once you are back online.",
+  "wbSending": "Sending changes …",
+  "wbHand": "Pan and zoom",
+  "wbSelect": "Select and move (long press: edit text)",
+  "wbPen": "Pen",
+  "wbRect": "Rectangle",
+  "wbEllipse": "Ellipse",
+  "wbArrow": "Arrow",
+  "wbSticky": "Sticky note",
+  "wbTextTool": "Text",
+  "wbEraser": "Eraser"
 }
