@@ -497,56 +497,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pollUndo => 'Take back my vote';
 
   @override
-  String get matrixOption => 'Option';
-
-  @override
-  String get matrixTotal => 'Total';
-
-  @override
-  String get matrixTune => 'Try other weights';
-
-  @override
-  String get matrixTuneDone => 'Done';
-
-  @override
-  String get matrixReset => 'Reset';
-
-  @override
-  String get matrixNotSaved => 'Just for you, not saved.';
-
-  @override
-  String matrixWeightLess(String name) {
-    return 'Lower the weight of $name';
-  }
-
-  @override
-  String matrixWeightMore(String name) {
-    return 'Raise the weight of $name';
-  }
-
-  @override
-  String get matrixToDecision => 'Make it an open decision';
-
-  @override
-  String get matrixDecisionTitle => 'Decision';
-
-  @override
-  String get matrixDecisionContext =>
-      'Made from a decision matrix; the scores are listed with the options.';
-
-  @override
-  String get matrixDecisionMade => 'Open decision created';
-
-  @override
-  String get matrixDecisionFailed => 'The decision could not be created.';
-
-  @override
-  String get calcReset => 'Reset';
-
-  @override
-  String get calcNotSaved => 'Your inputs are not saved.';
-
-  @override
   String quizScore(int right, int all) {
     return '$right of $all right';
   }
@@ -568,9 +518,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quizWrong => 'wrong';
-
-  @override
-  String get mindmapExpandAll => 'Expand all';
 
   @override
   String get beforeAfterBefore => 'Before';

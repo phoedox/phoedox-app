@@ -8,9 +8,6 @@ import 'package:phoedox/features/blocks/pictures.dart';
 import 'package:phoedox/features/charts/chart.dart';
 import 'package:phoedox/l10n/gen/app_localizations.dart';
 
-const _mind =
-    'Umzug\n  Wohnung\n    Kündigen\n    Übergabe\n  Internet\n    Vertrag\n  - Kartons\n    - Küche';
-
 Widget _app(Widget child) => ProviderScope(
       child: MaterialApp(
         locale: const Locale('de'),
@@ -32,27 +29,6 @@ const _style = ChartStyle(
     lang: 'de');
 
 void main() {
-  test('mind map: outline and balanced layout without overlaps', () {
-    final m = parseMindmap(_mind);
-    expect(m.children.map((c) => c.text), ['Wohnung', 'Internet', 'Kartons']);
-    final l = layoutMindmap(m);
-    expect(
-        l.nodes.where((n) => n.depth == 1).map((n) => n.side).toSet(), {1, -1});
-    for (final a in l.nodes) {
-      for (final b in l.nodes) {
-        if (identical(a, b)) continue;
-        final overlap = a.x < b.x + b.w &&
-            b.x < a.x + a.w &&
-            a.y < b.y + b.h &&
-            b.y < a.y + a.h;
-        expect(overlap, isFalse, reason: '${a.node.text} / ${b.node.text}');
-      }
-    }
-    final c = layoutMindmap(m, {'0.0'});
-    expect(c.nodes.length, l.nodes.length - 2);
-    expect(() => parseMindmap('  \n'), throwsFormatException);
-  });
-
   test('images: files, https only, markers in percent', () {
     final ba = BeforeAfter.parse(
         'title: Rack\nbefore: /api/v1/files/AB12 Vorher\nafter: 01M7ND6Y5KRMY1R09EK7Q7NMXT\nstart: 30');
@@ -81,7 +57,6 @@ void main() {
 
   test('whiteboard painters draw every kind', () async {
     for (final (k, src) in [
-      ('mindmap', _mind),
       (
         'beforeafter',
         'before: /api/v1/files/AB Vorher\nafter: /api/v1/files/CD Nachher'
@@ -94,16 +69,6 @@ void main() {
       final img = await rec.endRecording().toImage(500, 320);
       expect(img.width, 500, reason: k);
     }
-  });
-
-  testWidgets('mind map folds a branch', (tester) async {
-    await tester
-        .pumpWidget(_app(blockView('mindmap', _mind, const BlockCtx())));
-    final before = find.bySemanticsLabel('Wohnung');
-    expect(before, findsOneWidget);
-    await tester.tap(before);
-    await tester.pump();
-    expect(find.text('Alles aufklappen'), findsOneWidget);
   });
 
   testWidgets('annotated image views build', (tester) async {

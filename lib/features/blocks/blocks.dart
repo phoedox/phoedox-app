@@ -101,21 +101,6 @@ final Map<String, BlockKind> blockKinds = {
     paint: (canvas, r, src, style) =>
         paintPoll(canvas, r, Poll.parse(src), style),
   ),
-  'matrix': BlockKind(
-    view: (src, ctx) => MatrixView(matrix: Matrix.parse(src), ctx: ctx),
-    paint: (canvas, r, src, style) =>
-        paintMatrix(canvas, r, Matrix.parse(src), style),
-  ),
-  'calc': BlockKind(
-    view: (src, ctx) => CalcView(calc: Calc.parse(src), ctx: ctx),
-    paint: (canvas, r, src, style) =>
-        paintCalc(canvas, r, Calc.parse(src), style),
-  ),
-  'mindmap': BlockKind(
-    view: (src, _) => MindmapView(root: parseMindmap(src)),
-    paint: (canvas, r, src, style) =>
-        paintMindmap(canvas, r, parseMindmap(src), style),
-  ),
   'beforeafter': BlockKind(
     view: (src, _) => BeforeAfterView(m: BeforeAfter.parse(src)),
     paint: (canvas, r, src, style) =>

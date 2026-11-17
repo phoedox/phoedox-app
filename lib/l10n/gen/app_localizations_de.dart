@@ -500,57 +500,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get pollUndo => 'Stimme zurückziehen';
 
   @override
-  String get matrixOption => 'Option';
-
-  @override
-  String get matrixTotal => 'Gesamt';
-
-  @override
-  String get matrixTune => 'Gewichte ausprobieren';
-
-  @override
-  String get matrixTuneDone => 'Fertig';
-
-  @override
-  String get matrixReset => 'Zurücksetzen';
-
-  @override
-  String get matrixNotSaved => 'Nur für dich, wird nicht gespeichert.';
-
-  @override
-  String matrixWeightLess(String name) {
-    return 'Gewicht von $name verringern';
-  }
-
-  @override
-  String matrixWeightMore(String name) {
-    return 'Gewicht von $name erhöhen';
-  }
-
-  @override
-  String get matrixToDecision => 'Als offene Entscheidung anlegen';
-
-  @override
-  String get matrixDecisionTitle => 'Entscheidung';
-
-  @override
-  String get matrixDecisionContext =>
-      'Angelegt aus einer Entscheidungsmatrix; die Bewertungen stehen bei den Optionen.';
-
-  @override
-  String get matrixDecisionMade => 'Offene Entscheidung angelegt';
-
-  @override
-  String get matrixDecisionFailed =>
-      'Die Entscheidung konnte nicht angelegt werden.';
-
-  @override
-  String get calcReset => 'Zurücksetzen';
-
-  @override
-  String get calcNotSaved => 'Deine Eingaben werden nicht gespeichert.';
-
-  @override
   String quizScore(int right, int all) {
     return '$right von $all richtig';
   }
@@ -572,9 +521,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get quizWrong => 'falsch';
-
-  @override
-  String get mindmapExpandAll => 'Alles aufklappen';
 
   @override
   String get beforeAfterBefore => 'Vorher';
